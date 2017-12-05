@@ -5,17 +5,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.wxystatic.gifloadretry.MainActivity">
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:id="@+id/toolbar"
-        android:background="@color/colorAccent"></android.support.v7.widget.Toolbar>
-    <pl.droidsonroids.gif.GifImageView
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/test"
-        android:layout_gravity="center"
-        />
-
-
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:id="@+id/btn_theme"
+        android:text="系统自带的ToolBar"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:id="@+id/btn_self_toolbar"
+        android:text="自定义的ToolBar"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textAllCaps="false"
+        android:id="@+id/btn_no_toolbar"
+        android:text="没有ToolBar"/>
 </LinearLayout>

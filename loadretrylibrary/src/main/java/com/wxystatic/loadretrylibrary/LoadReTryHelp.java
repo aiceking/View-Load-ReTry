@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class LoadReTryHelp {
     private static LoadReTryHelp loadReTryHelp;
-    private HashMap<Activity,String> hashMap;
+    private HashMap<Activity,Boolean> hashMap;
     private Toolbar toolbar;
     private LoadReTryHelp(){
         hashMap=new HashMap<>();
@@ -38,9 +38,10 @@ public class LoadReTryHelp {
     }
     public void loadRetry(Activity activity){
         if (!hashMap.containsKey(activity)) {
-            hashMap.put(activity, "first");
-            FrameLayout rootView = activity.findViewById(android.R.id.content);
-            if (isHaveToolbar(rootView)){
+            hashMap.put(activity, false);
+             ViewGroup mRoot= (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+            isHaveToolbar(mRoot,activity);
+            if (hashMap.get(activity)) {
                 TextView tv = new TextView(activity);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -51,7 +52,7 @@ public class LoadReTryHelp {
                 tv.setText("测试中...");
                 tv.setTextColor(Color.WHITE);
                 tv.setTextSize(30);
-                rootView.addView(tv);
+                mRoot.addView(tv);
             }else{
                 TextView tv = new TextView(activity);
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
@@ -63,7 +64,7 @@ public class LoadReTryHelp {
                 tv.setText("测试中...");
                 tv.setTextColor(Color.WHITE);
                 tv.setTextSize(30);
-                rootView.addView(tv);
+                mRoot.addView(tv);
             }
         }
     }
@@ -77,18 +78,18 @@ public class LoadReTryHelp {
         }
         return result;
     }
-    private boolean isHaveToolbar(View view) {
-        if (view instanceof android.support.v7.widget.Toolbar) {
-            return true;
-        } else {
-            if (view instanceof ViewGroup) {
-                ViewGroup viewGroup = (ViewGroup) view;
-                for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                    View child = viewGroup.getChildAt(i);
-                    isHaveToolbar(child);
-                }
+    private void isHaveToolbar(View view ,Activity activity) {
+        if (view instanceof Toolbar) {
+            hashMap.remove(activity);
+            hashMap.put(activity, true);
+            return;
+        }
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                 isHaveToolbar(child,activity);
             }
-            return false;
         }
     }
 }
