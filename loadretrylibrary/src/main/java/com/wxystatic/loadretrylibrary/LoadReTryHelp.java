@@ -2,18 +2,23 @@ package com.wxystatic.loadretrylibrary;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ruffian.library.RTextView;
+
 import java.util.HashMap;
+
+import pl.droidsonroids.gif.GifImageView;
 
 /**
  * Created by static on 2017/12/5/005.
@@ -21,10 +26,25 @@ import java.util.HashMap;
 
 public class LoadReTryHelp {
     private static LoadReTryHelp loadReTryHelp;
-    private HashMap<Activity,Boolean> hashMap;
-    private Toolbar toolbar;
+    private HashMap<Activity,View> hashMap_activity_loadView;
+    private HashMap<Fragment,View> hashMap_fragment_loadView;
+    private HashMap<Activity,Boolean> hashMap_activity_toolbar,hashMap_activity_isFirstLoad,hashMap_activity_isSuccess;
+    private HashMap<Fragment,Boolean> hashMap_fragment_toolbar,hashMap_fragment_isFirstLoad,hashMap_fragment_isSuccess;
+    private LoadRetryConfig loadRetryConfig;
     private LoadReTryHelp(){
-        hashMap=new HashMap<>();
+        hashMap_activity_loadView=new HashMap<>();
+        hashMap_fragment_loadView=new HashMap<>();
+        
+        hashMap_activity_toolbar=new HashMap<>();
+        hashMap_activity_isFirstLoad=new HashMap<>();
+        hashMap_activity_isSuccess=new HashMap<>();
+
+        hashMap_fragment_toolbar=new HashMap<>();
+        hashMap_fragment_isFirstLoad=new HashMap<>();
+        hashMap_fragment_isSuccess=new HashMap<>();
+    }
+    public void setLoadRetryConfig(LoadRetryConfig loadRetryConfig) {
+        this.loadRetryConfig = loadRetryConfig;
     }
     public static LoadReTryHelp getInstance(){
         if (loadReTryHelp==null){
@@ -36,37 +56,83 @@ public class LoadReTryHelp {
         }
         return loadReTryHelp;
     }
-    public void loadRetry(Activity activity){
-        if (!hashMap.containsKey(activity)) {
-            hashMap.put(activity, false);
+    public void loadRetry(Fragment fragment,View root,@ColorRes int backgroundColor){
+
+    }
+    public void loadRetry(Activity activity,final LoadRetryListener loadRetryListener){
+        if (!hashMap_activity_toolbar.containsKey(activity)) {
+            hashMap_activity_toolbar.put(activity, false);
+            hashMap_activity_isFirstLoad.put(activity,true);
+            hashMap_activity_isSuccess.put(activity,false);
              ViewGroup mRoot= (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+             //判断是否有ToolBar
             isHaveToolbar(mRoot,activity);
-            if (hashMap.get(activity)) {
-                TextView tv = new TextView(activity);
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+            if (hashMap_activity_toolbar.get(activity)) {
+                View loadView = LayoutInflater.from(activity).inflate(R.layout.loadretry_view, null);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 lp.setMargins(0, getActionBarHeight(activity), 0, 0);
-                tv.setLayoutParams(lp);
-                tv.setBackgroundColor(Color.RED);
-                tv.setGravity(Gravity.CENTER);
-                tv.setText("测试中...");
-                tv.setTextColor(Color.WHITE);
-                tv.setTextSize(30);
-                mRoot.addView(tv);
+                loadView.setLayoutParams(lp);
+                LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
+                GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
+                TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
+                RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
+                tv_retry.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        loadRetryListener.reTry();
+                    }
+                });
+                if (loadRetryConfig!=null){
+                    if (loadRetryConfig.getToolBarHeight()!=0){
+                        lp.setMargins(0, dip2px(activity,loadRetryConfig.getToolBarHeight()), 0, 0);
+                    }
+                    if (loadRetryConfig.getBackground()!=0){
+                        loadretry_parent.setBackgroundColor(activity.getResources().getColor(loadRetryConfig.getBackground()));
+                    }
+                    if (loadRetryConfig.getBtnNormal()!=0&&loadRetryConfig.getBtnPressed()!=0){
+                        tv_retry.setBackgroundColorNormal(activity.getResources().getColor(loadRetryConfig.getBtnNormal()));
+                        tv_retry.setBackgroundColorPressed(activity.getResources().getColor(loadRetryConfig.getBtnPressed()));
+                    }
+                    if (loadRetryConfig.getBtnRadius()!=0){
+                        tv_retry.setCornerRadius(loadRetryConfig.getBtnRadius());
+                    }
+                    if (loadRetryConfig.getBtnTextColor()!=0){
+                        tv_retry.setTextColor(activity.getResources().getColor(loadRetryConfig.getBtnTextColor()));
+                    }
+                    if (!TextUtils.isEmpty(loadRetryConfig.getBtnText())){
+                        tv_retry.setText(loadRetryConfig.getBtnText());
+                    }
+                    if (loadRetryConfig.getErrorTextColor()!=0){
+                        tv_error.setTextColor(activity.getResources().getColor(loadRetryConfig.getErrorTextColor()));
+                    }
+                    if (!TextUtils.isEmpty(loadRetryConfig.getErrorText())){
+                        tv_error.setText(loadRetryConfig.getErrorText());
+                    }
+                }
             }else{
-                TextView tv = new TextView(activity);
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, 50, 0, 0);
-                tv.setLayoutParams(lp);
-                tv.setBackgroundColor(Color.RED);
-                tv.setGravity(Gravity.CENTER);
-                tv.setText("测试中...");
-                tv.setTextColor(Color.WHITE);
-                tv.setTextSize(30);
-                mRoot.addView(tv);
+
             }
         }
+    }
+    public void onLoadSuccess(Activity activity){
+
+    }
+    public void onLoadFailed(Activity activity){
+
+    }
+    public void clearLoadReTry(Activity activity){
+
+    }
+
+    public void onLoadSuccess(Fragment fragment){
+
+    }
+    public void onLoadFailed(Fragment fragment){
+
+    }
+    public void clearLoadReTry(Fragment fragment){
+
     }
     @TargetApi(14)
     private int getActionBarHeight(Activity activity) {
@@ -80,8 +146,8 @@ public class LoadReTryHelp {
     }
     private void isHaveToolbar(View view ,Activity activity) {
         if (view instanceof Toolbar) {
-            hashMap.remove(activity);
-            hashMap.put(activity, true);
+            hashMap_activity_toolbar.remove(activity);
+            hashMap_activity_toolbar.put(activity, true);
             return;
         }
         if (view instanceof ViewGroup) {
@@ -91,5 +157,9 @@ public class LoadReTryHelp {
                  isHaveToolbar(child,activity);
             }
         }
+    }
+    public static int dip2px(Activity activity, float dpValue) {
+        final float scale = activity.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 }

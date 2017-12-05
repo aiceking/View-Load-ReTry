@@ -33,5 +33,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
-
+    compile 'com.ruffian.library:RTextView:1.0.3'
 }

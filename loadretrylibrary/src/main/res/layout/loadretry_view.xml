@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/loadretry_parent"
+    android:gravity="center">
+<pl.droidsonroids.gif.GifImageView
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:background="#ff0000"
+    android:id="@+id/loadretry_gifview"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:id="@+id/loadretry_tv_error"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="网络异常，请重新请求"/>
+<com.ruffian.library.RTextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:textColor="#ffffff"
+    android:gravity="center"
+    app:corner_radius="10dp"
+    android:textSize="14sp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:maxLines="1"
+    android:text="重新加载"
+    app:background_normal="#91a7ff"
+    app:background_pressed="#5677fc"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:id="@+id/loadretry_tv_retry"
+    />
+</LinearLayout>

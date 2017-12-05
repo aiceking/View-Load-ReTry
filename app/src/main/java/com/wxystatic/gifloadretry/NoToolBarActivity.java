@@ -11,7 +11,7 @@ public class NoToolBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_tool_bar);
-        LoadReTryHelp.getInstance().loadRetry(this);
+        LoadReTryHelp.getInstance().loadRetry(this,R.color.white);
 
     }
 }

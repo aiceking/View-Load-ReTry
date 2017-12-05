@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,8 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ThemeToolBarActivity" />
-        <activity android:name=".SelfToolBarActivity" />
-        <activity android:name=".NoToolBarActivity"></activity>
+        <activity android:name=".SelfToolBarActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".NoToolBarActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

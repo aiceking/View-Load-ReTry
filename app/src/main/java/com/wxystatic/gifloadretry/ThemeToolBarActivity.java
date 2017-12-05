@@ -10,8 +10,8 @@ public class ThemeToolBarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_theme_tool_bar);
-        LoadReTryHelp.getInstance().loadRetry(this);
+        setContentView(R.layout.loadretry_view);
+        LoadReTryHelp.getInstance().loadRetry(this,R.color.white);
 
     }
 }
