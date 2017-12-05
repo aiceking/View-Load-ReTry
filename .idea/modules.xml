@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GifLoadReTry.iml" filepath="$PROJECT_DIR$/GifLoadReTry.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/loadretrylibrary/loadretrylibrary.iml" filepath="$PROJECT_DIR$/loadretrylibrary/loadretrylibrary.iml" />
     </modules>
   </component>
 </project>
