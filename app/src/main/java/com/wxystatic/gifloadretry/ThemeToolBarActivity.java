@@ -11,7 +11,7 @@ public class ThemeToolBarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loadretry_view);
+        setContentView(R.layout.activity_theme_tool_bar);
         LoadReTryHelp.getInstance().loadRetry(this, new LoadRetryListener() {
             @Override
             public void reTry() {

@@ -85,8 +85,11 @@ public class LoadReTryHelp {
                         loadRetryListener.reTry();
                     }
                 });
-                tv_retry.setVisibility(View.GONE);
+//                tv_retry.setVisibility(View.GONE);
                 if (loadRetryConfig!=null){
+                    if (loadRetryConfig.getGif()!=0){
+                        gifImageView.setImageResource(loadRetryConfig.getGif());
+                    }
                     if (loadRetryConfig.getToolBarHeight()!=0){
                         lp.setMargins(0, dip2px(activity,loadRetryConfig.getToolBarHeight()), 0, 0);
                         loadView.setLayoutParams(lp);

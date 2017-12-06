@@ -17,10 +17,10 @@ public class MyApplication extends Application{
         config.setBackground(R.color.white);
         config.setBtnNormal(R.color.oringe_normal);
         config.setBtnPressed(R.color.oringe_press);
-        config.setBtnRadius(4f);
+        config.setBtnRadius(10f);
         config.setBtnText("点击重新加载");
         config.setLoadText("加载中...");
-        config.setBtnTextColor(R.color.black);
+        config.setBtnTextColor(R.color.white);
         config.setErrorTextColor(R.color.black);
         config.setGif(R.drawable.test);
         LoadReTryHelp.getInstance().setLoadRetryConfig(config);
