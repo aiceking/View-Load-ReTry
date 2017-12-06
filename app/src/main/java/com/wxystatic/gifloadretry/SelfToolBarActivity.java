@@ -3,6 +3,7 @@ package com.wxystatic.gifloadretry;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +36,10 @@ public class SelfToolBarActivity extends AppCompatActivity implements LoadRetryL
     LinearLayout linearBack;
     @BindView(R.id.tv_content)
     TextView tvContent;
+    @BindView(R.id.loadretry_tv_retry_change)
+    RTextView loadretryTvRetryChange;
     private boolean isSuccess;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +54,10 @@ public class SelfToolBarActivity extends AppCompatActivity implements LoadRetryL
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
                 Thread.sleep(3000);
-                if (isSuccess){
-                emitter.onNext(1);
-                }else{
-                    emitter.onNext(1/0);
-
+                if (isSuccess) {
+                    emitter.onNext(1);
+                } else {
+                    emitter.onNext(1 / 0);
                 }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
@@ -73,7 +76,8 @@ public class SelfToolBarActivity extends AppCompatActivity implements LoadRetryL
 
             @Override
             public void onError(Throwable e) {
-                LoadReTryHelp.getInstance().onLoadFailed(SelfToolBarActivity.this,e.getMessage());
+                Toast.makeText(SelfToolBarActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
+                LoadReTryHelp.getInstance().onLoadFailed(SelfToolBarActivity.this, e.getMessage());
                 UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
             }
 
@@ -87,24 +91,44 @@ public class SelfToolBarActivity extends AppCompatActivity implements LoadRetryL
 
     @Override
     public void showReLoadView() {
-        UsefulDialogHelp.getInstance().showSmallLoadingDialog(this,true);
+        UsefulDialogHelp.getInstance().showSmallLoadingDialog(this, true);
     }
 
-    @OnClick(R.id.linear_back)
-    public void onViewClicked() {
-        finish();
-    }
-    /**模拟请求成功*/
+
+    /**
+     * 模拟请求成功
+     */
     @OnClick(R.id.loadretry_tv_retry_success)
     public void onLoadretryTvRetrySuccessClicked() {
-        isSuccess=true;
+        isSuccess = true;
         LoadReTryHelp.getInstance().loadRetry(this, this);
     }
 
-    /**模拟请求失败*/
+    /**
+     * 模拟请求失败
+     */
     @OnClick(R.id.loadretry_tv_retry_failed)
     public void onLoadretryTvRetryFailedClicked() {
-        isSuccess=false;
+        isSuccess = false;
         LoadReTryHelp.getInstance().loadRetry(this, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        LoadReTryHelp.getInstance().clearLoadReTry(this);
+        super.onDestroy();
+    }
+
+
+    @OnClick({R.id.linear_back, R.id.loadretry_tv_retry_change})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.linear_back:
+                finish();
+                break;
+            case R.id.loadretry_tv_retry_change:
+                isSuccess=true;
+                break;
+        }
     }
 }

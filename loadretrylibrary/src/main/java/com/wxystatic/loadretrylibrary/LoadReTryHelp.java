@@ -18,8 +18,10 @@ import android.widget.TextView;
 
 import com.ruffian.library.RTextView;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
@@ -102,7 +104,7 @@ public class LoadReTryHelp {
         tv_retry.setVisibility(View.INVISIBLE);
         if (loadRetryConfig!=null){
             if (loadRetryConfig.getGif()!=0){
-                gifImageView.setImageResource(loadRetryConfig.getGif());
+                setGifImageView(activity,gifImageView,false);
             }
             if (loadRetryConfig.getToolBarHeight()!=0){
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
@@ -150,10 +152,10 @@ public class LoadReTryHelp {
         if (hashMap_activity_loadView.containsKey(activityName)){
             View loadView=hashMap_activity_loadView.get(activityName);
             LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
-            GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
+            final GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
             final TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
             final RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
-            gifImageView.setFreezesAnimation(true);
+            setGifImageView(activity,gifImageView,true);
             tv_error.setText(errorText);
             tv_retry.setVisibility(View.VISIBLE);
             tv_retry.setOnClickListener(new View.OnClickListener() {
@@ -164,18 +166,39 @@ public class LoadReTryHelp {
                             tv_error.setText(loadRetryConfig.getLoadText());
                         }
                     }
+                    setGifImageView(activity,gifImageView,false);
                     tv_retry.setVisibility(View.INVISIBLE);
                     hashMap_activity_loadRetryListener.get(activityName).toDoAndreTry();
                 }
             });
         }
     }
+
+    private void setGifImageView(Activity activity,GifImageView gifImageView, boolean b) {
+        GifDrawable gifFromResource = null;
+        try {
+            if (loadRetryConfig!=null){
+                if (loadRetryConfig.getGif()!=0){
+                    gifFromResource = new GifDrawable( activity.getResources(), loadRetryConfig.getGif());
+                    if (b){
+                    gifFromResource.stop();
+                    }
+                    gifImageView.setImageDrawable(gifFromResource);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void clearLoadReTry(Activity activity){
         String activityName=activity.getLocalClassName();
+        if (hashMap_activity_loadRetryListener.containsKey(activityName)){
         hashMap_activity_loadRetryListener.remove(activityName);
           hashMap_activity_isSuccess.remove(activityName);
           hashMap_activity_loadView.remove(activityName);
           hashMap_activity_toolbar.remove(activityName);
+        }
     }
 
     public void onLoadSuccess(Fragment fragment){
