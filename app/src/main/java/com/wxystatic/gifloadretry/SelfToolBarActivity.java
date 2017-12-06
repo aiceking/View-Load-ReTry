@@ -65,6 +65,7 @@ public class SelfToolBarActivity extends AppCompatActivity implements LoadRetryL
 
             @Override
             public void onNext(Integer value) {
+                Toast.makeText(SelfToolBarActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                 tvContent.setText(getResources().getString(R.string.large_text));
                 LoadReTryHelp.getInstance().onLoadSuccess(SelfToolBarActivity.this);
                 UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
@@ -97,7 +98,6 @@ public class SelfToolBarActivity extends AppCompatActivity implements LoadRetryL
     @OnClick(R.id.loadretry_tv_retry_success)
     public void onLoadretryTvRetrySuccessClicked() {
         isSuccess=true;
-        tvContent.setText("");
         LoadReTryHelp.getInstance().loadRetry(this, this);
     }
 
@@ -105,7 +105,6 @@ public class SelfToolBarActivity extends AppCompatActivity implements LoadRetryL
     @OnClick(R.id.loadretry_tv_retry_failed)
     public void onLoadretryTvRetryFailedClicked() {
         isSuccess=false;
-        tvContent.setText("");
         LoadReTryHelp.getInstance().loadRetry(this, this);
     }
 }
