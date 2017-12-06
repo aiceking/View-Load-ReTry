@@ -14,12 +14,11 @@ public class NoToolBarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_no_tool_bar);
         LoadReTryHelp.getInstance().loadRetry(this, new LoadRetryListener() {
             @Override
-            public void reTry() {
+            public void toDoAndreTry() {
 
             }
-
             @Override
-            public void otherLoad() {
+            public void showReLoadView() {
 
             }
         });

@@ -5,6 +5,6 @@ package com.wxystatic.loadretrylibrary;
  */
 
 public interface LoadRetryListener {
-    void reTry();
-    void otherLoad();
+    void toDoAndreTry();
+    void showReLoadView();
 }

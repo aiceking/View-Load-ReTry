@@ -21,9 +21,9 @@
         </activity>
         <activity android:name=".ThemeToolBarActivity" />
         <activity android:name=".SelfToolBarActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/myAppTheme"/>
         <activity android:name=".NoToolBarActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/myAppTheme"></activity>
     </application>
 
 </manifest>

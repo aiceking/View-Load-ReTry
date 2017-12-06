@@ -7,4 +7,5 @@
     <color name="black">#000000</color>
     <color name="oringe_normal">#ff9800</color>
     <color name="oringe_press">#e65100</color>
+    <color name="toolbar">#e0e0e0</color>
 </resources>
