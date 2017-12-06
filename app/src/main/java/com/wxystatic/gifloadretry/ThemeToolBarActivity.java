@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.wxystatic.loadretrylibrary.LoadReTryHelp;
+import com.wxystatic.loadretrylibrary.LoadRetryListener;
 
 public class ThemeToolBarActivity extends AppCompatActivity {
 
@@ -11,7 +12,17 @@ public class ThemeToolBarActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loadretry_view);
-        LoadReTryHelp.getInstance().loadRetry(this,R.color.white);
+        LoadReTryHelp.getInstance().loadRetry(this, new LoadRetryListener() {
+            @Override
+            public void reTry() {
+
+            }
+
+            @Override
+            public void otherLoad() {
+
+            }
+        });
 
     }
 }

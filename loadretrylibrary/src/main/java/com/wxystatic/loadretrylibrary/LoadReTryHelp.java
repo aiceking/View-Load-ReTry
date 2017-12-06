@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,7 +35,7 @@ public class LoadReTryHelp {
     private LoadReTryHelp(){
         hashMap_activity_loadView=new HashMap<>();
         hashMap_fragment_loadView=new HashMap<>();
-        
+
         hashMap_activity_toolbar=new HashMap<>();
         hashMap_activity_isFirstLoad=new HashMap<>();
         hashMap_activity_isSuccess=new HashMap<>();
@@ -69,7 +70,8 @@ public class LoadReTryHelp {
             isHaveToolbar(mRoot,activity);
             if (hashMap_activity_toolbar.get(activity)) {
                 View loadView = LayoutInflater.from(activity).inflate(R.layout.loadretry_view, null);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                mRoot.addView(loadView);
+                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 lp.setMargins(0, getActionBarHeight(activity), 0, 0);
                 loadView.setLayoutParams(lp);
@@ -83,9 +85,11 @@ public class LoadReTryHelp {
                         loadRetryListener.reTry();
                     }
                 });
+                tv_retry.setVisibility(View.GONE);
                 if (loadRetryConfig!=null){
                     if (loadRetryConfig.getToolBarHeight()!=0){
                         lp.setMargins(0, dip2px(activity,loadRetryConfig.getToolBarHeight()), 0, 0);
+                        loadView.setLayoutParams(lp);
                     }
                     if (loadRetryConfig.getBackground()!=0){
                         loadretry_parent.setBackgroundColor(activity.getResources().getColor(loadRetryConfig.getBackground()));
@@ -106,8 +110,8 @@ public class LoadReTryHelp {
                     if (loadRetryConfig.getErrorTextColor()!=0){
                         tv_error.setTextColor(activity.getResources().getColor(loadRetryConfig.getErrorTextColor()));
                     }
-                    if (!TextUtils.isEmpty(loadRetryConfig.getErrorText())){
-                        tv_error.setText(loadRetryConfig.getErrorText());
+                    if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
+                        tv_error.setText(loadRetryConfig.getLoadText());
                     }
                 }
             }else{

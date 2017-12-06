@@ -16,7 +16,15 @@ public class LoadRetryConfig {
     private  @DrawableRes int gif;
     private int toolBarHeight;
     private  String btnText;
-    private  String errorText;
+    private String  loadText;
+
+    public String getLoadText() {
+        return loadText;
+    }
+
+    public void setLoadText(String loadText) {
+        this.loadText = loadText;
+    }
 
     public int getToolBarHeight() {
         return toolBarHeight;
@@ -90,14 +98,4 @@ public class LoadRetryConfig {
     public void setBtnText(String btnText) {
         this.btnText = btnText;
     }
-
-    public String getErrorText() {
-        return errorText;
-    }
-
-    public void setErrorText(String errorText) {
-        this.errorText = errorText;
-    }
-
-
 }

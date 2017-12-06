@@ -8,8 +8,7 @@
     android:gravity="center">
 <pl.droidsonroids.gif.GifImageView
     android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:background="#ff0000"
+    android:layout_height="wrap_content"
     android:id="@+id/loadretry_gifview"/>
     <TextView
         android:layout_width="match_parent"
@@ -22,24 +21,24 @@
         android:layout_marginRight="10dp"
         android:maxLines="1"
         android:paddingLeft="10dp"
+        android:textColor="#000000"
         android:paddingRight="10dp"
-        android:text="网络异常，请重新请求"/>
+        />
 <com.ruffian.library.RTextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:textColor="#ffffff"
     android:gravity="center"
-    app:corner_radius="10dp"
+    app:corner_radius="5dp"
     android:textSize="14sp"
-    android:paddingLeft="25dp"
-    android:paddingRight="25dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     android:paddingBottom="5dp"
     android:paddingTop="5dp"
     android:maxLines="1"
-    android:text="重新加载"
-    app:background_normal="#91a7ff"
-    app:background_pressed="#5677fc"
+    app:background_normal="#03a9f4"
+    app:background_pressed="#0091ea"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:id="@+id/loadretry_tv_retry"
