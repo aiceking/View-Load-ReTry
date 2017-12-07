@@ -12,6 +12,7 @@ import com.android.dialoglibrary.UsefulDialogHelp;
 import com.ruffian.library.RTextView;
 import com.wxystatic.loadretrylibrary.LoadReTryHelp;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
+import com.wxystatic.loadretrylibrary.ShowReLoadViewListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +44,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
     }
 
     @Override
-    public void toDoAndreTry() {
+    public void loadAndRetry() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
@@ -61,8 +62,13 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
             public void onNext(Integer value) {
                 Toast.makeText(SuccessActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                 tvContent.setText(getResources().getString(R.string.large_text));
-                LoadReTryHelp.getInstance().onLoadSuccess(SuccessActivity.this);
-                UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                LoadReTryHelp.getInstance().onLoadSuccess(SuccessActivity.this, new ShowReLoadViewListener() {
+                    @Override
+                    public void colseReLoadView() {
+                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+
+                    }
+                });
             }
 
             @Override
@@ -89,6 +95,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
     @OnClick(R.id.loadretry_tv_retry_success)
     public void onLoadretryTvRetrySuccessClicked() {
         LoadReTryHelp.getInstance().loadRetry(this, this);
+        LoadReTryHelp.getInstance().startLoad(this);
     }
 
 

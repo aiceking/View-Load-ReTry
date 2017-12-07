@@ -12,6 +12,7 @@ import com.android.dialoglibrary.UsefulDialogHelp;
 import com.ruffian.library.RTextView;
 import com.wxystatic.loadretrylibrary.LoadReTryHelp;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
+import com.wxystatic.loadretrylibrary.ShowReLoadViewListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,15 +29,19 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
 
     @BindView(R.id.linear_back)
     LinearLayout linearBack;
-    @BindView(R.id.loadretry_tv_retry_failed)
-    RTextView loadretryTvRetryFailed;
-    @BindView(R.id.loadretry_tv_retry_change)
-    RTextView loadretryTvRetryChange;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.tv_content)
     TextView tvContent;
+    @BindView(R.id.loadretry_tv_retry)
+    RTextView loadretryTvRetry;
+    @BindView(R.id.loadretry_tv_retry_success)
+    RTextView loadretryTvRetrySuccess;
+    @BindView(R.id.loadretry_tv_retry_failed)
+    RTextView loadretryTvRetryFailed;
     private boolean isSuccess;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,60 +49,53 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.linear_back, R.id.loadretry_tv_retry_failed, R.id.loadretry_tv_retry_change})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.linear_back:
-                finish();
-                break;
-            case R.id.loadretry_tv_retry_failed:
-                LoadReTryHelp.getInstance().loadRetry(this, this);
-                break;
-            case R.id.loadretry_tv_retry_change:
-                isSuccess=true;
-                break;
-        }
-    }
-
     @Override
-    public void toDoAndreTry() {
-            Observable.create(new ObservableOnSubscribe<Integer>() {
-                @Override
-                public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                    Thread.sleep(3000);
-                    if (isSuccess){
-                        emitter.onNext(1);
-                    }else{
-                        emitter.onNext(1/0);
+    public void loadAndRetry() {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                Thread.sleep(3000);
+                if (isSuccess) {
+                    emitter.onNext(1);
+                } else {
+                    emitter.onNext(1 / 0);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Integer value) {
+                Toast.makeText(FailedActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
+                tvContent.setText(getResources().getString(R.string.large_text));
+                LoadReTryHelp.getInstance().onLoadSuccess(FailedActivity.this, new ShowReLoadViewListener() {
+                    @Override
+                    public void colseReLoadView() {
+                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
                     }
-                }
-            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
-                @Override
-                public void onSubscribe(Disposable d) {
+                });
+            }
 
-                }
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(FailedActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
+                LoadReTryHelp.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowReLoadViewListener() {
+                    @Override
+                    public void colseReLoadView() {
+                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                    }
+                });
+            }
 
-                @Override
-                public void onNext(Integer value) {
-                    Toast.makeText(FailedActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
-                    tvContent.setText(getResources().getString(R.string.large_text));
-                    LoadReTryHelp.getInstance().onLoadSuccess(FailedActivity.this);
-                    UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
-                }
+            @Override
+            public void onComplete() {
+            }
+        });
 
-                @Override
-                public void onError(Throwable e) {
-                    Toast.makeText(FailedActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
-                    LoadReTryHelp.getInstance().onLoadFailed(FailedActivity.this,e.getMessage());
-                    UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
-                }
-
-                @Override
-                public void onComplete() {
-                }
-            });
-
-        }
+    }
 
     @Override
     public void showReLoadView() {
@@ -108,5 +106,24 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
     protected void onDestroy() {
         LoadReTryHelp.getInstance().clearLoadReTry(this);
         super.onDestroy();
+    }
+
+    @OnClick({R.id.linear_back, R.id.loadretry_tv_retry, R.id.loadretry_tv_retry_success, R.id.loadretry_tv_retry_failed})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.linear_back:
+                finish();
+                break;
+            case R.id.loadretry_tv_retry:
+                LoadReTryHelp.getInstance().loadRetry(this, this);
+                LoadReTryHelp.getInstance().startLoad(this);
+                break;
+            case R.id.loadretry_tv_retry_success:
+                isSuccess=true;
+                break;
+            case R.id.loadretry_tv_retry_failed:
+                isSuccess=false;
+                break;
+        }
     }
 }

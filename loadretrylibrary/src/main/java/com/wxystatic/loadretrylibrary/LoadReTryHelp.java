@@ -33,11 +33,13 @@ import pl.droidsonroids.gif.GifImageView;
 public class LoadReTryHelp {
     private static LoadReTryHelp loadReTryHelp;
     private HashMap<Activity,LoadRetryListener> hashMap_activity_loadRetryListener;
+    private HashMap<Activity,ShowReLoadViewListener> hashMap_activity_showReLoadViewListener;
     private HashMap<Activity,View> hashMap_activity_loadView;
     private HashMap<Activity,Boolean> hashMap_activity_toolbar,hashMap_activity_isSuccess;
 
     private HashMap<Fragment,LoadRetryListener> hashMap_fragment_loadRetryListener;
     private HashMap<Fragment,View> hashMap_fragment_loadView;
+    private HashMap<Fragment,FrameLayout> hashMap_fragment_parent_view;
     private HashMap<Fragment,Boolean> hashMap_fragment_toolbar,hashMap_fragment_isSuccess;
     private LoadRetryConfig loadRetryConfig;
     private LoadReTryHelp(){
@@ -45,11 +47,13 @@ public class LoadReTryHelp {
         hashMap_activity_loadView=new HashMap<>();
         hashMap_activity_toolbar=new HashMap<>();
         hashMap_activity_isSuccess=new HashMap<>();
+        hashMap_activity_showReLoadViewListener=new HashMap<>();
 
         hashMap_fragment_loadRetryListener=new HashMap<>();
         hashMap_fragment_loadView=new HashMap<>();
         hashMap_fragment_toolbar=new HashMap<>();
         hashMap_fragment_isSuccess=new HashMap<>();
+        hashMap_fragment_parent_view=new HashMap<>();
     }
     public void setLoadRetryConfig(LoadRetryConfig loadRetryConfig) {
         this.loadRetryConfig = loadRetryConfig;
@@ -64,7 +68,11 @@ public class LoadReTryHelp {
         }
         return loadReTryHelp;
     }
-
+    public void startLoad(Activity activity){
+        if (hashMap_activity_loadRetryListener.containsKey(activity)){
+            hashMap_activity_loadRetryListener.get(activity).loadAndRetry();
+        }
+    }
     public void loadRetry(Activity activity,final LoadRetryListener loadRetryListener){
         
         if (!hashMap_activity_toolbar.containsKey(activity)) {
@@ -93,7 +101,6 @@ public class LoadReTryHelp {
                 initLoadView(activity);
             }
             }
-        hashMap_activity_loadRetryListener.get(activity).toDoAndreTry();
         }
 
     private void initLoadView(Activity activity) {
@@ -141,7 +148,10 @@ public class LoadReTryHelp {
         }
     }
 
-    public void onLoadSuccess(Activity activity){
+    public void onLoadSuccess(Activity activity,ShowReLoadViewListener showReLoadViewListener){
+        if (!hashMap_activity_showReLoadViewListener.containsKey(activity)){
+            hashMap_activity_showReLoadViewListener.put(activity,showReLoadViewListener);
+        }
         if (hashMap_activity_loadView.containsKey(activity)){
             if (!hashMap_activity_isSuccess.get(activity)){
        hashMap_activity_isSuccess.remove(activity);
@@ -152,10 +162,17 @@ public class LoadReTryHelp {
             alphaAnimation.setDuration(500);
             loadretry_parent.startAnimation(alphaAnimation);
             loadretry_parent.setVisibility(View.GONE);
-   }}
+   }else{
+                hashMap_activity_showReLoadViewListener.get(activity).colseReLoadView();
+            }
+        }
     }
-    public void onLoadFailed(final Activity activity, String errorText){
+    public void onLoadFailed(final Activity activity, String errorText,ShowReLoadViewListener showReLoadViewListener){
+        if (!hashMap_activity_showReLoadViewListener.containsKey(activity)){
+            hashMap_activity_showReLoadViewListener.put(activity,showReLoadViewListener);
+        }
         if (hashMap_activity_loadView.containsKey(activity)){
+            if (!hashMap_activity_isSuccess.get(activity)){
             View loadView=hashMap_activity_loadView.get(activity);
             LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
             final GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
@@ -174,9 +191,12 @@ public class LoadReTryHelp {
                     }
                     setGifImageView(activity,gifImageView,false);
                     tv_retry.setVisibility(View.INVISIBLE);
-                    hashMap_activity_loadRetryListener.get(activity).toDoAndreTry();
+                    hashMap_activity_loadRetryListener.get(activity).loadAndRetry();
                 }
             });
+        }else{
+                hashMap_activity_showReLoadViewListener.get(activity).colseReLoadView();
+            }
         }
     }
 
@@ -222,6 +242,14 @@ public class LoadReTryHelp {
             }
         }
     }
+    public View getLoadView(Fragment fragment,View rootView){
+        FrameLayout view=new FrameLayout(fragment.getActivity());
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        view.setLayoutParams(lp);
+        view.addView(rootView);
+        return view;
+    }
     public void loadRetry(Fragment fragment,View rootView,final LoadRetryListener loadRetryListener){
         if (!hashMap_fragment_toolbar.containsKey(fragment)) {
             hashMap_fragment_toolbar.put(fragment, false);
@@ -230,7 +258,7 @@ public class LoadReTryHelp {
             //判断是否有ToolBar
             isHaveToolbar(rootView,fragment);
             View loadView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.loadretry_view, null);
-            ((ViewGroup)rootView).addView(loadView);
+            ((FrameLayout)rootView).addView(loadView);
             hashMap_fragment_loadView.put(fragment,loadView);
             if (hashMap_fragment_toolbar.get(fragment)) {
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
@@ -248,7 +276,7 @@ public class LoadReTryHelp {
                 initLoadView(fragment);
             }
         }
-        hashMap_fragment_loadRetryListener.get(fragment).toDoAndreTry();
+        hashMap_fragment_loadRetryListener.get(fragment).loadAndRetry();
     }
     private void initLoadView(Fragment fragment) {
         View loadView=hashMap_fragment_loadView.get(fragment);
@@ -327,7 +355,7 @@ public class LoadReTryHelp {
                     }
                     setGifImageView(fragment.getActivity(),gifImageView,false);
                     tv_retry.setVisibility(View.INVISIBLE);
-                    hashMap_fragment_loadRetryListener.get(fragment).toDoAndreTry();
+                    hashMap_fragment_loadRetryListener.get(fragment).loadAndRetry();
                 }
             });
         }

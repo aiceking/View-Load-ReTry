@@ -43,7 +43,7 @@
             app:corner_radius="5dp"
             android:textSize="14sp"
             android:paddingLeft="10dp"
-            android:text="加载成功"
+            android:text="模拟加载成功"
             android:paddingRight="10dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"

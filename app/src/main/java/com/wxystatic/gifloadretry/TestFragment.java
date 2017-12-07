@@ -1,8 +1,6 @@
 package com.wxystatic.gifloadretry;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +17,6 @@ import com.wxystatic.loadretrylibrary.LoadRetryListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -41,8 +38,8 @@ public class TestFragment extends LazyBaseFragment implements LoadRetryListener 
     TextView tvTitle;
     private String title;
     private AppCompatActivity activity;
-    private View view;
     private boolean isFailed;
+    private View contentView;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -51,21 +48,20 @@ public class TestFragment extends LazyBaseFragment implements LoadRetryListener 
 
     @Override
     protected View setFragmentView(LayoutInflater inflater, @Nullable ViewGroup container) {
-        view = inflater.inflate(R.layout.lazy_fragment_main, container, false);
-        ButterKnife.bind(this, view);
+         contentView = inflater.inflate(R.layout.lazy_fragment_main, container, false);
+        ButterKnife.bind(this, contentView);
         title = getArguments().getString("title");
         if (title.equals("测试1")){
             isFailed=true;
         }
         tvTitle.setText(title);
         activity.setSupportActionBar(toolbar);
-        return view;
+        return contentView;
     }
 
     @Override
     protected void loadData() {
-        LoadReTryHelp.getInstance().loadRetry(this, view, this);
-
+        LoadReTryHelp.getInstance().loadRetry(TestFragment.this, contentView, TestFragment.this);
     }
 
     @Override
@@ -75,7 +71,7 @@ public class TestFragment extends LazyBaseFragment implements LoadRetryListener 
 
 
     @Override
-    public void toDoAndreTry() {
+    public void loadAndRetry() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
