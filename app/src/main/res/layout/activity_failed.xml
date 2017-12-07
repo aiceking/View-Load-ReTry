@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.wxystatic.gifloadretry.SelfToolBarActivity">
+    tools:context="com.wxystatic.gifloadretry.FailedActivity">
     <android.support.v7.widget.Toolbar
         app:contentInsetStart="0dp"
         android:layout_width="match_parent"
@@ -18,42 +18,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:id="@+id/linear_back"
-    android:layout_alignParentLeft="true"
-    android:gravity="center_vertical">
-    <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="20dp"
-        android:src="@drawable/back"
-        />
-</LinearLayout>
-        <com.ruffian.library.RTextView
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/linear_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            app:corner_radius="5dp"
-            android:textSize="14sp"
-            android:paddingLeft="10dp"
-            android:text="加载成功"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:maxLines="1"
-            app:background_normal="#03a9f4"
-            app:background_pressed="#0091ea"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/loadretry_tv_retry_success"
-            />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/linear_back"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/back"
+                    />
+            </LinearLayout>
+
             <com.ruffian.library.RTextView
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
@@ -74,7 +53,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
                 android:id="@+id/loadretry_tv_retry_failed"
-                android:layout_toRightOf="@+id/loadretry_tv_retry_success"
+                android:layout_toRightOf="@+id/linear_back"
                 />
             <com.ruffian.library.RTextView
                 android:layout_centerVertical="true"
@@ -86,7 +65,7 @@
                 app:corner_radius="5dp"
                 android:textSize="14sp"
                 android:paddingLeft="10dp"
-                android:text="true"
+                android:text="重新加载成功"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
@@ -100,9 +79,9 @@
                 />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="15dp"
-    android:id="@+id/tv_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="15dp"
+        android:id="@+id/tv_content"/>
 </LinearLayout>

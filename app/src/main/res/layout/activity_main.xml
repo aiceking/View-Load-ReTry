@@ -11,22 +11,22 @@
         android:gravity="center"
         android:padding="10dp"
         android:textAllCaps="false"
-        android:id="@+id/btn_theme"
-        android:text="系统自带的ToolBar"/>
+        android:id="@+id/btn_activity_success"
+        android:text="Activity加载 ( Success )"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
         android:textAllCaps="false"
-        android:id="@+id/btn_self_toolbar"
-        android:text="自定义的ToolBar"/>
+        android:id="@+id/btn_activity_failed"
+        android:text="Activity加载 ( Failed )"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
         android:textAllCaps="false"
-        android:id="@+id/btn_no_toolbar"
-        android:text="没有ToolBar"/>
+        android:id="@+id/btn_fragment"
+        android:text="Fragment中加载"/>
 </LinearLayout>

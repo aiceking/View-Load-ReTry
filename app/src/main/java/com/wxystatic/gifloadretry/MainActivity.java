@@ -6,20 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.wxystatic.loadretrylibrary.LoadReTryHelp;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.btn_theme)
-    Button btnTheme;
-    @BindView(R.id.btn_self_toolbar)
-    Button btnSelfToolbar;
-    @BindView(R.id.btn_no_toolbar)
-    Button btnNoToolbar;
+
+    @BindView(R.id.btn_activity_success)
+    Button btnActivitySuccess;
+    @BindView(R.id.btn_activity_failed)
+    Button btnActivityFailed;
+    @BindView(R.id.btn_fragment)
+    Button btnFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +27,17 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.btn_theme, R.id.btn_self_toolbar, R.id.btn_no_toolbar})
+
+    @OnClick({R.id.btn_activity_success, R.id.btn_activity_failed, R.id.btn_fragment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_theme:
-                startActivity(new Intent(this,ThemeToolBarActivity.class));
+            case R.id.btn_activity_success:
+                startActivity(new Intent(this,SuccessActivity.class));
                 break;
-            case R.id.btn_self_toolbar:
-                startActivity(new Intent(this,SelfToolBarActivity.class));
+            case R.id.btn_activity_failed:
+                startActivity(new Intent(this,FailedActivity.class));
                 break;
-            case R.id.btn_no_toolbar:
-                startActivity(new Intent(this,NoToolBarActivity.class));
-
+            case R.id.btn_fragment:
                 break;
         }
     }

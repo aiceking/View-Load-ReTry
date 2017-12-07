@@ -10,20 +10,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ThemeToolBarActivity" />
-        <activity android:name=".SelfToolBarActivity"
-            android:theme="@style/myAppTheme"/>
-        <activity android:name=".NoToolBarActivity"
-            android:theme="@style/myAppTheme"></activity>
+        <activity
+            android:name=".SuccessActivity"
+            android:theme="@style/myAppTheme" />
+        <activity
+            android:name=".FailedActivity"
+            android:theme="@style/myAppTheme" />
+        <activity android:name=".FragmentActivity"></activity>
     </application>
 
 </manifest>

@@ -12,6 +12,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -140,12 +142,16 @@ public class LoadReTryHelp {
     public void onLoadSuccess(Activity activity){
         String activityName=activity.getLocalClassName();
         if (hashMap_activity_loadView.containsKey(activityName)){
+            if (!hashMap_activity_isSuccess.get(activityName)){
        hashMap_activity_isSuccess.remove(activityName);
        hashMap_activity_isSuccess.put(activityName,true);
        View loadView=hashMap_activity_loadView.get(activityName);
        LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
-       loadretry_parent.setVisibility(View.GONE);
-   }
+            AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
+            alphaAnimation.setDuration(500);
+            loadretry_parent.startAnimation(alphaAnimation);
+            loadretry_parent.setVisibility(View.GONE);
+   }}
     }
     public void onLoadFailed(final Activity activity, String errorText){
         final String activityName=activity.getLocalClassName();
