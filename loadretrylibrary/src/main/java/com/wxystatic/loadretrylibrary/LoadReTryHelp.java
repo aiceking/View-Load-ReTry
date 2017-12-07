@@ -33,7 +33,6 @@ import pl.droidsonroids.gif.GifImageView;
 public class LoadReTryHelp {
     private static LoadReTryHelp loadReTryHelp;
     private HashMap<Activity,LoadRetryListener> hashMap_activity_loadRetryListener;
-    private HashMap<Activity,ShowReLoadViewListener> hashMap_activity_showReLoadViewListener;
     private HashMap<Activity,View> hashMap_activity_loadView;
     private HashMap<Activity,Boolean> hashMap_activity_toolbar,hashMap_activity_isSuccess;
 
@@ -47,7 +46,6 @@ public class LoadReTryHelp {
         hashMap_activity_loadView=new HashMap<>();
         hashMap_activity_toolbar=new HashMap<>();
         hashMap_activity_isSuccess=new HashMap<>();
-        hashMap_activity_showReLoadViewListener=new HashMap<>();
 
         hashMap_fragment_loadRetryListener=new HashMap<>();
         hashMap_fragment_loadView=new HashMap<>();
@@ -73,7 +71,7 @@ public class LoadReTryHelp {
             hashMap_activity_loadRetryListener.get(activity).loadAndRetry();
         }
     }
-    public void loadRetry(Activity activity,final LoadRetryListener loadRetryListener){
+    public void register(Activity activity,final LoadRetryListener loadRetryListener){
         
         if (!hashMap_activity_toolbar.containsKey(activity)) {
             hashMap_activity_toolbar.put(activity, false);
@@ -149,9 +147,6 @@ public class LoadReTryHelp {
     }
 
     public void onLoadSuccess(Activity activity,ShowReLoadViewListener showReLoadViewListener){
-        if (!hashMap_activity_showReLoadViewListener.containsKey(activity)){
-            hashMap_activity_showReLoadViewListener.put(activity,showReLoadViewListener);
-        }
         if (hashMap_activity_loadView.containsKey(activity)){
             if (!hashMap_activity_isSuccess.get(activity)){
        hashMap_activity_isSuccess.remove(activity);
@@ -163,14 +158,12 @@ public class LoadReTryHelp {
             loadretry_parent.startAnimation(alphaAnimation);
             loadretry_parent.setVisibility(View.GONE);
    }else{
-                hashMap_activity_showReLoadViewListener.get(activity).colseReLoadView();
+                showReLoadViewListener.colseReLoadView();
             }
         }
     }
     public void onLoadFailed(final Activity activity, String errorText,ShowReLoadViewListener showReLoadViewListener){
-        if (!hashMap_activity_showReLoadViewListener.containsKey(activity)){
-            hashMap_activity_showReLoadViewListener.put(activity,showReLoadViewListener);
-        }
+
         if (hashMap_activity_loadView.containsKey(activity)){
             if (!hashMap_activity_isSuccess.get(activity)){
             View loadView=hashMap_activity_loadView.get(activity);
@@ -195,7 +188,7 @@ public class LoadReTryHelp {
                 }
             });
         }else{
-                hashMap_activity_showReLoadViewListener.get(activity).colseReLoadView();
+                showReLoadViewListener.colseReLoadView();
             }
         }
     }
@@ -217,7 +210,7 @@ public class LoadReTryHelp {
         }
     }
 
-    public void clearLoadReTry(Activity activity){
+    public void unRegister(Activity activity){
         if (hashMap_activity_loadRetryListener.containsKey(activity)){
         hashMap_activity_loadRetryListener.remove(activity);
           hashMap_activity_isSuccess.remove(activity);

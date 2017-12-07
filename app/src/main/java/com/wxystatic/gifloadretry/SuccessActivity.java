@@ -65,8 +65,8 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
                 LoadReTryHelp.getInstance().onLoadSuccess(SuccessActivity.this, new ShowReLoadViewListener() {
                     @Override
                     public void colseReLoadView() {
+                        Toast.makeText(SuccessActivity.this, "2次加载成功", Toast.LENGTH_SHORT).show();
                         UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
-
                     }
                 });
             }
@@ -94,7 +94,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
      */
     @OnClick(R.id.loadretry_tv_retry_success)
     public void onLoadretryTvRetrySuccessClicked() {
-        LoadReTryHelp.getInstance().loadRetry(this, this);
+        LoadReTryHelp.getInstance().register(this, this);
         LoadReTryHelp.getInstance().startLoad(this);
     }
 
@@ -111,7 +111,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
     }
     @Override
     protected void onDestroy() {
-        LoadReTryHelp.getInstance().clearLoadReTry(this);
+        LoadReTryHelp.getInstance().unRegister(this);
         super.onDestroy();
     }
 }
