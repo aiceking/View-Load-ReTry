@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#ffffff"
     android:id="@+id/loadretry_parent"
     android:gravity="center">
 <pl.droidsonroids.gif.GifImageView
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:textSize="14sp"
         android:id="@+id/loadretry_tv_error"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="13dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:maxLines="1"
@@ -29,21 +29,21 @@
 <com.ruffian.library.RTextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
+    android:layout_marginTop="13dp"
     android:textColor="#ffffff"
     android:gravity="center"
     app:corner_radius="5dp"
     android:textSize="14sp"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:paddingBottom="5dp"
+    android:paddingBottom="6dp"
     android:paddingTop="5dp"
     android:maxLines="1"
     app:background_normal="#03a9f4"
     app:background_pressed="#0091ea"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="15dp"
     android:id="@+id/loadretry_tv_retry"
     />
 </LinearLayout>

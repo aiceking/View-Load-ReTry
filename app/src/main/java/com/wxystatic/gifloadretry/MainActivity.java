@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this,FailedActivity.class));
                 break;
             case R.id.btn_fragment:
+                startActivity(new Intent(this,FragmentTestActivity.class));
                 break;
         }
     }

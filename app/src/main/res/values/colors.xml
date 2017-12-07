@@ -8,4 +8,5 @@
     <color name="oringe_normal">#ff9800</color>
     <color name="oringe_press">#e65100</color>
     <color name="toolbar">#e0e0e0</color>
+    <color name="gray">#757575</color>
 </resources>

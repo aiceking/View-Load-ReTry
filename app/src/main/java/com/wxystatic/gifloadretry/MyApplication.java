@@ -22,7 +22,7 @@ public class MyApplication extends Application{
         config.setBtnText("点击重新加载");
         config.setLoadText("测试加载3秒钟...");
         config.setBtnTextColor(R.color.white);
-        config.setErrorTextColor(R.color.black);
+        config.setLoadAndErrorTextColor(R.color.gray);
         config.setGif(R.drawable.zhufaner);
         LoadReTryHelp.getInstance().setLoadRetryConfig(config);
     }

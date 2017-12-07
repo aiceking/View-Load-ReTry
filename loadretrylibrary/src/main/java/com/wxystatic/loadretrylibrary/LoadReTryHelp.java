@@ -99,6 +99,9 @@ public class LoadReTryHelp {
     private void initLoadView(Activity activity) {
         View loadView=hashMap_activity_loadView.get(activity);
         LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
+        alphaAnimation.setDuration(500);
+        loadretry_parent.startAnimation(alphaAnimation);
         GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
         RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
@@ -129,8 +132,8 @@ public class LoadReTryHelp {
             if (!TextUtils.isEmpty(loadRetryConfig.getBtnText())){
                 tv_retry.setText(loadRetryConfig.getBtnText());
             }
-            if (loadRetryConfig.getErrorTextColor()!=0){
-                tv_error.setTextColor(activity.getResources().getColor(loadRetryConfig.getErrorTextColor()));
+            if (loadRetryConfig.getLoadAndErrorTextColor()!=0){
+                tv_error.setTextColor(activity.getResources().getColor(loadRetryConfig.getLoadAndErrorTextColor()));
             }
             if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
                 tv_error.setText(loadRetryConfig.getLoadText());
@@ -203,15 +206,7 @@ public class LoadReTryHelp {
         }
     }
 
-    public void onLoadSuccess(Fragment fragment){
 
-    }
-    public void onLoadFailed(Fragment fragment,String errorText){
-
-    }
-    public void clearLoadReTry(Fragment fragment){
-
-    }
 
     private void isHaveToolbar(View view ,Activity activity) {
         if (view instanceof Toolbar) {
@@ -258,6 +253,9 @@ public class LoadReTryHelp {
     private void initLoadView(Fragment fragment) {
         View loadView=hashMap_fragment_loadView.get(fragment);
         LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
+        alphaAnimation.setDuration(500);
+        loadretry_parent.startAnimation(alphaAnimation);
         GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
         RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
@@ -288,15 +286,60 @@ public class LoadReTryHelp {
             if (!TextUtils.isEmpty(loadRetryConfig.getBtnText())){
                 tv_retry.setText(loadRetryConfig.getBtnText());
             }
-            if (loadRetryConfig.getErrorTextColor()!=0){
-                tv_error.setTextColor(fragment.getActivity().getResources().getColor(loadRetryConfig.getErrorTextColor()));
+            if (loadRetryConfig.getLoadAndErrorTextColor()!=0){
+                tv_error.setTextColor(fragment.getActivity().getResources().getColor(loadRetryConfig.getLoadAndErrorTextColor()));
             }
             if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
                 tv_error.setText(loadRetryConfig.getLoadText());
             }
         }
     }
-
+    public void onLoadSuccess(Fragment fragment){
+        if (hashMap_fragment_loadView.containsKey(fragment)){
+            if (!hashMap_fragment_isSuccess.get(fragment)){
+                hashMap_fragment_isSuccess.remove(fragment);
+                hashMap_fragment_isSuccess.put(fragment,true);
+                View loadView=hashMap_fragment_loadView.get(fragment);
+                LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
+                AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
+                alphaAnimation.setDuration(500);
+                loadretry_parent.startAnimation(alphaAnimation);
+                loadretry_parent.setVisibility(View.GONE);
+            }}
+    }
+    public void onLoadFailed(final Fragment fragment,String errorText){
+        if (hashMap_fragment_loadView.containsKey(fragment)){
+            View loadView=hashMap_fragment_loadView.get(fragment);
+            LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
+            final GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
+            final TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
+            final RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
+            setGifImageView(fragment.getActivity(),gifImageView,true);
+            tv_error.setText(errorText);
+            tv_retry.setVisibility(View.VISIBLE);
+            tv_retry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (loadRetryConfig!=null){
+                        if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
+                            tv_error.setText(loadRetryConfig.getLoadText());
+                        }
+                    }
+                    setGifImageView(fragment.getActivity(),gifImageView,false);
+                    tv_retry.setVisibility(View.INVISIBLE);
+                    hashMap_fragment_loadRetryListener.get(fragment).toDoAndreTry();
+                }
+            });
+        }
+    }
+    public void clearLoadReTry(Fragment fragment){
+        if (hashMap_fragment_loadRetryListener.containsKey(fragment)){
+            hashMap_fragment_loadRetryListener.remove(fragment);
+            hashMap_fragment_isSuccess.remove(fragment);
+            hashMap_fragment_loadView.remove(fragment);
+            hashMap_fragment_toolbar.remove(fragment);
+        }
+    }
     private void isHaveToolbar(View view ,Fragment fragment) {
         if (view instanceof Toolbar) {
             hashMap_fragment_toolbar.remove(fragment);

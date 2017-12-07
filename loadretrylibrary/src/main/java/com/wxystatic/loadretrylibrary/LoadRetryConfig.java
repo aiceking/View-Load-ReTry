@@ -12,7 +12,7 @@ public class LoadRetryConfig {
     private  @ColorRes int btnNormal;
     private  @ColorRes int btnPressed;
     private  @ColorRes int btnTextColor;
-    private  @ColorRes int errorTextColor;
+    private  @ColorRes int loadAndErrorTextColor;
     private  @DrawableRes int gif;
     private int toolBarHeight;
     private  String btnText;
@@ -75,13 +75,14 @@ public class LoadRetryConfig {
         this.btnTextColor = btnTextColor;
     }
 
-    public int getErrorTextColor() {
-        return errorTextColor;
+    public int getLoadAndErrorTextColor() {
+        return loadAndErrorTextColor;
     }
 
-    public void setErrorTextColor(int errorTextColor) {
-        this.errorTextColor = errorTextColor;
+    public void setLoadAndErrorTextColor(int loadAndErrorTextColor) {
+        this.loadAndErrorTextColor = loadAndErrorTextColor;
     }
+
 
     public int getGif() {
         return gif;
