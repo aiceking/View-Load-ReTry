@@ -2,7 +2,7 @@ package com.wxystatic.gifloadretry;
 
 import android.app.Application;
 
-import com.wxystatic.loadretrylibrary.LoadReTryHelp;
+import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryConfig;
 
 /**
@@ -24,6 +24,6 @@ public class MyApplication extends Application{
         config.setBtnTextColor(R.color.white);
         config.setLoadAndErrorTextColor(R.color.gray);
         config.setGif(R.drawable.zhufaner);
-        LoadReTryHelp.getInstance().setLoadRetryConfig(config);
+        LoadReTryManager.getInstance().setLoadRetryConfig(config);
     }
 }

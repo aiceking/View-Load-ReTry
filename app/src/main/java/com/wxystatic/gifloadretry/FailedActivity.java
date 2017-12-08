@@ -10,9 +10,9 @@ import android.widget.Toast;
 
 import com.android.dialoglibrary.UsefulDialogHelp;
 import com.ruffian.library.RTextView;
-import com.wxystatic.loadretrylibrary.LoadReTryHelp;
+import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
-import com.wxystatic.loadretrylibrary.ShowReLoadViewListener;
+import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,10 +71,9 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
             public void onNext(Integer value) {
                 Toast.makeText(FailedActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                 tvContent.setText(getResources().getString(R.string.large_text));
-                LoadReTryHelp.getInstance().onLoadSuccess(FailedActivity.this, new ShowReLoadViewListener() {
+                LoadReTryManager.getInstance().onLoadSuccess(FailedActivity.this, new ShowRefreshViewListener() {
                     @Override
-                    public void colseReLoadView() {
-                        Toast.makeText(FailedActivity.this, "2次加载成功", Toast.LENGTH_SHORT).show();
+                    public void colseRefreshView() {
                         UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
                     }
                 });
@@ -83,10 +82,9 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(FailedActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
-                LoadReTryHelp.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowReLoadViewListener() {
+                LoadReTryManager.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowRefreshViewListener() {
                     @Override
-                    public void colseReLoadView() {
-                        Toast.makeText(FailedActivity.this, "2次加载失败", Toast.LENGTH_SHORT).show();
+                    public void colseRefreshView() {
                         UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
                     }
                 });
@@ -100,13 +98,13 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
     }
 
     @Override
-    public void showReLoadView() {
+    public void showRefreshView() {
         UsefulDialogHelp.getInstance().showSmallLoadingDialog(this, true);
     }
 
     @Override
     protected void onDestroy() {
-        LoadReTryHelp.getInstance().unRegister(this);
+        LoadReTryManager.getInstance().unRegister(this);
         super.onDestroy();
     }
 
@@ -117,8 +115,8 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
                 finish();
                 break;
             case R.id.loadretry_tv_retry:
-                LoadReTryHelp.getInstance().register(this, this);
-                LoadReTryHelp.getInstance().startLoad(this);
+                LoadReTryManager.getInstance().register(this, this);
+                LoadReTryManager.getInstance().startLoad(this);
                 break;
             case R.id.loadretry_tv_retry_success:
                 isSuccess=true;

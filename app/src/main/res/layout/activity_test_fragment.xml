@@ -19,7 +19,6 @@
         app:tabSelectedTextColor="#03a9f4"
         app:tabTextColor="#000000"
         app:tabIndicatorColor="#03a9f4"
-        app:tabMode="scrollable"
         android:id="@+id/tablayout">
     </android.support.design.widget.TabLayout>
 </LinearLayout>

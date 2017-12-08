@@ -6,5 +6,5 @@ package com.wxystatic.loadretrylibrary;
 
 public interface LoadRetryListener {
     void loadAndRetry();
-    void showReLoadView();
+    void showRefreshView();
 }

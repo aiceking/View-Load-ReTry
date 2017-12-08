@@ -1,19 +1,13 @@
 package com.wxystatic.loadretrylibrary;
 
-import android.animation.LayoutTransition;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,8 +24,8 @@ import pl.droidsonroids.gif.GifImageView;
  * Created by static on 2017/12/5/005.
  */
 
-public class LoadReTryHelp {
-    private static LoadReTryHelp loadReTryHelp;
+public class LoadReTryManager {
+    private static LoadReTryManager loadReTryManager;
     private HashMap<Activity,LoadRetryListener> hashMap_activity_loadRetryListener;
     private HashMap<Activity,View> hashMap_activity_loadView;
     private HashMap<Activity,Boolean> hashMap_activity_toolbar,hashMap_activity_isSuccess;
@@ -41,7 +35,7 @@ public class LoadReTryHelp {
     private HashMap<Fragment,FrameLayout> hashMap_fragment_parent_view;
     private HashMap<Fragment,Boolean> hashMap_fragment_toolbar,hashMap_fragment_isSuccess;
     private LoadRetryConfig loadRetryConfig;
-    private LoadReTryHelp(){
+    private LoadReTryManager(){
         hashMap_activity_loadRetryListener=new HashMap<>();
         hashMap_activity_loadView=new HashMap<>();
         hashMap_activity_toolbar=new HashMap<>();
@@ -56,15 +50,15 @@ public class LoadReTryHelp {
     public void setLoadRetryConfig(LoadRetryConfig loadRetryConfig) {
         this.loadRetryConfig = loadRetryConfig;
     }
-    public static LoadReTryHelp getInstance(){
-        if (loadReTryHelp==null){
-            synchronized (LoadReTryHelp.class){
-                if (loadReTryHelp==null){
-                    loadReTryHelp=new LoadReTryHelp();
+    public static LoadReTryManager getInstance(){
+        if (loadReTryManager ==null){
+            synchronized (LoadReTryManager.class){
+                if (loadReTryManager ==null){
+                    loadReTryManager =new LoadReTryManager();
                 }
             }
         }
-        return loadReTryHelp;
+        return loadReTryManager;
     }
     public void startLoad(Activity activity){
         if (hashMap_activity_loadRetryListener.containsKey(activity)){
@@ -94,7 +88,7 @@ public class LoadReTryHelp {
             hashMap_activity_loadRetryListener.remove(activity);
             hashMap_activity_loadRetryListener.put(activity,loadRetryListener);
             if (hashMap_activity_isSuccess.get(activity)){
-                hashMap_activity_loadRetryListener.get(activity).showReLoadView();
+                hashMap_activity_loadRetryListener.get(activity).showRefreshView();
             }else{
                 initLoadView(activity);
             }
@@ -146,7 +140,7 @@ public class LoadReTryHelp {
         }
     }
 
-    public void onLoadSuccess(Activity activity,ShowReLoadViewListener showReLoadViewListener){
+    public void onLoadSuccess(Activity activity,ShowRefreshViewListener showRefreshViewListener){
         if (hashMap_activity_loadView.containsKey(activity)){
             if (!hashMap_activity_isSuccess.get(activity)){
        hashMap_activity_isSuccess.remove(activity);
@@ -158,11 +152,11 @@ public class LoadReTryHelp {
             loadretry_parent.startAnimation(alphaAnimation);
             loadretry_parent.setVisibility(View.GONE);
    }else{
-                showReLoadViewListener.colseReLoadView();
+                showRefreshViewListener.colseRefreshView();
             }
         }
     }
-    public void onLoadFailed(final Activity activity, String errorText,ShowReLoadViewListener showReLoadViewListener){
+    public void onLoadFailed(final Activity activity, String errorText,ShowRefreshViewListener showRefreshViewListener){
 
         if (hashMap_activity_loadView.containsKey(activity)){
             if (!hashMap_activity_isSuccess.get(activity)){
@@ -188,7 +182,7 @@ public class LoadReTryHelp {
                 }
             });
         }else{
-                showReLoadViewListener.colseReLoadView();
+                showRefreshViewListener.colseRefreshView();
             }
         }
     }
@@ -235,15 +229,7 @@ public class LoadReTryHelp {
             }
         }
     }
-    public View getLoadView(Fragment fragment,View rootView){
-        FrameLayout view=new FrameLayout(fragment.getActivity());
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        view.setLayoutParams(lp);
-        view.addView(rootView);
-        return view;
-    }
-    public void loadRetry(Fragment fragment,View rootView,final LoadRetryListener loadRetryListener){
+    public void register(Fragment fragment,View rootView,final LoadRetryListener loadRetryListener){
         if (!hashMap_fragment_toolbar.containsKey(fragment)) {
             hashMap_fragment_toolbar.put(fragment, false);
             hashMap_fragment_isSuccess.put(fragment,false);
@@ -264,12 +250,16 @@ public class LoadReTryHelp {
             hashMap_fragment_loadRetryListener.remove(fragment);
             hashMap_fragment_loadRetryListener.put(fragment,loadRetryListener);
             if (hashMap_fragment_isSuccess.get(fragment)){
-                hashMap_fragment_loadRetryListener.get(fragment).showReLoadView();
+                hashMap_fragment_loadRetryListener.get(fragment).showRefreshView();
             }else{
                 initLoadView(fragment);
             }
         }
-        hashMap_fragment_loadRetryListener.get(fragment).loadAndRetry();
+    }
+    public void startLoad(Fragment fragment){
+        if (hashMap_fragment_loadRetryListener.containsKey(fragment)){
+            hashMap_fragment_loadRetryListener.get(fragment).loadAndRetry();
+        }
     }
     private void initLoadView(Fragment fragment) {
         View loadView=hashMap_fragment_loadView.get(fragment);
@@ -315,7 +305,7 @@ public class LoadReTryHelp {
             }
         }
     }
-    public void onLoadSuccess(Fragment fragment){
+    public void onLoadSuccess(Fragment fragment,ShowRefreshViewListener showRefreshViewListener){
         if (hashMap_fragment_loadView.containsKey(fragment)){
             if (!hashMap_fragment_isSuccess.get(fragment)){
                 hashMap_fragment_isSuccess.remove(fragment);
@@ -326,11 +316,15 @@ public class LoadReTryHelp {
                 alphaAnimation.setDuration(500);
                 loadretry_parent.startAnimation(alphaAnimation);
                 loadretry_parent.setVisibility(View.GONE);
-            }}
+            }else{
+                showRefreshViewListener.colseRefreshView();
+            }
+        }
     }
-    public void onLoadFailed(final Fragment fragment,String errorText){
+    public void onLoadFailed(final Fragment fragment,String errorText,ShowRefreshViewListener showRefreshViewListener){
         if (hashMap_fragment_loadView.containsKey(fragment)){
-            View loadView=hashMap_fragment_loadView.get(fragment);
+            if (!hashMap_fragment_isSuccess.get(fragment)){
+                View loadView=hashMap_fragment_loadView.get(fragment);
             LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
             final GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
             final TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
@@ -351,9 +345,12 @@ public class LoadReTryHelp {
                     hashMap_fragment_loadRetryListener.get(fragment).loadAndRetry();
                 }
             });
+        }else{
+                showRefreshViewListener.colseRefreshView();
+            }
         }
     }
-    public void clearLoadReTry(Fragment fragment){
+    public void unRegister(Fragment fragment){
         if (hashMap_fragment_loadRetryListener.containsKey(fragment)){
             hashMap_fragment_loadRetryListener.remove(fragment);
             hashMap_fragment_isSuccess.remove(fragment);

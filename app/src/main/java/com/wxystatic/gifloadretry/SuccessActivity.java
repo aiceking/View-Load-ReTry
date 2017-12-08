@@ -10,9 +10,9 @@ import android.widget.Toast;
 
 import com.android.dialoglibrary.UsefulDialogHelp;
 import com.ruffian.library.RTextView;
-import com.wxystatic.loadretrylibrary.LoadReTryHelp;
+import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
-import com.wxystatic.loadretrylibrary.ShowReLoadViewListener;
+import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,10 +62,9 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
             public void onNext(Integer value) {
                 Toast.makeText(SuccessActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                 tvContent.setText(getResources().getString(R.string.large_text));
-                LoadReTryHelp.getInstance().onLoadSuccess(SuccessActivity.this, new ShowReLoadViewListener() {
+                LoadReTryManager.getInstance().onLoadSuccess(SuccessActivity.this, new ShowRefreshViewListener() {
                     @Override
-                    public void colseReLoadView() {
-                        Toast.makeText(SuccessActivity.this, "2次加载成功", Toast.LENGTH_SHORT).show();
+                    public void colseRefreshView() {
                         UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
                     }
                 });
@@ -84,7 +83,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
     }
 
     @Override
-    public void showReLoadView() {
+    public void showRefreshView() {
         UsefulDialogHelp.getInstance().showSmallLoadingDialog(this, true);
     }
 
@@ -94,8 +93,8 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
      */
     @OnClick(R.id.loadretry_tv_retry_success)
     public void onLoadretryTvRetrySuccessClicked() {
-        LoadReTryHelp.getInstance().register(this, this);
-        LoadReTryHelp.getInstance().startLoad(this);
+        LoadReTryManager.getInstance().register(this, this);
+        LoadReTryManager.getInstance().startLoad(this);
     }
 
 
@@ -111,7 +110,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
     }
     @Override
     protected void onDestroy() {
-        LoadReTryHelp.getInstance().unRegister(this);
+        LoadReTryManager.getInstance().unRegister(this);
         super.onDestroy();
     }
 }

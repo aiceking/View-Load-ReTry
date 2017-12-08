@@ -37,18 +37,14 @@ public class FragmentTestActivity extends AppCompatActivity {
 
     private void initData() {
         list_titles=new ArrayList<>();
-        for (int i=0;i<8;i++){
-            list_titles.add("测试"+(i+1));
-        }
+        list_titles.add("测试一");
+        list_titles.add("测试二");
         list_fragments=new ArrayList<>();
         for (String title:list_titles){
             tablayout.addTab(tablayout.newTab().setText(title));
-            TestFragment fragment=new TestFragment();
-            Bundle bundle=new Bundle();
-            bundle.putString("title",title);
-            fragment.setArguments(bundle);
-            list_fragments.add(fragment);
         }
+        list_fragments.add(new TestFailedFragment());
+        list_fragments.add(new TestSuccessFragment());
     }
     public class MyAdapter extends FragmentPagerAdapter {
 
