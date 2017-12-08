@@ -1,6 +1,7 @@
-package com.wxystatic.gifloadretry;
+package com.wxystatic.gifloadretry.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -8,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.dialoglibrary.UsefulDialogHelp;
 import com.ruffian.library.RTextView;
+import com.wxystatic.gifloadretry.R;
 import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
@@ -35,12 +36,23 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
     LinearLayout linearBack;
     @BindView(R.id.tv_content)
     TextView tvContent;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        LoadReTryManager.getInstance().register(this, this);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadAndRetry();
+            }
+        });
     }
 
     @Override
@@ -48,9 +60,9 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
 
-                    emitter.onNext(1);
+                emitter.onNext(1);
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
             @Override
@@ -65,7 +77,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
                 LoadReTryManager.getInstance().onLoadSuccess(SuccessActivity.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
-                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -84,7 +96,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
 
     @Override
     public void showRefreshView() {
-        UsefulDialogHelp.getInstance().showSmallLoadingDialog(this, true);
+        refreshLayout.setRefreshing(true);
     }
 
 
@@ -93,10 +105,8 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
      */
     @OnClick(R.id.loadretry_tv_retry_success)
     public void onLoadretryTvRetrySuccessClicked() {
-        LoadReTryManager.getInstance().register(this, this);
         LoadReTryManager.getInstance().startLoad(this);
     }
-
 
 
     @OnClick({R.id.linear_back})
@@ -108,6 +118,7 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
 
         }
     }
+
     @Override
     protected void onDestroy() {
         LoadReTryManager.getInstance().unRegister(this);

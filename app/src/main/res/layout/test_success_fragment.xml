@@ -54,6 +54,11 @@
                 />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -64,6 +69,7 @@
         android:id="@+id/tv_name"
         />
         </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
 </FrameLayout>

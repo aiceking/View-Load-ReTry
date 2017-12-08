@@ -1,7 +1,8 @@
-package com.wxystatic.gifloadretry;
+package com.wxystatic.gifloadretry.fragment;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -10,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.dialoglibrary.UsefulDialogHelp;
 import com.android.lazyfragmentlibrary.LazyBaseFragment;
+import com.wxystatic.gifloadretry.R;
 import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
@@ -39,6 +40,8 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryLi
     TextView tvTitle;
     @BindView(R.id.tv_refresh)
     TextView tvRefresh;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     private AppCompatActivity activity;
     private View contentView;
     @Override
@@ -59,12 +62,19 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryLi
                 LoadReTryManager.getInstance().startLoad(TestSuccessFragment.this);
             }
         });
+        LoadReTryManager.getInstance().register(this, contentView, this);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadAndRetry();
+            }
+        });
         return contentView;
     }
 
     @Override
     protected void loadData() {
-        LoadReTryManager.getInstance().register(this, contentView, this);
         LoadReTryManager.getInstance().startLoad(this);
     }
 
@@ -79,7 +89,7 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryLi
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
                 emitter.onNext(1);
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
@@ -95,7 +105,7 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryLi
                 LoadReTryManager.getInstance().onLoadSuccess(TestSuccessFragment.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
-                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -106,7 +116,7 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryLi
                 LoadReTryManager.getInstance().onLoadFailed(TestSuccessFragment.this, e.getMessage(), new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
-                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -120,7 +130,7 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryLi
 
     @Override
     public void showRefreshView() {
-        UsefulDialogHelp.getInstance().showSmallLoadingDialog(activity, true);
+        refreshLayout.setRefreshing(true);
     }
 
     @Override

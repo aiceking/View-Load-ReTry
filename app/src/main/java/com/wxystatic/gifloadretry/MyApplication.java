@@ -14,16 +14,18 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         LoadRetryConfig config=new LoadRetryConfig();
-        config.setBackground(R.color.white);
-        config.setBtnNormal(R.color.oringe_normal);
-        config.setBtnPressed(R.color.oringe_press);
+        config.setBackgroundColor(R.color.white);
+        config.setBtnNormalColor(R.color.oringe_normal);
+        config.setBtnPressedColor(R.color.oringe_press);
+//        config.setBtnBorderColor(R.color.oringe_normal);
         config.setBtnRadius(10f);
 //        config.setToolBarHeight(48);
         config.setBtnText("点击重新加载");
-        config.setLoadText("测试加载3秒钟...");
+        config.setLoadText("测试加载2秒钟...");
         config.setBtnTextColor(R.color.white);
         config.setLoadAndErrorTextColor(R.color.gray);
         config.setGif(R.drawable.zhufaner);
+
         LoadReTryManager.getInstance().setLoadRetryConfig(config);
     }
 }

@@ -1,7 +1,8 @@
-package com.wxystatic.gifloadretry;
+package com.wxystatic.gifloadretry.fragment;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -10,14 +11,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.dialoglibrary.UsefulDialogHelp;
 import com.android.lazyfragmentlibrary.LazyBaseFragment;
+import com.wxystatic.gifloadretry.R;
 import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -37,9 +39,16 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
     TextView tvName;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    @BindView(R.id.tv_refresh)
+    TextView tvRefresh;
+    @BindView(R.id.tv_success)
+    TextView tvSuccess;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     private AppCompatActivity activity;
     private boolean isFailed;
     private View contentView;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -48,17 +57,24 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
 
     @Override
     protected View setFragmentView(LayoutInflater inflater, @Nullable ViewGroup container) {
-         contentView = inflater.inflate(R.layout.test_failed_fragment, container, false);
+        contentView = inflater.inflate(R.layout.test_failed_fragment, container, false);
         ButterKnife.bind(this, contentView);
         activity.setSupportActionBar(toolbar);
-        isFailed=true;
+        isFailed = true;
         tvTitle.setText("测试一");
+        LoadReTryManager.getInstance().register(this, contentView, this);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadAndRetry();
+            }
+        });
         return contentView;
     }
 
     @Override
     protected void loadData() {
-        LoadReTryManager.getInstance().register(this, contentView, this);
         LoadReTryManager.getInstance().startLoad(this);
     }
 
@@ -73,12 +89,12 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                Thread.sleep(3000);
-                 if (isFailed){
-                     emitter.onNext(1/0);
-                 }else{
-                emitter.onNext(1);
-                 }
+                Thread.sleep(2000);
+                if (isFailed) {
+                    emitter.onNext(1 / 0);
+                } else {
+                    emitter.onNext(1);
+                }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
             @Override
@@ -93,7 +109,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
                 LoadReTryManager.getInstance().onLoadSuccess(TestFailedFragment.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
-                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -104,7 +120,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
                 LoadReTryManager.getInstance().onLoadFailed(TestFailedFragment.this, e.getMessage(), new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
-                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -118,7 +134,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
 
     @Override
     public void showRefreshView() {
-        UsefulDialogHelp.getInstance().showSmallLoadingDialog(activity, true);
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -128,4 +144,17 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
     }
 
 
+
+
+    @OnClick({R.id.tv_refresh, R.id.tv_success})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_refresh:
+                LoadReTryManager.getInstance().startLoad(this);
+                break;
+            case R.id.tv_success:
+                isFailed=false;
+                break;
+        }
+    }
 }

@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,12 +18,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SuccessActivity"
+            android:name=".activity.SuccessActivity"
             android:theme="@style/myAppTheme" />
         <activity
-            android:name=".FailedActivity"
+            android:name=".activity.FailedActivity"
             android:theme="@style/myAppTheme" />
-        <activity android:name=".FragmentTestActivity"
+        <activity android:name=".activity.FragmentTestActivity"
             android:theme="@style/myAppTheme"></activity>
     </application>
 

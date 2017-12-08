@@ -8,16 +8,46 @@ import android.support.annotation.DrawableRes;
  */
 
 public class LoadRetryConfig {
-    private  @ColorRes int background;
-    private  @ColorRes int btnNormal;
-    private  @ColorRes int btnPressed;
+    private  @ColorRes int backgroundColor;
+    private  @ColorRes int btnNormalColor;
+    private  @ColorRes int btnPressedColor;
+    private  @ColorRes int btnBorderColor;
     private  @ColorRes int btnTextColor;
     private  @ColorRes int loadAndErrorTextColor;
     private  @DrawableRes int gif;
     private int toolBarHeight;
     private  String btnText;
     private String  loadText;
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
 
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+    public int getBtnNormalColor() {
+        return btnNormalColor;
+    }
+
+    public void setBtnNormalColor(int btnNormalColor) {
+        this.btnNormalColor = btnNormalColor;
+    }
+
+    public int getBtnPressedColor() {
+        return btnPressedColor;
+    }
+
+    public void setBtnPressedColor(int btnPressedColor) {
+        this.btnPressedColor = btnPressedColor;
+    }
+
+    public int getBtnBorderColor() {
+        return btnBorderColor;
+    }
+
+    public void setBtnBorderColor(int btnBorderColor) {
+        this.btnBorderColor = btnBorderColor;
+    }
     public String getLoadText() {
         return loadText;
     }
@@ -43,29 +73,8 @@ public class LoadRetryConfig {
 
     private Float btnRadius;
 
-    public int getBackground() {
-        return background;
-    }
 
-    public void setBackground(int background) {
-        this.background = background;
-    }
 
-    public int getBtnNormal() {
-        return btnNormal;
-    }
-
-    public void setBtnNormal(int btnNormal) {
-        this.btnNormal = btnNormal;
-    }
-
-    public int getBtnPressed() {
-        return btnPressed;
-    }
-
-    public void setBtnPressed(int btnPressed) {
-        this.btnPressed = btnPressed;
-    }
 
     public int getBtnTextColor() {
         return btnTextColor;

@@ -1,15 +1,15 @@
-package com.wxystatic.gifloadretry;
+package com.wxystatic.gifloadretry.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.dialoglibrary.UsefulDialogHelp;
 import com.ruffian.library.RTextView;
+import com.wxystatic.gifloadretry.R;
 import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
@@ -40,6 +40,8 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
     RTextView loadretryTvRetrySuccess;
     @BindView(R.id.loadretry_tv_retry_failed)
     RTextView loadretryTvRetryFailed;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
     private boolean isSuccess;
 
     @Override
@@ -47,6 +49,14 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_failed);
         ButterKnife.bind(this);
+        LoadReTryManager.getInstance().register(this, this);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadAndRetry();
+            }
+        });
     }
 
     @Override
@@ -54,7 +64,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
                 if (isSuccess) {
                     emitter.onNext(1);
                 } else {
@@ -74,7 +84,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
                 LoadReTryManager.getInstance().onLoadSuccess(FailedActivity.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
-                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -85,7 +95,8 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
                 LoadReTryManager.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
-                        UsefulDialogHelp.getInstance().closeSmallLoadingDialog();
+                        refreshLayout.setRefreshing(false);
+
                     }
                 });
             }
@@ -99,7 +110,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
 
     @Override
     public void showRefreshView() {
-        UsefulDialogHelp.getInstance().showSmallLoadingDialog(this, true);
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
@@ -115,14 +126,13 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
                 finish();
                 break;
             case R.id.loadretry_tv_retry:
-                LoadReTryManager.getInstance().register(this, this);
                 LoadReTryManager.getInstance().startLoad(this);
                 break;
             case R.id.loadretry_tv_retry_success:
-                isSuccess=true;
+                isSuccess = true;
                 break;
             case R.id.loadretry_tv_retry_failed:
-                isSuccess=false;
+                isSuccess = false;
                 break;
         }
     }

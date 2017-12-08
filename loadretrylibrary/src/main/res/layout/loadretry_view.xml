@@ -42,7 +42,7 @@
     app:background_normal="#03a9f4"
     app:background_pressed="#0091ea"
     android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginRight="11dp"
     android:layout_marginBottom="15dp"
     android:id="@+id/loadretry_tv_retry"
     />
