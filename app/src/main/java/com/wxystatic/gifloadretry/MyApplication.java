@@ -15,8 +15,8 @@ public class MyApplication extends Application{
         super.onCreate();
         LoadRetryConfig config=new LoadRetryConfig();
         config.setBackgroundColor(R.color.white);
-        config.setBtnNormalColor(R.color.oringe_normal);
-        config.setBtnPressedColor(R.color.oringe_press);
+        config.setBtnNormalColor(R.color.blue_normal);
+        config.setBtnPressedColor(R.color.blue_press);
 //        config.setBtnBorderColor(R.color.oringe_normal);
         config.setBtnRadius(10f);
 //        config.setToolBarHeight(48);
