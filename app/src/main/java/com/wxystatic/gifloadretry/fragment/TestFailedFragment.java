@@ -134,7 +134,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
 
     @Override
     public void showRefreshView() {
-        refreshLayout.setRefreshing(false);
+        refreshLayout.setRefreshing(true);
     }
 
     @Override

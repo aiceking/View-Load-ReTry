@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         app:tabSelectedTextColor="#03a9f4"
         app:tabTextColor="#000000"
+        android:background="@color/toolbar"
         app:tabIndicatorColor="#03a9f4"
         android:id="@+id/tablayout">
     </android.support.design.widget.TabLayout>
