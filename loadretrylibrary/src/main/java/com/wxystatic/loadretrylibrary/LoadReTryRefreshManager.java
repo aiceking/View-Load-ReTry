@@ -378,7 +378,7 @@ public class LoadReTryRefreshManager {
             }
         }
     }
-    public static int dip2px(Activity activity, float dpValue) {
+    public  int dip2px(Activity activity, float dpValue) {
         final float scale = activity.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
