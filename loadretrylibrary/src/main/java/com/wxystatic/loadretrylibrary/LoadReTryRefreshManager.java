@@ -76,11 +76,23 @@ public class LoadReTryRefreshManager {
             hashMap_activity_isSuccess.put(activity,false);
             hashMap_activity_loadRetryListener.put(activity, loadRetryRefreshListener);
              ViewGroup mRoot= (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
+             ViewGroup mContentView=null;
+             for (int i=0;i<mRoot.getChildCount();i++){
+                 View view=mRoot.getChildAt(i);
+                 if (view instanceof FrameLayout){
+                     mContentView=(ViewGroup)view;
+                     break;
+                 }
+             }
              //判断是否有ToolBar
             isHaveToolbar(mRoot,activity);
             View loadView = LayoutInflater.from(activity).inflate(R.layout.loadretry_view, null);
             loadView.setVisibility(View.GONE);
-            mRoot.addView(loadView);
+            if (mContentView!=null){
+                mContentView.addView(loadView);
+            }else{
+                mRoot.addView(loadView);
+            }
             hashMap_activity_loadView.put(activity,loadView);
             if (hashMap_activity_toolbar.get(activity)) {
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
