@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.wxystatic.gifloadretryrefresh"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -31,6 +31,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.1'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.github.NoEndToLF:LazyBaseFragment:1.0.4'//lazyFragment
+    compile 'com.github.NoEndToLF:ToolAndStatusBar:1.0.3'//沉浸式状态栏
     compile "com.android.support:design:26.+"
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'

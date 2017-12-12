@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ruffian.library.RTextView;
+import com.wstatic.toolandstatusbarlibrary.ToolAndStatusBarMagager;
 import com.wxystatic.gifloadretryrefresh.R;
 import com.wxystatic.loadretrylibrary.LoadReTryRefreshManager;
 import com.wxystatic.loadretrylibrary.LoadRetryRefreshListener;
@@ -45,6 +46,7 @@ public class SuccessActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_success);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        ToolAndStatusBarMagager.getInstance().setStatusBarColor(this,R.color.color_toolbar);
         LoadReTryRefreshManager.getInstance().register(this, new LoadRetryRefreshListener() {
             @Override
             public void loadAndRetry() {

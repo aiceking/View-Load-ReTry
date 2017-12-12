@@ -105,9 +105,6 @@ public class LoadReTryRefreshManager {
 
     private void initLoadView(Activity activity) {
         View loadView=hashMap_activity_loadView.get(activity);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
-        alphaAnimation.setDuration(500);
-        loadView.startAnimation(alphaAnimation);
         loadView.setVisibility(View.VISIBLE);
         LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
         GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
@@ -274,9 +271,6 @@ public class LoadReTryRefreshManager {
     }
     private void initLoadView(Fragment fragment) {
         View loadView=hashMap_fragment_loadView.get(fragment);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
-        alphaAnimation.setDuration(500);
-        loadView.startAnimation(alphaAnimation);
         loadView.setVisibility(View.VISIBLE);
         LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
         GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);

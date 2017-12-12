@@ -9,4 +9,5 @@
     <color name="blue_press">#0091ea</color>
     <color name="toolbar">#e0e0e0</color>
     <color name="gray">#757575</color>
+    <color name="color_toolbar">#ff9800</color>
 </resources>
