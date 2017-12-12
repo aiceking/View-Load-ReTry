@@ -32,5 +32,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.github.NoEndToLF:LazyBaseFragment:1.0.4'//lazyFragment
     compile "com.android.support:design:26.+"
-
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

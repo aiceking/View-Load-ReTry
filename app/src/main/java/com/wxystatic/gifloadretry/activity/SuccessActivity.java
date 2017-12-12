@@ -26,7 +26,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class SuccessActivity extends AppCompatActivity implements LoadRetryListener {
+public class SuccessActivity extends AppCompatActivity  {
 
     @BindView(R.id.loadretry_tv_retry_success)
     RTextView loadretryTvRetrySuccess;
@@ -45,18 +45,28 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
         setContentView(R.layout.activity_success);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        LoadReTryManager.getInstance().register(this, this);
+        LoadReTryManager.getInstance().register(this, new LoadRetryListener() {
+            @Override
+            public void loadAndRetry() {
+                doSomething();
+            }
+
+            @Override
+            public void showRefreshView() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadAndRetry();
+                doSomething();
             }
         });
     }
 
-    @Override
-    public void loadAndRetry() {
+
+    public void  doSomething() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
@@ -92,11 +102,6 @@ public class SuccessActivity extends AppCompatActivity implements LoadRetryListe
         });
 
 
-    }
-
-    @Override
-    public void showRefreshView() {
-        refreshLayout.setRefreshing(true);
     }
 
 
