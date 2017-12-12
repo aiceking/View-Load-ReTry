@@ -1,4 +1,4 @@
-package com.wxystatic.gifloadretry.activity;
+package com.wxystatic.gifloadretryrefresh.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.wxystatic.gifloadretry.R;
+import com.wxystatic.gifloadretryrefresh.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

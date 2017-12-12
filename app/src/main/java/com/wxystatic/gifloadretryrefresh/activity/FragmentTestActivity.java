@@ -1,4 +1,4 @@
-package com.wxystatic.gifloadretry.activity;
+package com.wxystatic.gifloadretryrefresh.activity;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,9 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.wxystatic.gifloadretry.R;
-import com.wxystatic.gifloadretry.fragment.TestFailedFragment;
-import com.wxystatic.gifloadretry.fragment.TestSuccessFragment;
+import com.wxystatic.gifloadretryrefresh.R;
+import com.wxystatic.gifloadretryrefresh.fragment.TestFailedFragment;
+import com.wxystatic.gifloadretryrefresh.fragment.TestSuccessFragment;
 
 import java.util.ArrayList;
 import java.util.List;

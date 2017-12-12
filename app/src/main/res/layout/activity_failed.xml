@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.wxystatic.gifloadretry.activity.FailedActivity">
+    tools:context="com.wxystatic.gifloadretryrefresh.activity.FailedActivity">
     <android.support.v7.widget.Toolbar
         app:contentInsetStart="0dp"
         android:layout_width="match_parent"

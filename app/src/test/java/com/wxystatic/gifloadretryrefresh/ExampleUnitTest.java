@@ -1,4 +1,4 @@
-package com.wxystatic.gifloadretry;
+package com.wxystatic.gifloadretryrefresh;
 
 import org.junit.Test;
 

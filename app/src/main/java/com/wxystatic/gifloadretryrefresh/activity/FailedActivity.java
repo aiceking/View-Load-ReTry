@@ -1,4 +1,4 @@
-package com.wxystatic.gifloadretry.activity;
+package com.wxystatic.gifloadretryrefresh.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,9 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.ruffian.library.RTextView;
-import com.wxystatic.gifloadretry.R;
+import com.wxystatic.gifloadretryrefresh.R;
 import com.wxystatic.loadretrylibrary.LoadReTryManager;
 import com.wxystatic.loadretrylibrary.LoadRetryListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
@@ -26,53 +25,51 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class SuccessActivity extends AppCompatActivity  {
+public class FailedActivity extends AppCompatActivity implements LoadRetryListener {
 
-    @BindView(R.id.loadretry_tv_retry_success)
-    RTextView loadretryTvRetrySuccess;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.linear_back)
     LinearLayout linearBack;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.tv_content)
     TextView tvContent;
+    @BindView(R.id.loadretry_tv_retry)
+    RTextView loadretryTvRetry;
+    @BindView(R.id.loadretry_tv_retry_success)
+    RTextView loadretryTvRetrySuccess;
+    @BindView(R.id.loadretry_tv_retry_failed)
+    RTextView loadretryTvRetryFailed;
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout refreshLayout;
+    private boolean isSuccess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_success);
+        setContentView(R.layout.activity_failed);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        LoadReTryManager.getInstance().register(this, new LoadRetryListener() {
-            @Override
-            public void loadAndRetry() {
-                doSomething();
-            }
-
-            @Override
-            public void showRefreshView() {
-                refreshLayout.setRefreshing(true);
-            }
-        });
+        LoadReTryManager.getInstance().register(this, this);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                doSomething();
+                loadAndRetry();
             }
         });
     }
 
-
-    public void  doSomething() {
+    @Override
+    public void loadAndRetry() {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
                 Thread.sleep(2000);
-
-                emitter.onNext(1);
+                if (isSuccess) {
+                    emitter.onNext(1);
+                } else {
+                    emitter.onNext(1 / 0);
+                }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Integer>() {
             @Override
@@ -82,9 +79,9 @@ public class SuccessActivity extends AppCompatActivity  {
 
             @Override
             public void onNext(Integer value) {
-                Toast.makeText(SuccessActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FailedActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                 tvContent.setText(getResources().getString(R.string.large_text));
-                LoadReTryManager.getInstance().onLoadSuccess(SuccessActivity.this, new ShowRefreshViewListener() {
+                LoadReTryManager.getInstance().onLoadSuccess(FailedActivity.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);
@@ -94,6 +91,14 @@ public class SuccessActivity extends AppCompatActivity  {
 
             @Override
             public void onError(Throwable e) {
+                Toast.makeText(FailedActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
+                LoadReTryManager.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowRefreshViewListener() {
+                    @Override
+                    public void colseRefreshView() {
+                        refreshLayout.setRefreshing(false);
+
+                    }
+                });
             }
 
             @Override
@@ -101,32 +106,34 @@ public class SuccessActivity extends AppCompatActivity  {
             }
         });
 
-
     }
 
-
-    /**
-     * 模拟请求成功
-     */
-    @OnClick(R.id.loadretry_tv_retry_success)
-    public void onLoadretryTvRetrySuccessClicked() {
-        LoadReTryManager.getInstance().startLoad(this);
-    }
-
-
-    @OnClick({R.id.linear_back})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.linear_back:
-                finish();
-                break;
-
-        }
+    @Override
+    public void showRefreshView() {
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
     protected void onDestroy() {
         LoadReTryManager.getInstance().unRegister(this);
         super.onDestroy();
+    }
+
+    @OnClick({R.id.linear_back, R.id.loadretry_tv_retry, R.id.loadretry_tv_retry_success, R.id.loadretry_tv_retry_failed})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.linear_back:
+                finish();
+                break;
+            case R.id.loadretry_tv_retry:
+                LoadReTryManager.getInstance().startLoad(this);
+                break;
+            case R.id.loadretry_tv_retry_success:
+                isSuccess = true;
+                break;
+            case R.id.loadretry_tv_retry_failed:
+                isSuccess = false;
+                break;
+        }
     }
 }
