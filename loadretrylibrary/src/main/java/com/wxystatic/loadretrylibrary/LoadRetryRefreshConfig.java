@@ -7,7 +7,7 @@ import android.support.annotation.DrawableRes;
  * Created by static on 2017/12/5/005.
  */
 
-public class LoadRetryConfig {
+public class LoadRetryRefreshConfig {
     private  @ColorRes int backgroundColor;
     private  @ColorRes int btnNormalColor;
     private  @ColorRes int btnPressedColor;

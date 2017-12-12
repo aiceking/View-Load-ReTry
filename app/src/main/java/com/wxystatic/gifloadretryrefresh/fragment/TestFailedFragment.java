@@ -13,8 +13,8 @@ import android.widget.Toast;
 
 import com.android.lazyfragmentlibrary.LazyBaseFragment;
 import com.wxystatic.gifloadretryrefresh.R;
-import com.wxystatic.loadretrylibrary.LoadReTryManager;
-import com.wxystatic.loadretrylibrary.LoadRetryListener;
+import com.wxystatic.loadretrylibrary.LoadReTryRefreshManager;
+import com.wxystatic.loadretrylibrary.LoadRetryRefreshListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
 
 import butterknife.BindView;
@@ -32,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by radio on 2017/10/30.
  */
 
-public class TestFailedFragment extends LazyBaseFragment implements LoadRetryListener {
+public class TestFailedFragment extends LazyBaseFragment implements LoadRetryRefreshListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.tv_name)
@@ -62,7 +62,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
         activity.setSupportActionBar(toolbar);
         isFailed = true;
         tvTitle.setText("测试一");
-        LoadReTryManager.getInstance().register(this, contentView, this);
+        LoadReTryRefreshManager.getInstance().register(this, contentView, this);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -75,7 +75,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
 
     @Override
     protected void loadData() {
-        LoadReTryManager.getInstance().startLoad(this);
+        LoadReTryRefreshManager.getInstance().startLoad(this);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
             public void onNext(Integer value) {
                 Toast.makeText(activity, "加载成功", Toast.LENGTH_SHORT).show();
                 tvName.setText(getResources().getString(R.string.large_text));
-                LoadReTryManager.getInstance().onLoadSuccess(TestFailedFragment.this, new ShowRefreshViewListener() {
+                LoadReTryRefreshManager.getInstance().onLoadSuccess(TestFailedFragment.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);
@@ -117,7 +117,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(activity, "加载失败", Toast.LENGTH_SHORT).show();
-                LoadReTryManager.getInstance().onLoadFailed(TestFailedFragment.this, e.getMessage(), new ShowRefreshViewListener() {
+                LoadReTryRefreshManager.getInstance().onLoadFailed(TestFailedFragment.this, e.getMessage(), new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);
@@ -140,7 +140,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LoadReTryManager.getInstance().unRegister(this);
+        LoadReTryRefreshManager.getInstance().unRegister(this);
     }
 
 
@@ -150,7 +150,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryLis
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_refresh:
-                LoadReTryManager.getInstance().startLoad(this);
+                LoadReTryRefreshManager.getInstance().startLoad(this);
                 break;
             case R.id.tv_success:
                 isFailed=false;

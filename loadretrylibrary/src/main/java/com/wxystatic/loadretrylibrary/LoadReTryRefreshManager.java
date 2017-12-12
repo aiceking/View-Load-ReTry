@@ -24,18 +24,18 @@ import pl.droidsonroids.gif.GifImageView;
  * Created by static on 2017/12/5/005.
  */
 
-public class LoadReTryManager {
-    private static LoadReTryManager loadReTryManager;
-    private HashMap<Activity,LoadRetryListener> hashMap_activity_loadRetryListener;
+public class LoadReTryRefreshManager {
+    private static LoadReTryRefreshManager loadReTryRefreshManager;
+    private HashMap<Activity,LoadRetryRefreshListener> hashMap_activity_loadRetryListener;
     private HashMap<Activity,View> hashMap_activity_loadView;
     private HashMap<Activity,Boolean> hashMap_activity_toolbar,hashMap_activity_isSuccess;
 
-    private HashMap<Fragment,LoadRetryListener> hashMap_fragment_loadRetryListener;
+    private HashMap<Fragment,LoadRetryRefreshListener> hashMap_fragment_loadRetryListener;
     private HashMap<Fragment,View> hashMap_fragment_loadView;
     private HashMap<Fragment,FrameLayout> hashMap_fragment_parent_view;
     private HashMap<Fragment,Boolean> hashMap_fragment_toolbar,hashMap_fragment_isSuccess;
-    private LoadRetryConfig loadRetryConfig;
-    private LoadReTryManager(){
+    private LoadRetryRefreshConfig loadRetryRefreshConfig;
+    private LoadReTryRefreshManager(){
         hashMap_activity_loadRetryListener=new HashMap<>();
         hashMap_activity_loadView=new HashMap<>();
         hashMap_activity_toolbar=new HashMap<>();
@@ -47,18 +47,18 @@ public class LoadReTryManager {
         hashMap_fragment_isSuccess=new HashMap<>();
         hashMap_fragment_parent_view=new HashMap<>();
     }
-    public void setLoadRetryConfig(LoadRetryConfig loadRetryConfig) {
-        this.loadRetryConfig = loadRetryConfig;
+    public void setLoadRetryRefreshConfig(LoadRetryRefreshConfig loadRetryRefreshConfig) {
+        this.loadRetryRefreshConfig = loadRetryRefreshConfig;
     }
-    public static LoadReTryManager getInstance(){
-        if (loadReTryManager ==null){
-            synchronized (LoadReTryManager.class){
-                if (loadReTryManager ==null){
-                    loadReTryManager =new LoadReTryManager();
+    public static LoadReTryRefreshManager getInstance(){
+        if (loadReTryRefreshManager ==null){
+            synchronized (LoadReTryRefreshManager.class){
+                if (loadReTryRefreshManager ==null){
+                    loadReTryRefreshManager =new LoadReTryRefreshManager();
                 }
             }
         }
-        return loadReTryManager;
+        return loadReTryRefreshManager;
     }
     public void startLoad(Activity activity){
         if (hashMap_activity_loadRetryListener.containsKey(activity)){
@@ -70,11 +70,11 @@ public class LoadReTryManager {
             }
         }
     }
-    public void register(Activity activity,final LoadRetryListener loadRetryListener){
+    public void register(Activity activity,final LoadRetryRefreshListener loadRetryRefreshListener){
         if (!hashMap_activity_toolbar.containsKey(activity)) {
             hashMap_activity_toolbar.put(activity, false);
             hashMap_activity_isSuccess.put(activity,false);
-            hashMap_activity_loadRetryListener.put(activity,loadRetryListener);
+            hashMap_activity_loadRetryListener.put(activity, loadRetryRefreshListener);
              ViewGroup mRoot= (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
              //判断是否有ToolBar
             isHaveToolbar(mRoot,activity);
@@ -102,43 +102,43 @@ public class LoadReTryManager {
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
         RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
         tv_retry.setVisibility(View.INVISIBLE);
-        if (loadRetryConfig!=null){
-            if (loadRetryConfig.getGif()!=0){
+        if (loadRetryRefreshConfig !=null){
+            if (loadRetryRefreshConfig.getGif()!=0){
                 setGifImageView(activity,gifImageView,false);
             }
-            if (loadRetryConfig.getToolBarHeight()!=0){
+            if (loadRetryRefreshConfig.getToolBarHeight()!=0){
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, dip2px(activity,loadRetryConfig.getToolBarHeight()), 0, 0);
+                lp.setMargins(0, dip2px(activity, loadRetryRefreshConfig.getToolBarHeight()), 0, 0);
                 loadView.setLayoutParams(lp);
             }
-            if (loadRetryConfig.getBackgroundColor()!=0){
-                loadretry_parent.setBackgroundColor(activity.getResources().getColor(loadRetryConfig.getBackgroundColor()));
+            if (loadRetryRefreshConfig.getBackgroundColor()!=0){
+                loadretry_parent.setBackgroundColor(activity.getResources().getColor(loadRetryRefreshConfig.getBackgroundColor()));
             }
-            if (loadRetryConfig.getBtnBorderColor()!=0){
-                tv_retry.setBorderColorNormal(activity.getResources().getColor(loadRetryConfig.getBtnBorderColor()));
-                tv_retry.setBorderColorPressed(activity.getResources().getColor(loadRetryConfig.getBtnBorderColor()));
+            if (loadRetryRefreshConfig.getBtnBorderColor()!=0){
+                tv_retry.setBorderColorNormal(activity.getResources().getColor(loadRetryRefreshConfig.getBtnBorderColor()));
+                tv_retry.setBorderColorPressed(activity.getResources().getColor(loadRetryRefreshConfig.getBtnBorderColor()));
                 tv_retry.setBorderWidthNormal(dip2px(activity,1));
                 tv_retry.setBorderWidthPressed(dip2px(activity,1));
             }
-            if (loadRetryConfig.getBtnNormalColor()!=0&&loadRetryConfig.getBtnPressedColor()!=0){
-                tv_retry.setBackgroundColorNormal(activity.getResources().getColor(loadRetryConfig.getBtnNormalColor()));
-                tv_retry.setBackgroundColorPressed(activity.getResources().getColor(loadRetryConfig.getBtnPressedColor()));
+            if (loadRetryRefreshConfig.getBtnNormalColor()!=0&& loadRetryRefreshConfig.getBtnPressedColor()!=0){
+                tv_retry.setBackgroundColorNormal(activity.getResources().getColor(loadRetryRefreshConfig.getBtnNormalColor()));
+                tv_retry.setBackgroundColorPressed(activity.getResources().getColor(loadRetryRefreshConfig.getBtnPressedColor()));
             }
-            if (loadRetryConfig.getBtnRadius()!=0){
-                tv_retry.setCornerRadius(loadRetryConfig.getBtnRadius());
+            if (loadRetryRefreshConfig.getBtnRadius()!=0){
+                tv_retry.setCornerRadius(loadRetryRefreshConfig.getBtnRadius());
             }
-            if (loadRetryConfig.getBtnTextColor()!=0){
-                tv_retry.setTextColor(activity.getResources().getColor(loadRetryConfig.getBtnTextColor()));
+            if (loadRetryRefreshConfig.getBtnTextColor()!=0){
+                tv_retry.setTextColor(activity.getResources().getColor(loadRetryRefreshConfig.getBtnTextColor()));
             }
-            if (!TextUtils.isEmpty(loadRetryConfig.getBtnText())){
-                tv_retry.setText(loadRetryConfig.getBtnText());
+            if (!TextUtils.isEmpty(loadRetryRefreshConfig.getBtnText())){
+                tv_retry.setText(loadRetryRefreshConfig.getBtnText());
             }
-            if (loadRetryConfig.getLoadAndErrorTextColor()!=0){
-                tv_error.setTextColor(activity.getResources().getColor(loadRetryConfig.getLoadAndErrorTextColor()));
+            if (loadRetryRefreshConfig.getLoadAndErrorTextColor()!=0){
+                tv_error.setTextColor(activity.getResources().getColor(loadRetryRefreshConfig.getLoadAndErrorTextColor()));
             }
-            if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
-                tv_error.setText(loadRetryConfig.getLoadText());
+            if (!TextUtils.isEmpty(loadRetryRefreshConfig.getLoadText())){
+                tv_error.setText(loadRetryRefreshConfig.getLoadText());
             }
         }
     }
@@ -173,9 +173,9 @@ public class LoadReTryManager {
             tv_retry.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (loadRetryConfig!=null){
-                        if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
-                            tv_error.setText(loadRetryConfig.getLoadText());
+                    if (loadRetryRefreshConfig !=null){
+                        if (!TextUtils.isEmpty(loadRetryRefreshConfig.getLoadText())){
+                            tv_error.setText(loadRetryRefreshConfig.getLoadText());
                         }
                     }
                     setGifImageView(activity,gifImageView,false);
@@ -192,9 +192,9 @@ public class LoadReTryManager {
     private void setGifImageView(Activity activity,GifImageView gifImageView, boolean b) {
         GifDrawable gifFromResource = null;
         try {
-            if (loadRetryConfig!=null){
-                if (loadRetryConfig.getGif()!=0){
-                    gifFromResource = new GifDrawable( activity.getResources(), loadRetryConfig.getGif());
+            if (loadRetryRefreshConfig !=null){
+                if (loadRetryRefreshConfig.getGif()!=0){
+                    gifFromResource = new GifDrawable( activity.getResources(), loadRetryRefreshConfig.getGif());
                     if (b){
                     gifFromResource.stop();
                     }
@@ -231,11 +231,11 @@ public class LoadReTryManager {
             }
         }
     }
-    public void register(Fragment fragment,View rootView,final LoadRetryListener loadRetryListener){
+    public void register(Fragment fragment,View rootView,final LoadRetryRefreshListener loadRetryRefreshListener){
         if (!hashMap_fragment_toolbar.containsKey(fragment)) {
             hashMap_fragment_toolbar.put(fragment, false);
             hashMap_fragment_isSuccess.put(fragment,false);
-            hashMap_fragment_loadRetryListener.put(fragment,loadRetryListener);
+            hashMap_fragment_loadRetryListener.put(fragment, loadRetryRefreshListener);
             //判断是否有ToolBar
             isHaveToolbar(rootView,fragment);
             View loadView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.loadretry_view, null);
@@ -271,43 +271,43 @@ public class LoadReTryManager {
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
         RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
         tv_retry.setVisibility(View.INVISIBLE);
-        if (loadRetryConfig!=null){
-            if (loadRetryConfig.getGif()!=0){
+        if (loadRetryRefreshConfig !=null){
+            if (loadRetryRefreshConfig.getGif()!=0){
                 setGifImageView(fragment.getActivity(),gifImageView,false);
             }
-            if (loadRetryConfig.getToolBarHeight()!=0){
+            if (loadRetryRefreshConfig.getToolBarHeight()!=0){
                 FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, dip2px(fragment.getActivity(),loadRetryConfig.getToolBarHeight()), 0, 0);
+                lp.setMargins(0, dip2px(fragment.getActivity(), loadRetryRefreshConfig.getToolBarHeight()), 0, 0);
                 loadView.setLayoutParams(lp);
             }
-            if (loadRetryConfig.getBackgroundColor()!=0){
-                loadretry_parent.setBackgroundColor(fragment.getActivity().getResources().getColor(loadRetryConfig.getBackgroundColor()));
+            if (loadRetryRefreshConfig.getBackgroundColor()!=0){
+                loadretry_parent.setBackgroundColor(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBackgroundColor()));
             }
-            if (loadRetryConfig.getBtnBorderColor()!=0){
-                tv_retry.setBorderColorNormal(fragment.getActivity().getResources().getColor(loadRetryConfig.getBtnBorderColor()));
-                tv_retry.setBorderColorPressed(fragment.getActivity().getResources().getColor(loadRetryConfig.getBtnBorderColor()));
+            if (loadRetryRefreshConfig.getBtnBorderColor()!=0){
+                tv_retry.setBorderColorNormal(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBtnBorderColor()));
+                tv_retry.setBorderColorPressed(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBtnBorderColor()));
                 tv_retry.setBorderWidthNormal(dip2px(fragment.getActivity(),1));
                 tv_retry.setBorderWidthPressed(dip2px(fragment.getActivity(),1));
             }
-            if (loadRetryConfig.getBtnNormalColor()!=0&&loadRetryConfig.getBtnPressedColor()!=0){
-                tv_retry.setBackgroundColorNormal(fragment.getActivity().getResources().getColor(loadRetryConfig.getBtnNormalColor()));
-                tv_retry.setBackgroundColorPressed(fragment.getActivity().getResources().getColor(loadRetryConfig.getBtnPressedColor()));
+            if (loadRetryRefreshConfig.getBtnNormalColor()!=0&& loadRetryRefreshConfig.getBtnPressedColor()!=0){
+                tv_retry.setBackgroundColorNormal(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBtnNormalColor()));
+                tv_retry.setBackgroundColorPressed(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBtnPressedColor()));
             }
-            if (loadRetryConfig.getBtnRadius()!=0){
-                tv_retry.setCornerRadius(loadRetryConfig.getBtnRadius());
+            if (loadRetryRefreshConfig.getBtnRadius()!=0){
+                tv_retry.setCornerRadius(loadRetryRefreshConfig.getBtnRadius());
             }
-            if (loadRetryConfig.getBtnTextColor()!=0){
-                tv_retry.setTextColor(fragment.getActivity().getResources().getColor(loadRetryConfig.getBtnTextColor()));
+            if (loadRetryRefreshConfig.getBtnTextColor()!=0){
+                tv_retry.setTextColor(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBtnTextColor()));
             }
-            if (!TextUtils.isEmpty(loadRetryConfig.getBtnText())){
-                tv_retry.setText(loadRetryConfig.getBtnText());
+            if (!TextUtils.isEmpty(loadRetryRefreshConfig.getBtnText())){
+                tv_retry.setText(loadRetryRefreshConfig.getBtnText());
             }
-            if (loadRetryConfig.getLoadAndErrorTextColor()!=0){
-                tv_error.setTextColor(fragment.getActivity().getResources().getColor(loadRetryConfig.getLoadAndErrorTextColor()));
+            if (loadRetryRefreshConfig.getLoadAndErrorTextColor()!=0){
+                tv_error.setTextColor(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getLoadAndErrorTextColor()));
             }
-            if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
-                tv_error.setText(loadRetryConfig.getLoadText());
+            if (!TextUtils.isEmpty(loadRetryRefreshConfig.getLoadText())){
+                tv_error.setText(loadRetryRefreshConfig.getLoadText());
             }
         }
     }
@@ -341,9 +341,9 @@ public class LoadReTryManager {
             tv_retry.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (loadRetryConfig!=null){
-                        if (!TextUtils.isEmpty(loadRetryConfig.getLoadText())){
-                            tv_error.setText(loadRetryConfig.getLoadText());
+                    if (loadRetryRefreshConfig !=null){
+                        if (!TextUtils.isEmpty(loadRetryRefreshConfig.getLoadText())){
+                            tv_error.setText(loadRetryRefreshConfig.getLoadText());
                         }
                     }
                     setGifImageView(fragment.getActivity(),gifImageView,false);

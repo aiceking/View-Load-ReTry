@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.ruffian.library.RTextView;
 import com.wxystatic.gifloadretryrefresh.R;
-import com.wxystatic.loadretrylibrary.LoadReTryManager;
-import com.wxystatic.loadretrylibrary.LoadRetryListener;
+import com.wxystatic.loadretrylibrary.LoadReTryRefreshManager;
+import com.wxystatic.loadretrylibrary.LoadRetryRefreshListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
 
 import butterknife.BindView;
@@ -45,7 +45,7 @@ public class SuccessActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_success);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        LoadReTryManager.getInstance().register(this, new LoadRetryListener() {
+        LoadReTryRefreshManager.getInstance().register(this, new LoadRetryRefreshListener() {
             @Override
             public void loadAndRetry() {
                 doSomething();
@@ -84,7 +84,7 @@ public class SuccessActivity extends AppCompatActivity  {
             public void onNext(Integer value) {
                 Toast.makeText(SuccessActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                 tvContent.setText(getResources().getString(R.string.large_text));
-                LoadReTryManager.getInstance().onLoadSuccess(SuccessActivity.this, new ShowRefreshViewListener() {
+                LoadReTryRefreshManager.getInstance().onLoadSuccess(SuccessActivity.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);
@@ -110,7 +110,7 @@ public class SuccessActivity extends AppCompatActivity  {
      */
     @OnClick(R.id.loadretry_tv_retry_success)
     public void onLoadretryTvRetrySuccessClicked() {
-        LoadReTryManager.getInstance().startLoad(this);
+        LoadReTryRefreshManager.getInstance().startLoad(this);
     }
 
 
@@ -126,7 +126,7 @@ public class SuccessActivity extends AppCompatActivity  {
 
     @Override
     protected void onDestroy() {
-        LoadReTryManager.getInstance().unRegister(this);
+        LoadReTryRefreshManager.getInstance().unRegister(this);
         super.onDestroy();
     }
 }

@@ -3,8 +3,8 @@ package com.wxystatic.gifloadretryrefresh;
 import android.app.Application;
 
 import com.squareup.leakcanary.LeakCanary;
-import com.wxystatic.loadretrylibrary.LoadReTryManager;
-import com.wxystatic.loadretrylibrary.LoadRetryConfig;
+import com.wxystatic.loadretrylibrary.LoadReTryRefreshManager;
+import com.wxystatic.loadretrylibrary.LoadRetryRefreshConfig;
 
 /**
  * Created by static on 2017/12/6/006.
@@ -15,7 +15,7 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         LeakCanary.install(this);
-        LoadRetryConfig config=new LoadRetryConfig();
+        LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
         config.setBackgroundColor(R.color.white);
         config.setBtnNormalColor(R.color.blue_normal);
         config.setBtnPressedColor(R.color.blue_press);
@@ -28,6 +28,6 @@ public class MyApplication extends Application{
         config.setLoadAndErrorTextColor(R.color.gray);
         config.setGif(R.drawable.zhufaner);
 
-        LoadReTryManager.getInstance().setLoadRetryConfig(config);
+        LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
     }
 }

@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.ruffian.library.RTextView;
 import com.wxystatic.gifloadretryrefresh.R;
-import com.wxystatic.loadretrylibrary.LoadReTryManager;
-import com.wxystatic.loadretrylibrary.LoadRetryListener;
+import com.wxystatic.loadretrylibrary.LoadReTryRefreshManager;
+import com.wxystatic.loadretrylibrary.LoadRetryRefreshListener;
 import com.wxystatic.loadretrylibrary.ShowRefreshViewListener;
 
 import butterknife.BindView;
@@ -25,7 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class FailedActivity extends AppCompatActivity implements LoadRetryListener {
+public class FailedActivity extends AppCompatActivity implements LoadRetryRefreshListener {
 
     @BindView(R.id.linear_back)
     LinearLayout linearBack;
@@ -49,7 +49,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_failed);
         ButterKnife.bind(this);
-        LoadReTryManager.getInstance().register(this, this);
+        LoadReTryRefreshManager.getInstance().register(this, this);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -81,7 +81,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
             public void onNext(Integer value) {
                 Toast.makeText(FailedActivity.this, "加载成功", Toast.LENGTH_SHORT).show();
                 tvContent.setText(getResources().getString(R.string.large_text));
-                LoadReTryManager.getInstance().onLoadSuccess(FailedActivity.this, new ShowRefreshViewListener() {
+                LoadReTryRefreshManager.getInstance().onLoadSuccess(FailedActivity.this, new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);
@@ -92,7 +92,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(FailedActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
-                LoadReTryManager.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowRefreshViewListener() {
+                LoadReTryRefreshManager.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);
@@ -115,7 +115,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
 
     @Override
     protected void onDestroy() {
-        LoadReTryManager.getInstance().unRegister(this);
+        LoadReTryRefreshManager.getInstance().unRegister(this);
         super.onDestroy();
     }
 
@@ -126,7 +126,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryListen
                 finish();
                 break;
             case R.id.loadretry_tv_retry:
-                LoadReTryManager.getInstance().startLoad(this);
+                LoadReTryRefreshManager.getInstance().startLoad(this);
                 break;
             case R.id.loadretry_tv_retry_success:
                 isSuccess = true;
