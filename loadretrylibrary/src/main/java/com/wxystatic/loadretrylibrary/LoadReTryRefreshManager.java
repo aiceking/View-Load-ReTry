@@ -87,7 +87,6 @@ public class LoadReTryRefreshManager {
              //判断是否有ToolBar
             isHaveToolbar(mRoot,activity);
             View loadView = LayoutInflater.from(activity).inflate(R.layout.loadretry_view, null);
-            loadView.setVisibility(View.GONE);
             if (mContentView!=null){
                 mContentView.addView(loadView);
             }else{
@@ -105,10 +104,15 @@ public class LoadReTryRefreshManager {
 
     private void initLoadView(Activity activity) {
         View loadView=hashMap_activity_loadView.get(activity);
-        loadView.setVisibility(View.VISIBLE);
         LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
         GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
+        alphaAnimation.setDuration(500);
+        gifImageView.startAnimation(alphaAnimation);
+        tv_error.startAnimation(alphaAnimation);
+        gifImageView.setVisibility(View.VISIBLE);
+        tv_error.setVisibility(View.VISIBLE);
         RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
         tv_retry.setVisibility(View.INVISIBLE);
         if (loadRetryRefreshConfig !=null){
@@ -248,7 +252,6 @@ public class LoadReTryRefreshManager {
             //判断是否有ToolBar
             isHaveToolbar(rootView,fragment);
             View loadView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.loadretry_view, null);
-            loadView.setVisibility(View.GONE);
             ((FrameLayout)rootView).addView(loadView);
             hashMap_fragment_loadView.put(fragment,loadView);
             if (hashMap_fragment_toolbar.get(fragment)) {
@@ -271,11 +274,16 @@ public class LoadReTryRefreshManager {
     }
     private void initLoadView(Fragment fragment) {
         View loadView=hashMap_fragment_loadView.get(fragment);
-        loadView.setVisibility(View.VISIBLE);
         LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
         GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
         RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
+        alphaAnimation.setDuration(500);
+        gifImageView.startAnimation(alphaAnimation);
+        tv_error.startAnimation(alphaAnimation);
+        gifImageView.setVisibility(View.VISIBLE);
+        tv_error.setVisibility(View.VISIBLE);
         tv_retry.setVisibility(View.INVISIBLE);
         if (loadRetryRefreshConfig !=null){
             if (loadRetryRefreshConfig.getGif()!=0){
