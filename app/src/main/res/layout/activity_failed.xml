@@ -101,11 +101,16 @@
                 />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -115,5 +120,7 @@
         android:padding="15dp"
         android:id="@+id/tv_content"/>
     </ScrollView>
+
     </android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>
 </LinearLayout>

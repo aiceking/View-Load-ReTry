@@ -28,22 +28,20 @@ public class LoadReTryRefreshManager {
     private static LoadReTryRefreshManager loadReTryRefreshManager;
     private HashMap<Activity,LoadRetryRefreshListener> hashMap_activity_loadRetryListener;
     private HashMap<Activity,View> hashMap_activity_loadView;
-    private HashMap<Activity,Boolean> hashMap_activity_toolbar,hashMap_activity_isSuccess;
+    private HashMap<Activity,Boolean> hashMap_activity_isSuccess;
 
     private HashMap<Fragment,LoadRetryRefreshListener> hashMap_fragment_loadRetryListener;
     private HashMap<Fragment,View> hashMap_fragment_loadView;
     private HashMap<Fragment,FrameLayout> hashMap_fragment_parent_view;
-    private HashMap<Fragment,Boolean> hashMap_fragment_toolbar,hashMap_fragment_isSuccess;
+    private HashMap<Fragment,Boolean> hashMap_fragment_isSuccess;
     private LoadRetryRefreshConfig loadRetryRefreshConfig;
     private LoadReTryRefreshManager(){
         hashMap_activity_loadRetryListener=new HashMap<>();
         hashMap_activity_loadView=new HashMap<>();
-        hashMap_activity_toolbar=new HashMap<>();
         hashMap_activity_isSuccess=new HashMap<>();
 
         hashMap_fragment_loadRetryListener=new HashMap<>();
         hashMap_fragment_loadView=new HashMap<>();
-        hashMap_fragment_toolbar=new HashMap<>();
         hashMap_fragment_isSuccess=new HashMap<>();
         hashMap_fragment_parent_view=new HashMap<>();
     }
@@ -71,21 +69,18 @@ public class LoadReTryRefreshManager {
         }
     }
     public void register(Activity activity,final LoadRetryRefreshListener loadRetryRefreshListener){
-        if (!hashMap_activity_toolbar.containsKey(activity)) {
-            hashMap_activity_toolbar.put(activity, false);
+        if (!hashMap_activity_isSuccess.containsKey(activity)) {
             hashMap_activity_isSuccess.put(activity,false);
             hashMap_activity_loadRetryListener.put(activity, loadRetryRefreshListener);
              ViewGroup mRoot= (ViewGroup) activity.getWindow().getDecorView().findViewById(android.R.id.content);
              ViewGroup mContentView=null;
-             for (int i=0;i<mRoot.getChildCount();i++){
-                 View view=mRoot.getChildAt(i);
+             for (int i=0;i<((ViewGroup) mRoot.getChildAt(0)).getChildCount();i++){
+                 View view=((ViewGroup) mRoot.getChildAt(0)).getChildAt(i);
                  if (view instanceof FrameLayout){
                      mContentView=(ViewGroup)view;
                      break;
                  }
              }
-             //判断是否有ToolBar
-            isHaveToolbar(mRoot,activity);
             View loadView = LayoutInflater.from(activity).inflate(R.layout.loadretry_view, null);
             if (mContentView!=null){
                 mContentView.addView(loadView);
@@ -93,12 +88,7 @@ public class LoadReTryRefreshManager {
                 mRoot.addView(loadView);
             }
             hashMap_activity_loadView.put(activity,loadView);
-            if (hashMap_activity_toolbar.get(activity)) {
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, dip2px(activity,56), 0, 0);
-                hashMap_activity_loadView.get(activity).setLayoutParams(lp);
-            }
+
             }
         }
 
@@ -118,12 +108,6 @@ public class LoadReTryRefreshManager {
         if (loadRetryRefreshConfig !=null){
             if (loadRetryRefreshConfig.getGif()!=0){
                 setGifImageView(activity,gifImageView,false);
-            }
-            if (loadRetryRefreshConfig.getToolBarHeight()!=0){
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, dip2px(activity, loadRetryRefreshConfig.getToolBarHeight()), 0, 0);
-                loadView.setLayoutParams(lp);
             }
             if (loadRetryRefreshConfig.getBackgroundColor()!=0){
                 loadretry_parent.setBackgroundColor(activity.getResources().getColor(loadRetryRefreshConfig.getBackgroundColor()));
@@ -224,42 +208,32 @@ public class LoadReTryRefreshManager {
         hashMap_activity_loadRetryListener.remove(activity);
           hashMap_activity_isSuccess.remove(activity);
           hashMap_activity_loadView.remove(activity);
-          hashMap_activity_toolbar.remove(activity);
         }
     }
 
 
 
-    private void isHaveToolbar(View view ,Activity activity) {
-        if (view instanceof Toolbar) {
-            hashMap_activity_toolbar.remove(activity);
-            hashMap_activity_toolbar.put(activity, true);
-            return;
-        }
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
-                 isHaveToolbar(child,activity);
-            }
-        }
-    }
+
     public void register(Fragment fragment,View rootView,final LoadRetryRefreshListener loadRetryRefreshListener){
-        if (!hashMap_fragment_toolbar.containsKey(fragment)) {
-            hashMap_fragment_toolbar.put(fragment, false);
+        if (!hashMap_fragment_isSuccess.containsKey(fragment)) {
             hashMap_fragment_isSuccess.put(fragment,false);
             hashMap_fragment_loadRetryListener.put(fragment, loadRetryRefreshListener);
-            //判断是否有ToolBar
-            isHaveToolbar(rootView,fragment);
-            View loadView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.loadretry_view, null);
-            ((FrameLayout)rootView).addView(loadView);
-            hashMap_fragment_loadView.put(fragment,loadView);
-            if (hashMap_fragment_toolbar.get(fragment)) {
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, dip2px(fragment.getActivity(),56), 0, 0);
-                hashMap_fragment_loadView.get(fragment).setLayoutParams(lp);
+            ViewGroup mRoot= (ViewGroup) rootView;
+            ViewGroup mContentView=null;
+            for (int i=0;i<mRoot.getChildCount();i++){
+                View view=mRoot.getChildAt(i);
+                if (view instanceof FrameLayout){
+                    mContentView=(ViewGroup)view;
+                    break;
+                }
             }
+            View loadView = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.loadretry_view, null);
+            if (mContentView!=null){
+                mContentView.addView(loadView);
+            }else{
+                mRoot.addView(loadView);
+            }
+            hashMap_fragment_loadView.put(fragment,loadView);
         }
     }
     public void startLoad(Fragment fragment){
@@ -288,12 +262,6 @@ public class LoadReTryRefreshManager {
         if (loadRetryRefreshConfig !=null){
             if (loadRetryRefreshConfig.getGif()!=0){
                 setGifImageView(fragment.getActivity(),gifImageView,false);
-            }
-            if (loadRetryRefreshConfig.getToolBarHeight()!=0){
-                FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, dip2px(fragment.getActivity(), loadRetryRefreshConfig.getToolBarHeight()), 0, 0);
-                loadView.setLayoutParams(lp);
             }
             if (loadRetryRefreshConfig.getBackgroundColor()!=0){
                 loadretry_parent.setBackgroundColor(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBackgroundColor()));
@@ -375,23 +343,9 @@ public class LoadReTryRefreshManager {
             hashMap_fragment_loadRetryListener.remove(fragment);
             hashMap_fragment_isSuccess.remove(fragment);
             hashMap_fragment_loadView.remove(fragment);
-            hashMap_fragment_toolbar.remove(fragment);
         }
     }
-    private void isHaveToolbar(View view ,Fragment fragment) {
-        if (view instanceof Toolbar) {
-            hashMap_fragment_toolbar.remove(fragment);
-            hashMap_fragment_toolbar.put(fragment, true);
-            return;
-        }
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
-                isHaveToolbar(child,fragment);
-            }
-        }
-    }
+
     public  int dip2px(Activity activity, float dpValue) {
         final float scale = activity.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);

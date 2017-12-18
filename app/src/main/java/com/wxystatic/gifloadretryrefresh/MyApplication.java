@@ -21,7 +21,6 @@ public class MyApplication extends Application{
         config.setBtnPressedColor(R.color.blue_press);
 //        config.setBtnBorderColor(R.color.oringe_normal);
         config.setBtnRadius(10f);
-//        config.setToolBarHeight(48);
         config.setBtnText("点击重新加载");
         config.setLoadText("测试加载2秒钟...");
         config.setBtnTextColor(R.color.white);

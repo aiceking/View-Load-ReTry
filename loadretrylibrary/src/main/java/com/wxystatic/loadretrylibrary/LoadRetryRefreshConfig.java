@@ -15,7 +15,6 @@ public class LoadRetryRefreshConfig {
     private  @ColorRes int btnTextColor;
     private  @ColorRes int loadAndErrorTextColor;
     private  @DrawableRes int gif;
-    private int toolBarHeight;
     private  String btnText;
     private String  loadText;
     public int getBackgroundColor() {
@@ -56,13 +55,7 @@ public class LoadRetryRefreshConfig {
         this.loadText = loadText;
     }
 
-    public int getToolBarHeight() {
-        return toolBarHeight;
-    }
 
-    public void setToolBarHeight(int toolBarHeight) {
-        this.toolBarHeight = toolBarHeight;
-    }
     public Float getBtnRadius() {
         return btnRadius;
     }
