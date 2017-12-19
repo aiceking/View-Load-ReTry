@@ -121,7 +121,7 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
 ## 代码中
 ### 方法简介
 | 方法      |参数  | 作用  |
-| :-------- | :--------| :--: |
+| :-------- | :--------| :--|
 | register| Activity，LoadRetryRefreshListener |  注册   |
 | startLoad| Activity |  开始加载   |
 | unRegister|    Activity  |  解除绑定|
@@ -192,7 +192,7 @@ Override
 ## 代码中
 ### 方法简介
 | 方法      |参数  | 作用  |
-| :-------- | :--------| :--: |
+| :-------- | :--------| :-- |
 | register| Fragment，View，LoadRetryRefreshListener |  注册<br />(View为Fragment在onCreateView中返回的View)   |
 | startLoad| Fragment|  开始加载   |
 | unRegister|    Fragment|  解除绑定|
