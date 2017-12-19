@@ -43,7 +43,7 @@ public class SuccessActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_success);
+        setContentView(R.layout.activity_success_gf);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         ToolAndStatusBarMagager.getInstance().setStatusBarColor(this,R.color.color_toolbar);

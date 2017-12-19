@@ -47,7 +47,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryRefres
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_failed);
+        setContentView(R.layout.activity_failed_gf);
         ButterKnife.bind(this);
         LoadReTryRefreshManager.getInstance().register(this, this);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);

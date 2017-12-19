@@ -28,7 +28,7 @@ public class FragmentTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_fragment);
+        setContentView(R.layout.activity_test_fragment_gf);
         ButterKnife.bind(this);
         initData();
         initVpTb();

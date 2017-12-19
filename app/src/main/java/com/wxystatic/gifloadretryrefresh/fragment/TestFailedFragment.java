@@ -57,7 +57,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryRef
 
     @Override
     protected View setFragmentView(LayoutInflater inflater, @Nullable ViewGroup container) {
-        contentView = inflater.inflate(R.layout.test_failed_fragment, container, false);
+        contentView = inflater.inflate(R.layout.test_failed_fragment_gf, container, false);
         ButterKnife.bind(this, contentView);
         activity.setSupportActionBar(toolbar);
         isFailed = true;

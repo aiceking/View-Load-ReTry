@@ -52,7 +52,7 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryRe
 
     @Override
     protected View setFragmentView(LayoutInflater inflater, @Nullable ViewGroup container) {
-         contentView = inflater.inflate(R.layout.test_success_fragment, container, false);
+         contentView = inflater.inflate(R.layout.test_success_fragment_gf, container, false);
         ButterKnife.bind(this, contentView);
         tvTitle.setText("测试二");
         activity.setSupportActionBar(toolbar);
