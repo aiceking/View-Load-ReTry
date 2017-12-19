@@ -6,7 +6,7 @@
  
 - **原理** ：遍历View树，在Framelayout中动态插入和移除加载布局，与生命周期绑定，避免内存泄漏；
 - **功能** ：目前支持在Activity，Fragment中使用（[支持任何方式实现的沉浸式状态栏和透明状态栏](#为何必须在布局中套一层-framelayout)）;
-- **封装** ：接口化调用，支持MVP结构中使用(View层implement LoadRetryRefreshListener接口，然后直接在Activity/Fragment传入this即可)。
+- **封装** ：接口化调用，支持MVP结构中使用。
 
 -------------------
 # 示例
