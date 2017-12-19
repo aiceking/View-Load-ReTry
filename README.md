@@ -167,7 +167,7 @@ Override
         LoadReTryRefreshManager.getInstance().unRegister(this);
     }
 ```
-##在Fragment中使用
+## 在Fragment中使用
 ### 同[Activity](#activity)中使用一致，请在Toolbar下的需要加载的内容最外层套一层FrameLayout（[为何需要这样做](#reason)）
 ### 代码中
 #### 方法简介
