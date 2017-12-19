@@ -24,8 +24,8 @@
     * [1、注册，一般在onCreate中调用](#1、注册，一般在onCreate中调用)
     * [2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法](#2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法)
     * [3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调](#3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调)
-## 初步配置
-### 引入
+# 初步配置
+## 引入
 Step 1. Add it in your root build.gradle at the end of repositories:
 
 	allprojects {
@@ -39,7 +39,7 @@ Step 2. Add the dependency
 	dependencies {
 	        compile 'com.github.NoEndToLF:Gif-Load-ReTry-Refresh:1.1.0'
 	}
-### 配置属性
+## 配置属性
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--: |
 | setGif| R.drawable.* |  加载页面的Gif图   |
@@ -53,7 +53,7 @@ Step 2. Add the dependency
 | setLoadText|    String | 正在加载中的提示文字|
 | setLoadAndErrorTextColor|    R.color.*  | 加载页面的提示文字和加载失败提示文字的颜色|
 
-### 示例代码，建议在Application中完成初始化配置
+## 示例代码，建议在Application中完成初始化配置
 ``` java
 LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
         config.setBackgroundColor(R.color.white);
@@ -68,9 +68,9 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
         config.setGif(R.drawable.zhufaner);
         LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
 ```
-## 在<span id="activity">Activity</span>中使用
+# 在<span id="activity">Activity</span>中使用
 
-### 布局中，请在Toolbar下的需要加载的内容最外层套一层FrameLayout（[为何需要这样做](#reason)），如：
+## 布局中，请在Toolbar下的需要加载的内容最外层套一层FrameLayout（[为何需要这样做](#reason)），如：
 ``` java
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -98,8 +98,8 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
              </FrameLayout>
 </LinearLayout>
 ```
-### 代码中
-#### 方法简介
+## 代码中
+### 方法简介
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--: |
 | register| Activity，LoadRetryRefreshListener |  注册   |
@@ -109,7 +109,7 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
 | onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)定|
   
     
-#### 1、注册，一般在onCreate中调用
+### 1、注册，一般在onCreate中调用
 ``` java
 LoadReTryRefreshManager.getInstance().register(this, new LoadRetryRefreshListener() {
             @Override
@@ -125,11 +125,11 @@ LoadReTryRefreshManager.getInstance().register(this, new LoadRetryRefreshListene
             }
         });           
 ```
-#### 2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法
+### 2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法
 ``` java
 LoadReTryRefreshManager.getInstance().startLoad(this);          
 ```
-#### 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调
+### 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调
 ``` java
             @Override
             public void onSuccess(Integer value) {
@@ -159,7 +159,7 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
                 });
             }        
 ```
-#### 4、解除绑定，可以直接写在BaseActivity的onDestory方法中，会自动判断然后进行解绑
+### 4、解除绑定，可以直接写在BaseActivity的onDestory方法中，会自动判断然后进行解绑
 ``` java
 Override
     protected void onDestroy() {
@@ -167,10 +167,10 @@ Override
         LoadReTryRefreshManager.getInstance().unRegister(this);
     }
 ```
-## 在Fragment中使用
-### 同[Activity](#activity)中使用一致，请在Toolbar下的需要加载的内容最外层套一层FrameLayout（[为何需要这样做](#reason)）
-### 代码中
-#### 方法简介
+# 在Fragment中使用
+## 同[Activity](#activity)中使用一致，请在Toolbar下的需要加载的内容最外层套一层FrameLayout（[为何需要这样做](#reason)）
+## 代码中
+### 方法简介
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--: |
 | register| Fragment，View，LoadRetryRefreshListener |  注册<br />(View为Fragment在onCreateView中返回的View)   |
@@ -178,7 +178,7 @@ Override
 | unRegister|    Fragment|  解除绑定|
 | onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
 | onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)定|
-#### 1、注册，一般在onCreateView中调用
+### 1、注册，一般在onCreateView中调用
 ``` java
 LoadReTryRefreshManager.getInstance().register(this, contentView,new LoadRetryRefreshListener() {
             @Override
@@ -194,11 +194,11 @@ LoadReTryRefreshManager.getInstance().register(this, contentView,new LoadRetryRe
             }
         });           
 ```
-#### 2、始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法
+### 2、始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法
 ``` java
 LoadReTryRefreshManager.getInstance().startLoad(this);          
 ```
-#### 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调
+### 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调
 ``` java
             @Override
             public void onSuccess(Integer value) {
@@ -228,7 +228,7 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
                 });
             }        
 ```
-#### 4、解除绑定，可以直接写在BaseFragment的onDestroyView方法中，会自动判断然后进行解绑
+### 4、解除绑定，可以直接写在BaseFragment的onDestroyView方法中，会自动判断然后进行解绑
 ``` java
 @Override
     public void onDestroyView() {
@@ -237,11 +237,11 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
     }
 ```
 
-## <span id="reason">为何必须在布局中套一层FrameLayout</span>
+# <span id="reason">为何必须在布局中套一层FrameLayout</span>
 目前为了在4.4，5.0，6.0，7.0及以上的版本中实现沉浸式状态栏或者是透明式状态栏，实现方式主要在低版本中有所不同，有的是给Toolbar加一个PaddingTop来留出StatusBar的高度，有的是设置全屏StatusBar透明，然后再动态插入一个大小一致的View来占位，达到设置状态栏颜色的目的，因此，如果单纯的在DecorView中来插入加载布局，难以控制加载页面的MarginTop，可能会遮盖到Toolbar，因此，退而求其次，在布局中需要加载的部分包一层FrameLayout，再通过递归View树来找到需要添加加载布局的地方，进行动态插入。（当然如果有更好的想法，强烈欢迎Issues）
 
 
-## 反馈与建议
+# 反馈与建议
 - 邮箱：<static_wxy@foxmail.com>
 
 ---------
