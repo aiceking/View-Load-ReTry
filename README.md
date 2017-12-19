@@ -14,6 +14,9 @@
 | :--------:| :--------:| 
 |在Activity中加载成功，然后再次加载刷新| 在Activity中加载失败，然后重试加载，加载成功后刷新加载| 
 |![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_success.gif?raw=true)| ![activity_failed](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_failed.gif?raw=true)| 
+  
+ <br />
+ 
 
 | Fragment中加载成功      |Fragment中加载失败  |
 | :--------:| :--------:| 
