@@ -10,11 +10,11 @@
 
 -------------------
 # 演示项目
- &nbsp&nbsp&nbsp&nbsp&nbsp在Activity中加载成功，然后再次加载刷新&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp在Activity中加载失败，然后重试加载，加载成功后刷新加载
- ![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_success.gif?raw=true)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_failed.gif?raw=true)  
+在Activity中加载成功，然后再次加载刷新       在Activity中加载失败，然后重试加载，加载成功后刷新加载
+ ![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_success.gif?raw=true)[activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_failed.gif?raw=true)  
    
-  <br />&nbsp&nbsp&nbsp&nbsp&nbsp在Fragment中加载成功，然后再次加载刷新&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp在Fragment中加载失败，然后重试加载，加载成功后刷新加载
- <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
+  <br />在Fragment中加载成功，         然后再次加载刷新在Fragment中加载失败，然后重试加载，加载成功后刷新加载
+ <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)[fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
 
 
 [TOC]
@@ -101,6 +101,7 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
 | unRegister|    Activity  |  解除绑定|
 | onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
 | onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)定|
+
 ####1、注册，一般在onCreate中调用
 ``` java
 LoadReTryRefreshManager.getInstance().register(this, new LoadRetryRefreshListener() {
@@ -153,7 +154,7 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
 ```
 ####4、解除绑定，可以直接写在BaseActivity的onDestory方法中，会自动判断然后进行解绑
 ``` java
-@Override
+Override
     protected void onDestroy() {
         super.onDestroy();
         LoadReTryRefreshManager.getInstance().unRegister(this);
