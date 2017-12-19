@@ -125,8 +125,8 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
 | register| Activity，LoadRetryRefreshListener |  注册   |
 | startLoad| Activity |  开始加载   |
 | unRegister|    Activity  |  解除绑定|
-| onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
-| onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
+| onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等|
+| onLoadFailed|    Activity，String，ShowRefreshViewListener|  显示加载失败原因，关闭加载View和刷新时的Dialog、下拉刷新等|
   
     
 ### 1、注册，一般在 onCreate中调用
@@ -196,8 +196,8 @@ Override
 | register| Fragment，View，LoadRetryRefreshListener |  注册<br />(View为Fragment在onCreateView中返回的View)   |
 | startLoad| Fragment|  开始加载   |
 | unRegister|    Fragment|  解除绑定|
-| onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
-| onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)定|
+| onLoadSuccess|    Fragment，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等|
+| onLoadFailed|    Fragment，String，ShowRefreshViewListener|  显示加载失败原因，关闭加载View和刷新时的Dialog、下拉刷新等|
 ### 1、注册，一般在 onCreateView中调用
 ``` java
 LoadReTryRefreshManager.getInstance().register(this, contentView,new LoadRetryRefreshListener() {
