@@ -9,7 +9,7 @@
 - **封装** ：接口化调用，支持MVP结构中使用。
 
 -------------------
-# 演示项目
+# 截图示例
  在Activity中加载成功，然后再次加载刷新在Activity中加载失败，然后重试加载，加载成功后刷新加载
  ![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_success.gif?raw=true)![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_failed.gif?raw=true)  
    
