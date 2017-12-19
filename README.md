@@ -10,20 +10,35 @@
 
 -------------------
 # 截图示例
- 在Activity中加载成功，然后再次加载刷新在Activity中加载失败，然后重试加载，加载成功后刷新加载
- ![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_success.gif?raw=true)![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_failed.gif?raw=true)  
-   
-  <br />在Fragment中加载成功，然后再次加载刷新在Fragment中加载失败，然后重试加载，加载成功后刷新加载
- <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
+| Activity中加载成功      |Activity中加载失败  |
+| :--------:| :--------:| 
+|在Activity中加载成功，然后再次加载刷新| 在Activity中加载失败，然后重试加载，加载成功后刷新加载| 
+|![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_success.gif?raw=true)| ![activity_failed](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_failed.gif?raw=true)| 
+
+| Fragment中加载成功      |Fragment中加载失败  |
+| :--------:| :--------:| 
+|在Fragment中加载成功，然后再次加载刷新|在Fragment中加载失败，然后重试加载，加载成功后刷新加载| 
+|![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)|![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)| 
+
    
 * [初步配置](#初步配置)
     * [引入](#引入)
     * [配置属性](#配置属性)
     * [示例代码](#示例代码建议在-application的-oncreate中进行初始化)
-* [在Activity中使用](#在activity中使用)
-    * [1、注册，一般在onCreate中调用](#1-注册-一般在onCreate中调用)
-    * [2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法](#2-开始加载-无需判断是初次加载还是加载完后刷新-已自动进行判断-初次加载和刷新都调用该方法)
-    * [3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调](#3-加载结果回调-在你的请求成功和失败的回调中加入加载结果回调)
+* [在Activity中使用](#在-activit中使用)
+    * [布局](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)
+    * [代码](#代码中)
+      * [1、注册](#1-注册一般在-oncreate中调用)
+      * [2、开始加载](#2-开始加载无需判断是初次加载还是加载完后刷新已自动进行判断初次加载和刷新都调用该方法)
+      * [3、加载结果回调](#3-加载结果回调-在你的请求成功和失败的回调中加入加载结果回调)
+      * [4、解除绑定](#4-解除绑定可以直接写在-baseactivity的-ondestory方法中会自动判断然后进行解绑)
+* [在Fragment中使用](#在-fragment中使用)
+    * [布局](#同-activity中使用一致请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做)
+    * [代码](#代码中)
+      * [1、注册](#1-注册一般在-oncreate中调用)
+      * [2、开始加载](#2-开始加载无需判断是初次加载还是加载完后刷新已自动进行判断初次加载和刷新都调用该方法)
+      * [3、加载结果回调](#3-加载结果回调在你的请求成功和失败的回调中加入加载结果回调)
+      * [4、解除绑定](#4-解除绑定可以直接写在-basefragment的-ondestroyview方法中会自动判断然后进行解绑)
 # 初步配置
 ## 引入
 Step 1. Add it in your root build.gradle at the end of repositories:
@@ -68,9 +83,9 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
         config.setGif(R.drawable.zhufaner);
         LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
 ```
-# 在<span id="activity">Activity</span>中使用
+# 在 Activit中使用
 
-## 布局中，请在Toolbar下的需要加载的内容最外层套一层FrameLayout（[为何需要这样做](#reason)），如：
+## 布局中，请在 Toolbar下的需要加载的内容最外层套一层 FrameLayout（[为何需要这样做](#为何必须在布局中套一层-framelayout)），如：
 ``` java
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -106,10 +121,10 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
 | startLoad| Activity |  开始加载   |
 | unRegister|    Activity  |  解除绑定|
 | onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
-| onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)定|
+| onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
   
     
-### 1、注册，一般在onCreate中调用
+### 1、注册，一般在 onCreate中调用
 ``` java
 LoadReTryRefreshManager.getInstance().register(this, new LoadRetryRefreshListener() {
             @Override
@@ -159,7 +174,7 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
                 });
             }        
 ```
-### 4、解除绑定，可以直接写在BaseActivity的onDestory方法中，会自动判断然后进行解绑
+### 4、解除绑定，可以直接写在 BaseActivity的 onDestory方法中，会自动判断然后进行解绑
 ``` java
 Override
     protected void onDestroy() {
@@ -167,8 +182,8 @@ Override
         LoadReTryRefreshManager.getInstance().unRegister(this);
     }
 ```
-# 在Fragment中使用
-## 同[Activity](#activity)中使用一致，请在Toolbar下的需要加载的内容最外层套一层FrameLayout（[为何需要这样做](#reason)）
+# 在 Fragment中使用
+## 同 [Activity](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)中使用一致，请在 Toolbar下的需要加载的内容最外层套一层 FrameLayout（[为何需要这样做](#为何必须在布局中套一层-framelayout)）
 ## 代码中
 ### 方法简介
 | 方法      |参数  | 作用  |
@@ -178,7 +193,7 @@ Override
 | unRegister|    Fragment|  解除绑定|
 | onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)|
 | onLoadFailed|    Activity，ShowRefreshViewListener|  解除关闭加载View和刷新时的Dialog、下拉刷新等<br />(自动判断)定|
-### 1、注册，一般在onCreateView中调用
+### 1、注册，一般在 onCreateView中调用
 ``` java
 LoadReTryRefreshManager.getInstance().register(this, contentView,new LoadRetryRefreshListener() {
             @Override
@@ -228,7 +243,7 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
                 });
             }        
 ```
-### 4、解除绑定，可以直接写在BaseFragment的onDestroyView方法中，会自动判断然后进行解绑
+### 4、解除绑定，可以直接写在 BaseFragment的 onDestroyView方法中，会自动判断然后进行解绑
 ``` java
 @Override
     public void onDestroyView() {
@@ -237,11 +252,12 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
     }
 ```
 
-# <span id="reason">为何必须在布局中套一层FrameLayout</span>
+# 为何必须在布局中套一层 FrameLayout
 目前为了在4.4，5.0，6.0，7.0及以上的版本中实现沉浸式状态栏或者是透明式状态栏，实现方式主要在低版本中有所不同，有的是给Toolbar加一个PaddingTop来留出StatusBar的高度，有的是设置全屏StatusBar透明，然后再动态插入一个大小一致的View来占位，达到设置状态栏颜色的目的，因此，如果单纯的在DecorView中来插入加载布局，难以控制加载页面的MarginTop，可能会遮盖到Toolbar，因此，退而求其次，在布局中需要加载的部分包一层FrameLayout，再通过递归View树来找到需要添加加载布局的地方，进行动态插入。（当然如果有更好的想法，强烈欢迎Issues）
 
 
 # 反馈与建议
 - 邮箱：<static_wxy@foxmail.com>
+
 
 ---------
