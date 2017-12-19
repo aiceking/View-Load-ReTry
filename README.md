@@ -16,14 +16,14 @@
   <br />在Fragment中加载成功，然后再次加载刷新在Fragment中加载失败，然后重试加载，加载成功后刷新加载
  <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
 
-* [初步配置](#初步配置)
-    * [引入](#引入)
-    * [配置属性](#配置属性)
-    * [示例代码，建议在Application中完成初始化配置](#示例代码，建议在Application中完成初始化配置)
-* [在Activity中使用](#在Activity中使用)
-    * [1、注册，一般在onCreate中调用](#1、注册，一般在onCreate中调用)
-    * [2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法](#2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法)
-    * [3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调](#3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调)
+* [ 初步配置](# 初步配置)
+    * [ 引入](# 引入)
+    * [ 配置属性](# 配置属性)
+    * [ 示例代码，建议在Application中完成初始化配置](# 示例代码，建议在Application中完成初始化配置)
+* [ 在Activity中使用](#在Activity中使用)
+    * [ 1、注册，一般在onCreate中调用](# 1、注册，一般在onCreate中调用)
+    * [ 2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法](# 2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法)
+    * [ 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调](# 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调)
 ## 初步配置
 ### 引入
 Step 1. Add it in your root build.gradle at the end of repositories:
