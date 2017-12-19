@@ -10,14 +10,18 @@
 
 -------------------
 # 演示项目
- &nbsp&nbsp&nbsp&nbsp&nbsp在Activity中加载成功，然后再次加载刷新&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp在Activity中加载失败，然后重试加载，加载成功后刷新加载
+ 在Activity中加载成功，然后再次加载刷新在Activity中加载失败，然后重试加载，加载成功后刷新加载
  ![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_success.gif?raw=true)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp![activity_success](https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/activity_failed.gif?raw=true)  
    
-  <br />&nbsp&nbsp&nbsp&nbsp&nbsp在Fragment中加载成功，然后再次加载刷新&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp在Fragment中加载失败，然后重试加载，加载成功后刷新加载
+  <br />在Fragment中加载成功，然后再次加载刷新在Fragment中加载失败，然后重试加载，加载成功后刷新加载
  <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
 
+- [初步配置](#初步配置)
+    - [引入 ](#引入)
+    - [配置属性 ](#配置属性)
+    - [示例代码 ](#示例代码，建议在Application中完成初始化配置)
 
-[TOC]
+
 ## 初步配置
 ### 引入
 Step 1. Add it in your root build.gradle at the end of repositories:
