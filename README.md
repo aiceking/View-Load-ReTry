@@ -15,12 +15,15 @@
    
   <br />在Fragment中加载成功，然后再次加载刷新在Fragment中加载失败，然后重试加载，加载成功后刷新加载
  <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
- # 使用说明
-
-[toc]
-
-Note: Only `h2` and `h3` are shown in toc.
    
+* [初步配置](#初步配置)
+    * [引入](#引入)
+    * [配置属性](#配置属性)
+    * [示例代码](#示例代码建议在-application的-oncreate中进行初始化)
+* [在Activity中使用](#在activity中使用)
+    * [1、注册，一般在onCreate中调用](#1-注册-一般在onCreate中调用)
+    * [2、开始加载，无需判断是初次加载还是加载完后刷新，已自动进行判断，初次加载和刷新都调用该方法](#2-开始加载-无需判断是初次加载还是加载完后刷新-已自动进行判断-初次加载和刷新都调用该方法)
+    * [3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调](#3-加载结果回调-在你的请求成功和失败的回调中加入加载结果回调)
 # 初步配置
 ## 引入
 Step 1. Add it in your root build.gradle at the end of repositories:
@@ -50,7 +53,7 @@ Step 2. Add the dependency
 | setLoadText|    String | 正在加载中的提示文字|
 | setLoadAndErrorTextColor|    R.color.*  | 加载页面的提示文字和加载失败提示文字的颜色|
 
-## 示例代码，建议在Application的onCreate中进行初始化
+## 示例代码，建议在 Application的 onCreate中进行初始化
 ``` java
 LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
         config.setBackgroundColor(R.color.white);
