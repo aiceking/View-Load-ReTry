@@ -16,10 +16,9 @@
   <br />在Fragment中加载成功，然后再次加载刷新在Fragment中加载失败，然后重试加载，加载成功后刷新加载
  <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
 
-- [初步配置](#初步配置)
-    - [引入](#引入)
-    - [配置属性](#配置属性)
-    - [示例代码，建议在Application中完成初始化配置](#示例代码，建议在Application中完成初始化配置)
+* [初步配置](#初步配置)
+    * [引入](#引入)
+    * [配置属性](#配置属性)
 
 
 ## 初步配置
@@ -39,7 +38,7 @@ Step 2. Add the dependency
 	}
 ### 配置属性
 | 方法      |参数  | 作用  |
-| :-------- | --------:| :--: |
+| :-------- | :--------| :--: |
 | setGif| R.drawable.* |  加载页面的Gif图   |
 | setBackgroundColor  | R.color.* |  加载页面整体背景颜色   |
 | setBtnNormalColor|    R.color.* |  加载页面按钮未按下时的颜色|
@@ -99,7 +98,7 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
 ### 代码中
 #### 方法简介
 | 方法      |参数  | 作用  |
-| :-------- | --------:| :--: |
+| :-------- | :--------| :--: |
 | register| Activity，LoadRetryRefreshListener |  注册   |
 | startLoad| Activity |  开始加载   |
 | unRegister|    Activity  |  解除绑定|
@@ -170,7 +169,7 @@ Override
 ### 代码中
 #### 方法简介
 | 方法      |参数  | 作用  |
-| :-------- | --------:| :--: |
+| :-------- | :--------| :--: |
 | register| Fragment，View，LoadRetryRefreshListener |  注册<br />(View为Fragment在onCreateView中返回的View)   |
 | startLoad| Fragment|  开始加载   |
 | unRegister|    Fragment|  解除绑定|
