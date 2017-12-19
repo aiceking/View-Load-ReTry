@@ -17,9 +17,9 @@
  <br />![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)
 
 - [初步配置](#初步配置)
-    - [引入 ](#引入)
-    - [配置属性 ](#配置属性)
-    - [示例代码 ](#示例代码，建议在Application中完成初始化配置)
+    - [引入](#引入)
+    - [配置属性](#配置属性)
+    - [示例代码，建议在Application中完成初始化配置](#示例代码，建议在Application中完成初始化配置)
 
 
 ## 初步配置
