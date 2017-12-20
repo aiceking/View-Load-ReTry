@@ -92,7 +92,7 @@ public class FailedActivity extends AppCompatActivity implements LoadRetryRefres
             @Override
             public void onError(Throwable e) {
                 Toast.makeText(FailedActivity.this, "加载失败", Toast.LENGTH_SHORT).show();
-                LoadReTryRefreshManager.getInstance().onLoadFailed(FailedActivity.this, e.getMessage(), new ShowRefreshViewListener() {
+                LoadReTryRefreshManager.getInstance().onLoadFailed(FailedActivity.this, "加载失败，请检查网络连接", new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);

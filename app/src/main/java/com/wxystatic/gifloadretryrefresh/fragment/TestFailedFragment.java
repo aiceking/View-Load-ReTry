@@ -120,7 +120,7 @@ public class TestFailedFragment extends LazyBaseFragment implements LoadRetryRef
             public void onError(Throwable e) {
                 if (!activity.isFinishing()){
                     Toast.makeText(activity, "加载失败", Toast.LENGTH_SHORT).show();
-                LoadReTryRefreshManager.getInstance().onLoadFailed(TestFailedFragment.this, e.getMessage(), new ShowRefreshViewListener() {
+                LoadReTryRefreshManager.getInstance().onLoadFailed(TestFailedFragment.this, "加载失败，请检查网络连接", new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);

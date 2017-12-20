@@ -22,10 +22,10 @@ public class MyApplication extends Application{
 //        config.setBtnBorderColor(R.color.oringe_normal);
         config.setBtnRadius(10f);
         config.setBtnText("点击重新加载");
-        config.setLoadText("测试加载2秒钟...");
+        config.setLoadText("加载中 ， 请稍候 ...");
         config.setBtnTextColor(R.color.white);
         config.setLoadAndErrorTextColor(R.color.gray);
-        config.setGif(R.drawable.zhufaner);
+        config.setGif(R.drawable.test);
         LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
     }
 }

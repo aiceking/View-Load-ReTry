@@ -100,6 +100,7 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryRe
 
             @Override
             public void onNext(Integer value) {
+                if (!activity.isFinishing()){
                 Toast.makeText(activity, "加载成功", Toast.LENGTH_SHORT).show();
                 tvName.setText(getResources().getString(R.string.large_text));
                 LoadReTryRefreshManager.getInstance().onLoadSuccess(TestSuccessFragment.this, new ShowRefreshViewListener() {
@@ -108,17 +109,19 @@ public class TestSuccessFragment extends LazyBaseFragment implements LoadRetryRe
                         refreshLayout.setRefreshing(false);
                     }
                 });
+                }
             }
 
             @Override
             public void onError(Throwable e) {
+                if (!activity.isFinishing()){
                 Toast.makeText(activity, "加载失败", Toast.LENGTH_SHORT).show();
                 LoadReTryRefreshManager.getInstance().onLoadFailed(TestSuccessFragment.this, e.getMessage(), new ShowRefreshViewListener() {
                     @Override
                     public void colseRefreshView() {
                         refreshLayout.setRefreshing(false);
                     }
-                });
+                });}
             }
 
             @Override
