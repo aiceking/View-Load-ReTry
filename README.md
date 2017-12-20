@@ -23,7 +23,7 @@
 |在Fragment中加载成功，然后再次加载刷新|在Fragment中加载失败，然后重试加载，加载成功后刷新加载| 
 |![fragment_success]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_success.gif?raw=true)|![fragment_failed]( https://github.com/NoEndToLF/Gif-Load-ReTry-Refresh/blob/master/imgs/fragment_failed.gif?raw=true)| 
 
-   
+# 使用   
 * [初步配置](#初步配置)
     * [引入](#引入)
     * [配置属性](#配置属性)
