@@ -122,7 +122,7 @@ public class LoadReTryRefreshManager {
                 tv_retry.setBackgroundColorNormal(activity.getResources().getColor(loadRetryRefreshConfig.getBtnNormalColor()));
                 tv_retry.setBackgroundColorPressed(activity.getResources().getColor(loadRetryRefreshConfig.getBtnPressedColor()));
             }
-            if (loadRetryRefreshConfig.getBtnRadius()!=0){
+            if (loadRetryRefreshConfig.getBtnRadius()!=null){
                 tv_retry.setCornerRadius(loadRetryRefreshConfig.getBtnRadius());
             }
             if (loadRetryRefreshConfig.getBtnTextColor()!=0){
@@ -276,7 +276,7 @@ public class LoadReTryRefreshManager {
                 tv_retry.setBackgroundColorNormal(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBtnNormalColor()));
                 tv_retry.setBackgroundColorPressed(fragment.getActivity().getResources().getColor(loadRetryRefreshConfig.getBtnPressedColor()));
             }
-            if (loadRetryRefreshConfig.getBtnRadius()!=0){
+            if (loadRetryRefreshConfig.getBtnRadius()!=null){
                 tv_retry.setCornerRadius(loadRetryRefreshConfig.getBtnRadius());
             }
             if (loadRetryRefreshConfig.getBtnTextColor()!=0){

@@ -34,7 +34,6 @@
     android:layout_marginTop="13dp"
     android:textColor="#000000"
     android:gravity="center"
-    app:corner_radius="5dp"
     android:visibility="invisible"
     android:textSize="14.5sp"
     android:paddingLeft="18dp"
