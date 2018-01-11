@@ -17,6 +17,25 @@ public class LoadRetryRefreshConfig {
     private  @DrawableRes int gif;
     private  String btnText;
     private String  loadText;
+    private int startAnimTime;
+    private int endAnimTime;
+
+    public int getStartAnimTime() {
+        return startAnimTime;
+    }
+
+    public void setStartAnimTime(int startAnimTime) {
+        this.startAnimTime = startAnimTime;
+    }
+
+    public int getEndAnimTime() {
+        return endAnimTime;
+    }
+
+    public void setEndAnimTime(int endAnimTime) {
+        this.endAnimTime = endAnimTime;
+    }
+
     public int getBackgroundColor() {
         return backgroundColor;
     }

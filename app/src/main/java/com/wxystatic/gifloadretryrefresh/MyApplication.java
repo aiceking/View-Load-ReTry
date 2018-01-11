@@ -26,6 +26,8 @@ public class MyApplication extends Application{
         config.setBtnTextColor(R.color.white);
         config.setLoadAndErrorTextColor(R.color.gray);
         config.setGif(R.drawable.test);
+        config.setStartAnimTime(100);
+        config.setEndAnimTime(500);
         LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
     }
 }

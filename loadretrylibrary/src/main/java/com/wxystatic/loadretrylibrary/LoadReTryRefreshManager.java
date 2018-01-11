@@ -98,7 +98,7 @@ public class LoadReTryRefreshManager {
         GifImageView gifImageView=(GifImageView)loadView.findViewById(R.id.loadretry_gifview);
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
-        alphaAnimation.setDuration(500);
+        alphaAnimation.setDuration(loadRetryRefreshConfig.getStartAnimTime());
         gifImageView.startAnimation(alphaAnimation);
         tv_error.startAnimation(alphaAnimation);
         gifImageView.setVisibility(View.VISIBLE);
@@ -147,7 +147,7 @@ public class LoadReTryRefreshManager {
        hashMap_activity_isSuccess.put(activity,true);
        View loadView=hashMap_activity_loadView.get(activity);
             AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
-            alphaAnimation.setDuration(500);
+            alphaAnimation.setDuration(loadRetryRefreshConfig.getEndAnimTime());
                 loadView.startAnimation(alphaAnimation);
                 loadView.setVisibility(View.GONE);
    }else{
@@ -253,7 +253,7 @@ public class LoadReTryRefreshManager {
         TextView tv_error=(TextView)loadView.findViewById(R.id.loadretry_tv_error);
         RTextView tv_retry=(RTextView)loadView.findViewById(R.id.loadretry_tv_retry);
         AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
-        alphaAnimation.setDuration(500);
+        alphaAnimation.setDuration(loadRetryRefreshConfig.getStartAnimTime());
         gifImageView.startAnimation(alphaAnimation);
         tv_error.startAnimation(alphaAnimation);
         gifImageView.setVisibility(View.VISIBLE);
@@ -301,7 +301,7 @@ public class LoadReTryRefreshManager {
                 View loadView=hashMap_fragment_loadView.get(fragment);
                 LinearLayout loadretry_parent=(LinearLayout)loadView.findViewById(R.id.loadretry_parent);
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
-                alphaAnimation.setDuration(500);
+                alphaAnimation.setDuration(loadRetryRefreshConfig.getEndAnimTime());
                 loadretry_parent.startAnimation(alphaAnimation);
                 loadretry_parent.setVisibility(View.GONE);
             }else{
