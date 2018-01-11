@@ -57,7 +57,7 @@ Step 1. Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.NoEndToLF:Gif-Load-ReTry-Refresh:1.1.2'
+	        compile 'com.github.NoEndToLF:Gif-Load-ReTry-Refresh:1.1.3'
 	}
 ## 配置属性
 | 方法      |参数  | 作用  |
@@ -70,8 +70,10 @@ Step 2. Add the dependency
 | setBtnTextColor|    R.color.* |  加载页面按钮文字的颜色|
 | setBtnRadius|    Float |  加载页面按钮的圆角弧度|
 | setBtnText|    String |  加载页面按钮的显示文字|
-| setLoadText|    String | 正在加载中的提示文字|
-| setLoadAndErrorTextColor|    R.color.*  | 加载页面的提示文字和加载失败提示文字的颜色|
+| setLoadText|    String | 正在加载中的提示文字|int
+| setLoadAndErrorTextColor|    R.color.*  | 加载页面的提示文字和加载失败提示文字的颜色|
+| setStartAnimTime|    int  | 加载页面的显示的淡入动画时间|
+| setEndAnimTime|    int  | 加载页面的消失的淡出动画时间|
 
 ## 示例代码，建议在 Application的 onCreate中进行初始化
 ``` java
@@ -85,7 +87,9 @@ LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
         config.setLoadText("测试加载2秒钟...");
         config.setBtnTextColor(R.color.white);
         config.setLoadAndErrorTextColor(R.color.gray);
-        config.setGif(R.drawable.zhufaner);
+        config.setGif(R.drawable.test);
+	config.setStartAnimTime(100);
+        config.setEndAnimTime(500);
         LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
 ```
 # 在 Activit中使用
