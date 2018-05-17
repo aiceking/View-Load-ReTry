@@ -30,6 +30,7 @@ public class FragmentTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_fragment_gf);
         ButterKnife.bind(this);
+        
         initData();
         initVpTb();
     }
