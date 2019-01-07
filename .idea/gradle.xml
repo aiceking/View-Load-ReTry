@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/loadretrylibrary" />
+            <option value="$PROJECT_DIR$/viewloadretrylibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
