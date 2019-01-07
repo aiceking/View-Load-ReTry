@@ -64,6 +64,20 @@ public class LoadRetryManager {
 
         }
     }
+    public void unRegister(final List<View> viewList) {
+        if (viewList==null){
+            Log.i(Tag,"View集合为空");
+            return;
+        }
+        for (View view:viewList){
+        if (coverLayoutHashMap.containsKey(System.identityHashCode(view))){
+            coverLayoutHashMap.remove(System.identityHashCode(view));
+            viewLoadSuccess.remove(System.identityHashCode(view));
+            loadRetryListenerHashMap.remove(System.identityHashCode(view));
+
+        }
+        }
+    }
     public void load(View view,Class<? extends BaseLoadRetryAdapter> cla){
         if (isRegister(view)){
                 if (isHasAdapter(cla)) {

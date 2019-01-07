@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,12 +57,15 @@ public class LoadFragmentActivity extends AppCompatActivity {
     LinearLayout linearBack;
     private List<Fragment> list_fragments;
     private List<String> list_titles;
-
+    private List<View> contentViewList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_fragment);
         ButterKnife.bind(this);
+        contentViewList=new ArrayList<>();
+        contentViewList.add(ivHead);
+        contentViewList.add(tablayout);
         initToolBar();
         initData();
         initViewPagerAndTabLayout();
@@ -232,7 +236,8 @@ public class LoadFragmentActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ImmersionBar.with(this).destroy();
-        LoadRetryManager.getInstance().unRegister(ivHead);
-        LoadRetryManager.getInstance().unRegister(tablayout);
+        LoadRetryManager.getInstance().unRegister(contentViewList);
+//        LoadRetryManager.getInstance().unRegister(ivHead);
+//        LoadRetryManager.getInstance().unRegister(tablayout);
     }
 }
