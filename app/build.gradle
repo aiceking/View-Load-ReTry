@@ -26,7 +26,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 //    implementation project(':viewloadretrylibrary')
-    implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0'
+    implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0.1'
     implementation 'com.jaywei:mdprogress:1.0.2' /*加载动画View*/
     implementation 'com.github.NoEndToLF:LazyBaseFragment:1.0.4'//lazyFragment
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'//万能adapter
