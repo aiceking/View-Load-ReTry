@@ -2,11 +2,11 @@
 
 [![](https://jitpack.io/v/NoEndToLF/View-Load-ReTry.svg)](https://jitpack.io/#NoEndToLF/View-Load-ReTry)
 
-**View-Load-ReTry**：这个加载框架有点不一样，针对View进行加载，侧重点在足够灵活，完全自定义
+**View-Load-ReTry**：这个加载框架有点不一样，针对View进行加载，侧重点在灵活，哪里需要加载哪里
  
-- **原理** ：找到需要加载的View,放入FrameLayout（包含自定义的各种情况的加载反馈View），根据需求调用显示加载或者异常View。
-- **功能** ：只要当前需要加载View有Parent就可以实现加载反馈，同一页面支持N个View的加载，彼此互不影响。
-- **封装** ：全局配置封装，与业务解耦。
+- **原理** ：找到需要加载的View,放入FrameLayout（包含自定义的各种情况的加载反馈View），再把FrameLayout放回需要加载View的Parent中 ,然后根据需求调用显示加载或者异常View。
+- **功能** ：只要当前需要加载View有Parent就可以实现加载反馈（仅不支持复用型的View场景），同一页面支持N个View的加载，彼此互不影响。
+- **封装** ：全局配置封装，与业务解耦，一个入口控制全部的加载反馈页面。
 
 -------------------
 # 示例
@@ -57,7 +57,7 @@ Step 1. Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.NoEndToLF:Gif-Load-ReTry-Refresh:1.1.3'
+	        implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0'
 	}
 ## 配置属性
 | 方法      |参数  | 作用  |
@@ -261,9 +261,8 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
     }
 ```
 
-# 为何必须在布局中套一层 FrameLayout
-目前为了在4.4，5.0，6.0，7.0及以上的版本中实现沉浸式状态栏或者是透明式状态栏的适配，实现方式主要在低版本中有所不同，有的是设置全屏然后给Toolbar加一个PaddingTop来留出StatusBar的高度，有的是设置全屏StatusBar透明，然后再动态插入一个大小一致的View来占位，达到设置状态栏颜色的目的，因此，如果单纯的在DecorView中来插入加载布局，难以控制加载页面的MarginTop，可能会遮盖到Toolbar，所以退而求其次，在布局中需要加载的部分包一层FrameLayout，再通过递归View树来找到需要添加加载布局的地方，进行动态插入，这样就不需要处理兼容沉浸式状态栏或者是透明式状态栏的适配造成的问题（当然如果有更好的想法，强烈欢迎Issues或者邮箱建议）
-
+# 为何要造这个看起来重复的轮子
+目前好多开源的加载反馈框架大多是针对Activity和Fragment的，原理都是从根上替换加载布局，但是有个缺点，反馈布局的作用域太大了，不够灵活，现在闲的蛋疼造这个轮子也是为了灵活性，比如说Sample中的同一个页面要加载3块内容的时候，这个轮子的优势就显示出来了，而且原View具有的基本特性加载反馈页面依然包含。
 
 # 反馈与建议
 - 邮箱：<static_wxy@foxmail.com>
