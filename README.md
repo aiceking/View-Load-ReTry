@@ -1,4 +1,4 @@
-# Gif-Load-ReTry-Refresh
+# View-Load-ReTry
 
 [![](https://jitpack.io/v/NoEndToLF/View-Load-ReTry.svg)](https://jitpack.io/#NoEndToLF/View-Load-ReTry)
 
@@ -9,7 +9,7 @@
 - **封装** ：全局配置封装，与业务解耦，一个入口控制全部的加载反馈页面。
 
 -------------------
-# 示例
+# 示例，Demo只添加了一种Error反馈页面做演示，使用时可按需自定义多种Error反馈页面
 | 常规使用      |Activity+Fragment多View加载  |
 | :--------:| :--------:|  
 |![normal](https://github.com/NoEndToLF/View-Load-ReTry/blob/master/img/normal.gif)| ![fix](https://raw.githubusercontent.com/NoEndToLF/View-Load-ReTry/master/img/fixed.gif)| 
