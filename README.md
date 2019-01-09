@@ -18,8 +18,8 @@
 # 使用   
 * [初步配置](#初步配置)
     * [引入](#引入)
-    * [配置属性](#配置属性)
-    * [示例代码](#示例代码建议在-application的-oncreate中进行初始化)
+    * [自定义](#自定义加载状态页面Adapter,继承BaseLoadRetryAdapter)
+    * [初始化](#示例代码：建议在 Application的 onCreate中进行初始化,有多少个Adapter就添加多少个，这里统一了入口是方便管理。)
 * [在Activity中使用](#在-activit中使用)
     * [布局](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)
     * [代码（勿遗漏第4步，防止内存泄漏）](#代码中)
@@ -51,38 +51,23 @@ Step 2. Add the dependency
 	dependencies {
 	        implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0.1'
 	}
-## 配置属性
+## 自定义加载状态页面Adapter,继承BaseLoadRetryAdapter，下面各方法都是按需被调用，取决于你
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--: |
-| setGif| R.drawable.* |  加载页面的Gif图   |
-| setBackgroundColor  | R.color.* |  加载页面整体背景颜色   |
-| setBtnNormalColor|    R.color.* |  加载页面按钮未按下时的颜色|
-| setBtnPressedColor|    R.color.* |  加载页面按钮按下时的颜色|
-| setBtnBorderColor|    R.color.* |  加载页面按钮边框的颜色|
-| setBtnTextColor|    R.color.* |  加载页面按钮文字的颜色|
-| setBtnRadius|    Float |  加载页面按钮的圆角弧度|
-| setBtnText|    String |  加载页面按钮的显示文字|
-| setLoadText|    String | 正在加载中的提示文字|int
-| setLoadAndErrorTextColor|    R.color.*  | 加载页面的提示文字和加载失败提示文字的颜色|
-| setStartAnimTime|    int  | 加载页面的显示的淡入动画时间|
-| setEndAnimTime|    int  | 加载页面的消失的淡出动画时间|
+| onLoadStart| View  |  加载开始前调用，用于你自定义页面中控件的初始化,此View为当前显示的加载页面View，以下方法中的View都是。   |
+| getCoverViewLayoutId  | 返回一个R.layout |  加载页面的布局Layout   |
+| onFalied|    View,Ogject |  加载失败的回调，Object可以是任意的对象，方便你显示加载错误的原因|
+| onSuccess|    View |  加载成功的回调，这里可以做一些加载动画的停止操作，另需要手动让View.Gone，暴露在这里是方便各位添加加载页面消失的动画|
 
-## 示例代码，建议在 Application的 onCreate中进行初始化
+自定义加载状态Adapter
 ``` java
-LoadRetryRefreshConfig config=new LoadRetryRefreshConfig();
-        config.setBackgroundColor(R.color.white);
-        config.setBtnNormalColor(R.color.blue_normal);
-        config.setBtnPressedColor(R.color.blue_press);
-        config.setBtnBorderColor(R.color.oringe_normal);
-        config.setBtnRadius(10f);
-        config.setBtnText("点击重新加载");
-        config.setLoadText("测试加载2秒钟...");
-        config.setBtnTextColor(R.color.white);
-        config.setLoadAndErrorTextColor(R.color.gray);
-        config.setGif(R.drawable.test);
-	config.setStartAnimTime(100);
-        config.setEndAnimTime(500);
-        LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
+
+```
+## 示例代码：建议在 Application的 onCreate中进行初始化,有多少个Adapter就添加多少个，这里统一了入口是方便管理。
+``` java
+LoadRetryManager.getInstance().addAdapter(new xxxxxx());
+LoadRetryManager.getInstance().addAdapter(new xxxxxx());.......
+LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
 ```
 # 在 Activit中使用
 
