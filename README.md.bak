@@ -112,32 +112,32 @@ LoadRetryManager.getInstance().addAdapter(new NetErrorAdapterForActivity());....
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--|
 | register| View，LoadRetryRefreshListener |  注册   |
-| startLoad| View,Class<? extends BaseLoadRetryAdapter> |  开始加载,加载中页类.Calss   |
+| startLoad| View,Class<? extends BaseLoadRetryAdapter> |  开始加载,加载中类Adapter.Calss   |
 | unRegister|    View  |  解除绑定|
-| unRegister|    List<View>  |  解除多个View的绑定|
+| unRegister|    List <View>  |  解除多个View的绑定|
 | onSuccess   |    View    |  加载成功，会调用View对应加载中Adapter的onSuccess方法|
-| onFailed    |View，Class<? extends BaseLoadRetryAdapter>，Object|  加载失败时显示加载失败类Adapter.Class，显示加载失败原因|
+| onFailed    |View，Class<? extends BaseLoadRetryAdapter>，Object|  加载失败时显示加载失败类Adapter.Class对应的页面，并调用该Adapter的onFalied()方法，Object为加载失败原因|
   
     
 ### 1、注册，一般在 onCreate中调用
 ``` java
-LoadReTryRefreshManager.getInstance().register(this, new LoadRetryRefreshListener() {
+LoadRetryManager.getInstance().register(view, new LoadRetryListener() {
             @Override
-            public void loadAndRetry() {
-            //执行你的网络请求
-            //dosomething();
+            public void load() {
+                //执行你的网络请求
+               //dosomething();
             }
 
             @Override
-            public void showRefreshView() {
-            //显示你刷新时的加载View，如Dialog，下拉刷新等
-                
+            public void reTry() {
+                //执行你的重试请求
+                //dosomethingRetry();
             }
-        });           
+        });       
 ```
-### 2、开始加载，无需判断是初次加载还是刷新，已自动进行判断，只需要在想要加载或刷新的地方直接调用（加载失败重试加载已封装到 Button事件中）
+### 2、开始加载
 ``` java
-LoadReTryRefreshManager.getInstance().startLoad(this);          
+LoadRetryManager.getInstance().load(view, LoadAdapterForActivity.class);     
 ```
 ### 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调
 ``` java
@@ -146,13 +146,7 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
             //加载成功你要做的事.....
             
                 //加载结果回调
-                LoadReTryRefreshManager.getInstance().onLoadSuccess(FailedActivity.this, 
-                new ShowRefreshViewListener() {
-                    @Override
-                    public void colseRefreshView() {
-                     //关闭你的刷新View,如Dialog，下拉刷新等  
-                    }
-                });
+                LoadRetryManager.getInstance().onSuccess(view);
             }
 
             @Override
@@ -160,93 +154,33 @@ LoadReTryRefreshManager.getInstance().startLoad(this);
             //加载失败你要做的事.....
             
                 //加载结果回调
-                LoadReTryRefreshManager.getInstance().onLoadFailed(FailedActivity.this, 
-                e.getMessage(), new ShowRefreshViewListener() {
-                    @Override
-                    public void colseRefreshView() {
-                       //关闭你的刷新View,如Dialog，下拉刷新等
-                    }
-                });
+             LoadRetryManager.getInstance().onFailed(view, NetErrorAdapterForActivity.class, "请检查网络连接");
+
             }        
 ```
-### 4、解除绑定，可以直接写在 BaseActivity的 onDestory方法中，会自动判断然后进行解绑
+### 4、解除绑定
 ``` java
+//在Activity中
 Override
     protected void onDestroy() {
         super.onDestroy();
-        LoadReTryRefreshManager.getInstance().unRegister(this);
+        LoadRetryManager.getInstance().unRegister(view);
+
+	//加载多个View时建议在BaseActivity中封装方法，维护一个List<View>,每注册一个加载View就Add一次，解绑时方便操作
+        LoadRetryManager.getInstance().unRegister(list); 
     }
 ```
-# 在 Fragment中使用
-## 布局中，同 [Activity](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)中使用一致，请在 Toolbar下的需要加载的内容最外层套一层 FrameLayout（[为何需要这样做](#为何必须在布局中套一层-framelayout)）
-## 代码中
-### 方法简介
-| 方法      |参数  | 作用  |
-| :-------- | :--------| :-- |
-| register| Fragment，View，LoadRetryRefreshListener |  注册<br />(View为Fragment在onCreateView中返回的View)   |
-| startLoad| Fragment|  开始加载   |
-| unRegister|    Fragment|  解除绑定|
-| onLoadSuccess|    Fragment，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等|
-| onLoadFailed|    Fragment，String，ShowRefreshViewListener|  显示加载失败原因，关闭加载View和刷新时的Dialog、下拉刷新等|
-### 1、注册，一般在 onCreateView中调用
 ``` java
-LoadReTryRefreshManager.getInstance().register(this, contentView,new LoadRetryRefreshListener() {
-            @Override
-            public void loadAndRetry() {
-            //执行你的网络请求
-            //dosomething();
-            }
-
-            @Override
-            public void showRefreshView() {
-            //显示你刷新时的加载View，如Dialog，下拉刷新等
-                
-            }
-        });           
-```
-### 2、开始加载，无需判断是初次加载还是刷新，已自动进行判断，只需要在想要加载或刷新的地方直接调用（加载失败重试加载已封装到 Button事件中）
-``` java
-LoadReTryRefreshManager.getInstance().startLoad(this);          
-```
-### 3、加载结果回调，在你的请求成功和失败的回调中加入加载结果回调
-``` java
-            @Override
-            public void onSuccess(Integer value) {
-            //加载成功你要做的事.....
-            
-                //加载结果回调
-                LoadReTryRefreshManager.getInstance().onLoadSuccess(FailedActivity.this, 
-                new ShowRefreshViewListener() {
-                    @Override
-                    public void colseRefreshView() {
-                     //关闭你的刷新View,如Dialog，下拉刷新等  
-                    }
-                });
-            }
-
-            @Override
-            public void onFailed(Throwable e) {
-            //加载失败你要做的事.....
-            
-                //加载结果回调
-                LoadReTryRefreshManager.getInstance().onLoadFailed(FailedActivity.this, 
-                e.getMessage(), new ShowRefreshViewListener() {
-                    @Override
-                    public void colseRefreshView() {
-                       //关闭你的刷新View,如Dialog，下拉刷新等
-                    }
-                });
-            }        
-```
-### 4、解除绑定，可以直接写在 BaseFragment的 onDestroyView方法中，会自动判断然后进行解绑
-``` java
+//在Fragment中
 @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LoadReTryRefreshManager.getInstance().unRegister(this);
+        LoadRetryManager.getInstance().unRegister(view);
+
+	//加载多个View时建议在BaseFragment中封装方法，维护一个List<View>,每注册一个加载View就Add一次，解绑时方便操作
+        LoadRetryManager.getInstance().unRegister(list); 
     }
 ```
-
 # 为何要造这个看起来重复的轮子
 目前好多开源的加载反馈框架大多是针对Activity和Fragment的，原理都是从根上替换加载布局，但是有个缺点，反馈布局的作用域太大了，不够灵活，现在闲的蛋疼造这个轮子也是为了灵活性，比如说Sample中的同一个页面要加载3块内容的时候，这个轮子的优势就显示出来了，而且原View具有的基本特性加载反馈页面依然包含。
 

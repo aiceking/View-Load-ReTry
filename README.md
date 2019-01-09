@@ -22,9 +22,9 @@
     * [初始化](#示例代码Demo中normal用法建议在-Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
 * [使用](#最常规用法针对一个View针对多个View和针对一个View用法一致流程都是针对某个View的)
     * [1、注册](#1注册一般在-oncreate中调用)
-    * [2、开始加载](#2开始加载无需判断是初次加载还是刷新已自动进行判断只需要在想要加载或刷新的地方直接调用加载失败重试加载已封装到-button事件中)
+    * [2、开始加载](#2开始加载)
     * [3、加载结果回调](#3加载结果回调在你的请求成功和失败的回调中加入加载结果回调)
-    * [4、解除绑定](#4解除绑定可以直接写在-baseactivity的-ondestory方法中会自动判断然后进行解绑)
+    * [4、解除绑定](#4解除绑定)
 * [反馈与建议](#为何要造这个看起来重复的轮子)
 * [反馈与建议](#反馈与建议)
 
@@ -112,11 +112,11 @@ LoadRetryManager.getInstance().addAdapter(new NetErrorAdapterForActivity());....
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--|
 | register| View，LoadRetryRefreshListener |  注册   |
-| startLoad| View,Class<? extends BaseLoadRetryAdapter> |  开始加载,加载中页类.Calss   |
+| startLoad| View,Class<? extends BaseLoadRetryAdapter> |  开始加载,加载中类Adapter.Calss   |
 | unRegister|    View  |  解除绑定|
-| unRegister|    List<View>  |  解除多个View的绑定|
+| unRegister|    List <View>  |  解除多个View的绑定|
 | onSuccess   |    View    |  加载成功，会调用View对应加载中Adapter的onSuccess方法|
-| onFailed    |View，Class<? extends BaseLoadRetryAdapter>，Object|  加载失败时显示加载失败类Adapter.Class对应的页面，显示加载失败原因|
+| onFailed    |View，Class<? extends BaseLoadRetryAdapter>，Object|  加载失败时显示加载失败类Adapter.Class对应的页面，并调用该Adapter的onFalied()方法，Object为加载失败原因|
   
     
 ### 1、注册，一般在 onCreate中调用
@@ -146,7 +146,7 @@ LoadRetryManager.getInstance().load(view, LoadAdapterForActivity.class);
             //加载成功你要做的事.....
             
                 //加载结果回调
-                LoadRetryManager.getInstance().onSuccess(sw);
+                LoadRetryManager.getInstance().onSuccess(view);
             }
 
             @Override
@@ -154,7 +154,7 @@ LoadRetryManager.getInstance().load(view, LoadAdapterForActivity.class);
             //加载失败你要做的事.....
             
                 //加载结果回调
-             LoadRetryManager.getInstance().onFailed(sw, NetErrorAdapterForActivity.class, "请检查网络连接");
+             LoadRetryManager.getInstance().onFailed(view, NetErrorAdapterForActivity.class, "请检查网络连接");
 
             }        
 ```
@@ -164,9 +164,10 @@ LoadRetryManager.getInstance().load(view, LoadAdapterForActivity.class);
 Override
     protected void onDestroy() {
         super.onDestroy();
-        LoadRetryManager.getInstance().unRegister(sw);
+        LoadRetryManager.getInstance().unRegister(view);
+
 	//加载多个View时建议在BaseActivity中封装方法，维护一个List<View>,每注册一个加载View就Add一次，解绑时方便操作
-LoadRetryManager.getInstance().unRegister(list); 
+        LoadRetryManager.getInstance().unRegister(list); 
     }
 ```
 ``` java
@@ -174,9 +175,10 @@ LoadRetryManager.getInstance().unRegister(list);
 @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LoadRetryManager.getInstance().unRegister(sw);
+        LoadRetryManager.getInstance().unRegister(view);
+
 	//加载多个View时建议在BaseFragment中封装方法，维护一个List<View>,每注册一个加载View就Add一次，解绑时方便操作
-LoadRetryManager.getInstance().unRegister(list); 
+        LoadRetryManager.getInstance().unRegister(list); 
     }
 ```
 # 为何要造这个看起来重复的轮子
