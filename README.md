@@ -58,11 +58,6 @@ Step 2. Add the dependency
 | getCoverViewLayoutId  | 返回一个R.layout |  加载页面的布局Layout   |
 | onFalied|    View,Ogject |  加载失败的回调，Object可以是任意的对象，方便你显示加载错误的原因|
 | onSuccess|    View |  加载成功的回调，这里可以做一些加载动画的停止操作，另需要手动让View.Gone，暴露在这里是方便各位添加加载页面消失的动画|
-
-自定义加载状态Adapter
-``` java
-
-```
 ## 示例代码：建议在 Application的 onCreate中进行初始化,有多少个Adapter就添加多少个，这里统一了入口是方便管理。
 ``` java
 LoadRetryManager.getInstance().addAdapter(new xxxxxx());
