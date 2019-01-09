@@ -2,7 +2,7 @@
 
 [![](https://jitpack.io/v/NoEndToLF/View-Load-ReTry.svg)](https://jitpack.io/#NoEndToLF/View-Load-ReTry)
 
-**View-Load-ReTry**：这个加载框架有点不一样，针对View进行加载，侧重点在灵活，哪里需要加载哪里
+**View-Load-ReTry**：这个加载框架有点不一样，针对View进行加载，加载页面还保持了原View的属性，侧重点在灵活，哪里需要加载哪里
  
 - **原理** ：找到需要加载的View,放入FrameLayout（包含自定义的各种情况的加载反馈View），再把FrameLayout放回需要加载View的Parent中 ,然后根据需求调用显示加载或者异常View。
 - **功能** ：只要当前需要加载View有Parent就可以实现加载反馈（仅不支持复用型的View场景），同一页面支持N个View的加载，彼此互不影响。
