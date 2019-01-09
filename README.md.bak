@@ -19,21 +19,13 @@
 * [初步配置](#初步配置)
     * [引入](#引入)
     * [自定义](#自定义加载状态页面-Adapter继承-BaseLoadRetryAdapter下面各方法都是按需被调用取决于你主动设置的显示哪个Adapter)
-    * [初始化](#示例代码(Demo中normal用法)建议在-Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
-* [使用](#在-activit中使用)
-    * [布局](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)
-    * [代码（勿遗漏第4步，防止内存泄漏）](#代码中)
-         * [1、注册](#1注册一般在-oncreate中调用)
-         * [2、开始加载](#2开始加载无需判断是初次加载还是刷新已自动进行判断只需要在想要加载或刷新的地方直接调用加载失败重试加载已封装到-button事件中)
-         * [3、加载结果回调](#3加载结果回调在你的请求成功和失败的回调中加入加载结果回调)
-         * [4、解除绑定](#4解除绑定可以直接写在-baseactivity的-ondestory方法中会自动判断然后进行解绑)
-* [在Fragment中使用](#在-fragment中使用)
-    * [布局](#布局中同-activity中使用一致请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做)
-    * [代码（勿遗漏第4步，防止内存泄漏）](#代码中)
-         * [1、注册](#1注册一般在-oncreate中调用)
-         * [2、开始加载](#2开始加载无需判断是初次加载还是刷新已自动进行判断只需要在想要加载或刷新的地方直接调用加载失败重试加载已封装到-button事件中)
-         * [3、加载结果回调](#3加载结果回调在你的请求成功和失败的回调中加入加载结果回调)
-         * [4、解除绑定](#4解除绑定可以直接写在-basefragment的-ondestroyview方法中会自动判断然后进行解绑)
+    * [初始化](#示例代码Demo中normal用法建议在-Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
+* [使用](#最常规用法针对一个View针对多个View和针对一个View用法一致流程都是针对某个View的)
+    * [1、注册](#1注册一般在-oncreate中调用)
+    * [2、开始加载](#2开始加载无需判断是初次加载还是刷新已自动进行判断只需要在想要加载或刷新的地方直接调用加载失败重试加载已封装到-button事件中)
+    * [3、加载结果回调](#3加载结果回调在你的请求成功和失败的回调中加入加载结果回调)
+    * [4、解除绑定](#4解除绑定可以直接写在-baseactivity的-ondestory方法中会自动判断然后进行解绑)
+* [反馈与建议](#为何要造这个看起来重复的轮子)
 * [反馈与建议](#反馈与建议)
 
 # 初步配置
@@ -85,6 +77,7 @@ public class LoadAdapterForActivity extends BaseLoadRetryAdapter{
 }
 ```
 ``` java
+/**默认给加载失败页面添加了点击事件，回调到retry方法，开始重试，重试时显示加载中Adapter对应的页面*/
 public class NetErrorAdapterForActivity extends BaseLoadRetryAdapter{
     @Override
     public void onLoadStart(View view) {
@@ -100,10 +93,7 @@ public class NetErrorAdapterForActivity extends BaseLoadRetryAdapter{
 
     @Override
     public void onSuccess(View view) {
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
-        alphaAnimation.setDuration(500);
-        view.startAnimation(alphaAnimation);
-        view.setVisibility(View.GONE);
+      
     }
 
     @Override
@@ -117,45 +107,16 @@ public class NetErrorAdapterForActivity extends BaseLoadRetryAdapter{
 LoadRetryManager.getInstance().addAdapter(new LoadAdapterForActivity());
 LoadRetryManager.getInstance().addAdapter(new NetErrorAdapterForActivity());.......
 ```
-# 在 Activit中使用
+# 最常规用法，针对一个View（针对多个View和针对一个View用法一致,流程都是针对某个View的）
 
-## 布局中，请在 Toolbar下的需要加载的内容最外层套一层 FrameLayout（[为何需要这样做](#为何必须在布局中套一层-framelayout)），如：
-``` java
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.widget.Toolbar
-        app:contentInsetStart="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:gravity="center_vertical"
-        android:id="@+id/toolbar"
-        android:background="@color/color_toolbar"
-        >
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            
-            **********************************
-            **********************************
-            你的内容布局，如Linearlayout等
-            **********************************
-            **********************************
-            
-             </FrameLayout>
-</LinearLayout>
-```
-## 代码中
-### 方法简介
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--|
-| register| Activity，LoadRetryRefreshListener |  注册   |
-| startLoad| Activity |  开始加载   |
-| unRegister|    Activity  |  解除绑定|
-| onLoadSuccess|    Activity，ShowRefreshViewListener  |  关闭加载View和刷新时的Dialog、下拉刷新等|
-| onLoadFailed|    Activity，String，ShowRefreshViewListener|  显示加载失败原因，关闭加载View和刷新时的Dialog、下拉刷新等|
+| register| View，LoadRetryRefreshListener |  注册   |
+| startLoad| View,Class<? extends BaseLoadRetryAdapter> |  开始加载,加载中页类.Calss   |
+| unRegister|    View  |  解除绑定|
+| unRegister|    List<View>  |  解除多个View的绑定|
+| onSuccess   |    View    |  加载成功，会调用View对应加载中Adapter的onSuccess方法|
+| onFailed    |View，Class<? extends BaseLoadRetryAdapter>，Object|  加载失败时显示加载失败类Adapter.Class，显示加载失败原因|
   
     
 ### 1、注册，一般在 onCreate中调用
