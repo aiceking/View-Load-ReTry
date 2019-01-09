@@ -18,8 +18,8 @@
 # 使用   
 * [初步配置](#初步配置)
     * [引入](#引入)
-    * [自定义](#自定义加载状态页面Adapter继承BaseLoadRetryAdapter下面各方法都是按需被调用取决于你主动设置的显示哪个Adapter)
-    * [初始化](#示例代码建议在 Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
+    * [自定义](#自定义加载状态页面-Adapter继承-BaseLoadRetryAdapter下面各方法都是按需被调用取决于你主动设置的显示哪个Adapter)
+    * [初始化](#示例代码建议在-Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
 * [在Activity中使用](#在-activit中使用)
     * [布局](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)
     * [代码（勿遗漏第4步，防止内存泄漏）](#代码中)
@@ -51,7 +51,7 @@ Step 2. Add the dependency
 	dependencies {
 	        implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0.1'
 	}
-## 自定义加载状态页面Adapter,继承BaseLoadRetryAdapter，下面各方法都是按需被调用，取决于你主动设置的显示哪个Adapter。
+## 自定义加载状态页面 Adapter,继承 BaseLoadRetryAdapter，下面各方法都是按需被调用，取决于你主动设置的显示哪个Adapter。
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--: |
 | onLoadStart| View  |  显示这个加载状态页面前开始前调用，用于你自定义页面中控件的初始化,此View为当前显示的加载页面View，以下方法中的View都是。   |
