@@ -19,7 +19,7 @@
 * [初步配置](#初步配置)
     * [引入](#引入)
     * [自定义](#自定义加载状态页面-Adapter继承-BaseLoadRetryAdapter下面各方法都是按需被调用取决于你主动设置的显示哪个Adapter)
-    * [初始化](#示例代码(Demo中normal用法)建议在-Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
+    * [初始化](#示例代码Demo中normal用法建议在-Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
 * [使用](#在-activit中使用)
     * [布局](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)
     * [代码（勿遗漏第4步，防止内存泄漏）](#代码中)
