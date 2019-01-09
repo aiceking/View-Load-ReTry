@@ -51,18 +51,13 @@ Step 2. Add the dependency
 	dependencies {
 	        implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0.1'
 	}
-## 自定义加载状态页面Adapter,继承BaseLoadRetryAdapter，下面各方法都是按需被调用，取决于你
+## 自定义加载状态页面Adapter,继承BaseLoadRetryAdapter，下面各方法都是按需被调用，取决于你主动设置的显示哪个Adapter。
 | 方法      |参数  | 作用  |
 | :-------- | :--------| :--: |
-| onLoadStart| View  |  加载开始前调用，用于你自定义页面中控件的初始化,此View为当前显示的加载页面View，以下方法中的View都是。   |
+| onLoadStart| View  |  显示这个加载状态页面前开始前调用，用于你自定义页面中控件的初始化,此View为当前显示的加载页面View，以下方法中的View都是。   |
 | getCoverViewLayoutId  | 返回一个R.layout |  加载页面的布局Layout   |
-| onFalied|    View,Ogject |  加载失败的回调，Object可以是任意的对象，方便你显示加载错误的原因|
-| onSuccess|    View |  加载成功的回调，这里可以做一些加载动画的停止操作，另需要手动让View.Gone，暴露在这里是方便各位添加加载页面消失的动画|
-
-自定义加载状态Adapter
-``` java
-
-```
+| onFalied|    View,Ogject |  加载失败的回调（会在你主动调用错误页面对应的那个Adapter里调用），Object可以是任意的对象，方便你显示加载错误的原因|
+| onSuccess|    View |  加载成功的回调（会在你设置的Load状态那个Adapter里调用），这里可以做一些加载动画的停止操作，另需要手动让View.Gone，暴露在这里是方便各位添加加载页面消失的动画|
 ## 示例代码：建议在 Application的 onCreate中进行初始化,有多少个Adapter就添加多少个，这里统一了入口是方便管理。
 ``` java
 LoadRetryManager.getInstance().addAdapter(new xxxxxx());
