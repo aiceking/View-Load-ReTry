@@ -16,7 +16,7 @@ public class LoadAdapterForActivity extends BaseLoadRetryAdapter{
     @Override
     public void onFalied(View view, Object object) {
     }
-
+/**这里在加载完成的时候做了一个淡出动画*/
     @Override
     public void onSuccess(View view) {
         AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);

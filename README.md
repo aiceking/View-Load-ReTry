@@ -20,7 +20,7 @@
     * [引入](#引入)
     * [自定义](#自定义加载状态页面-Adapter继承-BaseLoadRetryAdapter下面各方法都是按需被调用取决于你主动设置的显示哪个Adapter)
     * [初始化](#示例代码建议在-Application的-onCreate中进行初始化有多少个Adapter就添加多少个这里统一了入口是方便管理)
-* [在Activity中使用](#在-activit中使用)
+* [使用](#在-activit中使用)
     * [布局](#布局中请在-toolbar下的需要加载的内容最外层套一层-framelayout为何需要这样做如)
     * [代码（勿遗漏第4步，防止内存泄漏）](#代码中)
          * [1、注册](#1注册一般在-oncreate中调用)
@@ -58,11 +58,63 @@ Step 2. Add the dependency
 | getCoverViewLayoutId  | return R.layout |  加载页面的布局Layout   |
 | onFalied|    View,Ogject |  加载失败的回调（会在你主动调用错误页面对应的那个Adapter里调用），Object可以是任意的对象，方便你显示加载错误的原因|
 | onSuccess|    View |  加载成功的回调（会在你设置的Load状态那个Adapter里调用），这里可以做一些加载动画的停止操作，另需要手动让View.Gone，暴露在这里是方便各位添加加载页面消失的动画|
+自定义Adapter示例（Demo中常规用法）
+``` java
+public class LoadAdapterForActivity extends BaseLoadRetryAdapter{
+    @Override
+    public void onLoadStart(View view) {
+        ((TextView)view.findViewById(R.id.tv_text)).setText("加载中 ...");
+    }
+    @Override
+    public void onFalied(View view, Object object) {
+    }
+/**这里在加载完成的时候做了一个淡出动画*/
+    @Override
+    public void onSuccess(View view) {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
+        alphaAnimation.setDuration(500);
+        view.startAnimation(alphaAnimation);
+        view.setVisibility(View.GONE);
+    }
+
+    @Override
+    public int getCoverViewLayoutId() {
+        return R.layout.load_activity;
+    }
+}
+```
+``` java
+public class NetErrorAdapterForActivity extends BaseLoadRetryAdapter{
+    @Override
+    public void onLoadStart(View view) {
+        ((TextView)view.findViewById(R.id.tv_retry)).setText("点击重新加载");
+    }
+
+    @Override
+    public void onFalied(View view, Object object) {
+        ((ImageView) view.findViewById(R.id.iv_head)).setImageResource(R.mipmap.timeout);
+        ((TextView)view.findViewById(R.id.tv_text)).setText((String)object);
+        ((TextView)view.findViewById(R.id.tv_retry)).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onSuccess(View view) {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
+        alphaAnimation.setDuration(500);
+        view.startAnimation(alphaAnimation);
+        view.setVisibility(View.GONE);
+    }
+
+    @Override
+    public int getCoverViewLayoutId() {
+        return R.layout.retry_activity;
+    }
+}
+```
 ## 示例代码：建议在 Application的 onCreate中进行初始化,有多少个Adapter就添加多少个，这里统一了入口是方便管理。
 ``` java
-LoadRetryManager.getInstance().addAdapter(new xxxxxx());
-LoadRetryManager.getInstance().addAdapter(new xxxxxx());.......
-LoadReTryRefreshManager.getInstance().setLoadRetryRefreshConfig(config);
+LoadRetryManager.getInstance().addAdapter(new LoadAdapterForActivity());
+LoadRetryManager.getInstance().addAdapter(new NetErrorAdapterForActivity());.......
 ```
 # 在 Activit中使用
 
