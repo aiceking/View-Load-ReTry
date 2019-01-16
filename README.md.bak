@@ -9,7 +9,7 @@
 - **封装** ：全局配置封装，与业务解耦，一个入口控制全部的加载反馈页面。
 
 -------------------
-# 示例，Demo只添加了一种Error反馈页面做演示，使用时可按需自定义多种Error反馈页面
+# 示例，Demo只添加了一种Error反馈页面做演示，使用时可按需自定义多种Error反馈页面（Gif中的View残留现象是录制时丢帧问题，嘿嘿）
 | 常规使用      |Activity+Fragment多View加载  |
 | :--------:| :--------:|  
 |![normal](https://github.com/NoEndToLF/View-Load-ReTry/blob/master/img/normal.gif)| ![fix](https://raw.githubusercontent.com/NoEndToLF/View-Load-ReTry/master/img/fixed.gif)| 
