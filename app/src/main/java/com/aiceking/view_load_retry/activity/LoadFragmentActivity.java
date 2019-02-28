@@ -38,7 +38,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
+/**测试提交*/
 public class LoadFragmentActivity extends AppCompatActivity {
 
     @BindView(R.id.iv_head)
