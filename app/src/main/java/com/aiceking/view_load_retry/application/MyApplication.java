@@ -12,7 +12,7 @@ import com.aiceking.view_load_retry.loadretryadapter.forimageview.LoadAdapterFor
 import com.aiceking.view_load_retry.loadretryadapter.fortablayout.NetErrorAdapterForTabLayout;
 import com.aiceking.viewloadretrylibrary.manager.LoadRetryManager;
 import com.squareup.leakcanary.LeakCanary;
-
+/**测试提交*/
 public class MyApplication extends Application{
     @Override
     public void onCreate() {
