@@ -73,10 +73,12 @@ public class CoverLayout extends FrameLayout{
         viewHashMap.get(layout).setVisibility(View.VISIBLE);
     }
     public void onSuccess(Class<? extends BaseLoadRetryAdapter> cla){
+        if (baseLoadRetryAdapterHashMap==null)return;
         baseLoadRetryAdapterHashMap.get(cla).onSuccess(getNowShowView());
         contentView.setVisibility(View.VISIBLE);
     }
     public void onFailed(final Class<? extends BaseLoadRetryAdapter> cla,Object object){
+        if (baseLoadRetryAdapterHashMap==null)return;
         showView(baseLoadRetryAdapterHashMap.get(cla).getCoverViewLayoutId());
         baseLoadRetryAdapterHashMap.get(cla).onLoadStart(getNowShowView());
         baseLoadRetryAdapterHashMap.get(cla).onFalied(getNowShowView(),object);

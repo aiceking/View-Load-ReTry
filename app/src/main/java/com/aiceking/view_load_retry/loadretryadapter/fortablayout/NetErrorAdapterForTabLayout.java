@@ -20,10 +20,7 @@ public class NetErrorAdapterForTabLayout extends BaseLoadRetryAdapter{
 
     @Override
     public void onSuccess(View view) {
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
-        alphaAnimation.setDuration(500);
-        view.startAnimation(alphaAnimation);
-        view.setVisibility(View.GONE);
+
     }
 
     @Override
