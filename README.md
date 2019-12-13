@@ -41,7 +41,7 @@ Step 1. Add it in your root build.gradle at the end of repositories：
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0.1'
+	        implementation 'com.github.NoEndToLF:View-Load-ReTry:2.0.2'
 	}
 ## 自定义加载状态页面 Adapter,继承 BaseLoadRetryAdapter，下面各方法都是按需被调用，取决于你主动设置的显示哪个Adapter。
 | 方法      |参数  | 作用  |
